@@ -1,4 +1,5 @@
 ﻿using CloudEFCore;
+using CloudEFCore.Models;
 using CloudWebApi.Models;
 using CloudWebApi.Services;
 using Microsoft.AspNetCore.Http;
@@ -10,15 +11,16 @@ namespace CloudWebApi.Controllers
     [ApiController]
     public class SingleController : ControllerBase
     {
-        private readonly SingleRepository _userRepository;
-        public SingleController(SingleRepository userRepository)
+        private readonly IRepository<SingleSong> _singlesongRepository;
+        public SingleController(IRepository<SingleSong> singlesongRepository)
         {
-            _userRepository = userRepository;
+            _singlesongRepository = singlesongRepository;
         }
         [HttpGet]
-        public SingleSongDto GetAllSingles()
+        public IActionResult GetAll()
         {
-            return _userRepository.GetAllSinges();
+            var singles = _singlesongRepository.GetAll();
+            return Ok(singles);
         }
     }
 }
