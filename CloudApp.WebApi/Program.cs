@@ -25,6 +25,9 @@ namespace CloudApp.WebApi
 
             builder.Services.AddScoped(typeof(IRepository<>),typeof(MyRepository<>));
 
+            builder.Services.AddScoped<TrackService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

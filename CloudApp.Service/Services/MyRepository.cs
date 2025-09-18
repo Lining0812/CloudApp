@@ -44,5 +44,10 @@ namespace CloudApp.Service.Services
             _dbSet.Update(entity);
             _context.SaveChanges();
         }
+
+        public bool Find(int id)
+        {
+            return _dbSet.Find(id) != null;
+        }
     }
 }

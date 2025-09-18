@@ -5,13 +5,13 @@
 namespace CloudApp.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class addmgrationinit : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Albums",
+                name: "T_Albums",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -20,31 +20,36 @@ namespace CloudApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Albums", x => x.Id);
+                    table.PrimaryKey("PK_T_Albums", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "T_Tracks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlbumId = table.Column<int>(type: "int", nullable: true)
+                    Subtitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AlbumId = table.Column<int>(type: "int", nullable: false),
+                    Composer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lyricist = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_T_Tracks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Albums_AlbumId",
+                        name: "FK_T_Tracks_T_Albums_AlbumId",
                         column: x => x.AlbumId,
-                        principalTable: "Albums",
-                        principalColumn: "Id");
+                        principalTable: "T_Albums",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_AlbumId",
-                table: "Users",
+                name: "IX_T_Tracks_AlbumId",
+                table: "T_Tracks",
                 column: "AlbumId");
         }
 
@@ -52,10 +57,10 @@ namespace CloudApp.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "T_Tracks");
 
             migrationBuilder.DropTable(
-                name: "Albums");
+                name: "T_Albums");
         }
     }
 }

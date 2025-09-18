@@ -35,7 +35,7 @@ namespace CloudApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Albums");
+                    b.ToTable("T_Albums", (string)null);
                 });
 
             modelBuilder.Entity("CloudApp.Core.Entities.Track", b =>
@@ -46,8 +46,20 @@ namespace CloudApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AlbumId")
+                    b.Property<int>("AlbumId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Composer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lyricist")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subtitle")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -57,14 +69,18 @@ namespace CloudApp.Data.Migrations
 
                     b.HasIndex("AlbumId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("T_Tracks", (string)null);
                 });
 
             modelBuilder.Entity("CloudApp.Core.Entities.Track", b =>
                 {
-                    b.HasOne("CloudApp.Core.Entities.Album", null)
+                    b.HasOne("CloudApp.Core.Entities.Album", "Album")
                         .WithMany("Tracks")
-                        .HasForeignKey("AlbumId");
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
                 });
 
             modelBuilder.Entity("CloudApp.Core.Entities.Album", b =>

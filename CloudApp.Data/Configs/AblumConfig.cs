@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace CloudApp.Data.Configs
 {
-    public class TrackConfig : IEntityTypeConfiguration<Track>
+    public class AblumConfig : IEntityTypeConfiguration<Album>
     {
-        public void Configure(EntityTypeBuilder<Track> builder)
+        public void Configure(EntityTypeBuilder<Album> builder)
         {
-            builder.ToTable("T_Tracks");
-            builder.HasOne(t => t.Album).WithMany(a => a.Tracks);
+            builder.ToTable("T_Albums");
         }
     }
 }
