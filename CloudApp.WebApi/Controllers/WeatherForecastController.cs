@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace CloudWebApi.Controllers;
+namespace CloudApp.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]

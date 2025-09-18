@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CloudApp.Core\CloudApp.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -16,7 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CloudEFCore\CloudEFCore.csproj" />
+    <ProjectReference Include="..\CloudApp.Core\CloudApp.Core.csproj" />
+    <ProjectReference Include="..\CloudApp.Service\CloudApp.Service.csproj" />
+    <ProjectReference Include="..\CloudApp.Data\CloudApp.Data.csproj" />
   </ItemGroup>
 
 </Project>

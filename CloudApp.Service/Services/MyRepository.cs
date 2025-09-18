@@ -1,8 +1,8 @@
-﻿
-using CloudEFCore;
+﻿using CloudApp.Data;
+using CloudApp.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudWebApi.Services
+namespace CloudApp.Service.Services
 {
     public class MyRepository<T> : IRepository<T> where T : class
     {

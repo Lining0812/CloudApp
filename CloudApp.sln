@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWebApi", "CloudWebApi\CloudWebApi.csproj", "{FF7BB296-699C-47C4-9E01-E5C40979320A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudApp.WebApi", "CloudApp.WebApi\CloudApp.WebApi.csproj", "{FF7BB296-699C-47C4-9E01-E5C40979320A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudEFCore", "CloudEFCore\CloudEFCore.csproj", "{5A0FC32D-5887-40AD-80E7-9619D978EBDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudApp.Data", "CloudApp.Data\CloudApp.Data.csproj", "{5A0FC32D-5887-40AD-80E7-9619D978EBDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudApp.Core", "CloudApp.Core\CloudApp.Core.csproj", "{54230EEE-6CCD-4F51-9192-20EA54B0A618}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudApp.Service", "CloudApp.Service\CloudApp.Service.csproj", "{17727B6A-33CE-468C-910B-994D5745BA2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{5A0FC32D-5887-40AD-80E7-9619D978EBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A0FC32D-5887-40AD-80E7-9619D978EBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A0FC32D-5887-40AD-80E7-9619D978EBDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54230EEE-6CCD-4F51-9192-20EA54B0A618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54230EEE-6CCD-4F51-9192-20EA54B0A618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54230EEE-6CCD-4F51-9192-20EA54B0A618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54230EEE-6CCD-4F51-9192-20EA54B0A618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17727B6A-33CE-468C-910B-994D5745BA2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17727B6A-33CE-468C-910B-994D5745BA2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17727B6A-33CE-468C-910B-994D5745BA2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17727B6A-33CE-468C-910B-994D5745BA2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

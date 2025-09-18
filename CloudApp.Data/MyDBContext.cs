@@ -1,4 +1,5 @@
-﻿using CloudEFCore.Models;
+﻿
+using CloudApp.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudEFCore
+namespace CloudApp.Data
 {
     public class MyDBContext: DbContext
     {
@@ -14,8 +15,8 @@ namespace CloudEFCore
             :base(options)
         { 
         }
-        public DbSet<User> Users { get; set; }
-        public DbSet<SingleSong> SingleSongs { get; set; }
+        public DbSet<Album> Albums { get; set; }
+        public DbSet<Track> Tracks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

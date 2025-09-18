@@ -1,4 +1,4 @@
-namespace CloudWebApi
+namespace CloudApp.WebApi
 {
     public class WeatherForecast
     {

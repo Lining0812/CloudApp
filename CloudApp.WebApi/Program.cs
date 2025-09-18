@@ -1,10 +1,11 @@
 
-using CloudEFCore;
-using CloudWebApi.Services;
+using CloudApp.Data;
+using CloudApp.Service.Interfaces;
+using CloudApp.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace CloudWebApi
+namespace CloudApp.WebApi
 {
     public class Program
     {

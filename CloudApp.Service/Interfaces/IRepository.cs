@@ -1,6 +1,4 @@
-﻿using CloudEFCore;
-
-namespace CloudWebApi.Services
+﻿namespace CloudApp.Service.Interfaces
 {
     public interface IRepository<T>
     {
