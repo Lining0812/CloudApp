@@ -26,6 +26,9 @@ namespace CloudApp.WebApi
 
             builder.Services.AddScoped(typeof(IRepository<>),typeof(BaseRepository<>));
 
+
+
+
             builder.Services.AddScoped<TrackService>();
 
 

@@ -1,7 +1,7 @@
-﻿using CloudApp.Core.Entities;
+﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Entities;
 using CloudApp.Service.Interfaces;
 using CloudApp.Service.Services;
-using CloudWebApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(CreatTrackDto model)
+        public ActionResult Add(CreateTrackDto model)
         {
             if (ModelState.IsValid)
             {

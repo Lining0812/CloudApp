@@ -1,4 +1,5 @@
-﻿using CloudApp.Core.Entities;
+﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Entities;
 using CloudApp.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace CloudApp.Service.Services
             _trackrepository = trackrepository;
         }
 
-        public void AddTrack(CreatTrackDto model)
+        public void AddTrack(CreateTrackDto model)
         {
             var album = _albumrepository.GetEntityById(model.AlbumId);
 
@@ -37,11 +38,5 @@ namespace CloudApp.Service.Services
         {
             return _trackrepository.GetAllEntities();
         }
-    }
-
-    public class CreatTrackDto
-    {
-        public string Title { get; set; }
-        public int AlbumId { get; set; }
     }
 }
