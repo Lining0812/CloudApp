@@ -23,7 +23,8 @@ namespace CloudApp.WebApi
             builder.Services.AddDbContext<MyDBContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddScoped(typeof(IRepository<>),typeof(MyRepository<>));
+
+            builder.Services.AddScoped(typeof(IRepository<>),typeof(BaseRepository<>));
 
             builder.Services.AddScoped<TrackService>();
 

@@ -20,15 +20,22 @@ namespace CloudApp.Service.Services
 
         public void AddTrack(CreatTrackDto model)
         {
-            if (_albumrepository.Find(model.AlbumId))
+            var album = _albumrepository.GetEntityById(model.AlbumId);
+
+            if (album != null)
             {
                 var track = new Track
                 {
                     Title = model.Title,
-                    Album = _albumrepository.GetById(model.AlbumId)
+                    Album = album
                 };
-                _trackrepository.Add(track);
+                _trackrepository.AddEntity(track);
             }
+        }
+
+        public IEnumerable<Track> GetAllTracks()
+        {
+            return _trackrepository.GetAllEntities();
         }
     }
 

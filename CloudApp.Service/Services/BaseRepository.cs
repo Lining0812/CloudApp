@@ -4,22 +4,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.Service.Services
 {
-    public class MyRepository<T> : IRepository<T> where T : class
+    public class BaseRepository<T> : IRepository<T> where T : class
     {
         private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
-        public MyRepository(MyDBContext dbContext)
+        public BaseRepository(MyDBContext dbContext)
         {
             _context = dbContext;
             _dbSet = dbContext.Set<T>();
         }
-        public void Add(T entity)
+        public void AddEntity(T entity)
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void DeleteEntity(int id)
         {
             var entity = _dbSet.Find(id);
             if (entity != null)
@@ -29,23 +29,23 @@ namespace CloudApp.Service.Services
             }
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAllEntities()
         {
             return _dbSet.ToList();
         }
 
-        public T GetById(int id)
+        public T GetEntityById(int id)
         {
             return _dbSet.Find(id);
         }
 
-        public void Update(T entity)
+        public void UpdateEntity(T entity)
         {
             _dbSet.Update(entity);
             _context.SaveChanges();
         }
 
-        public bool Find(int id)
+        public bool FindEntity(int id)
         {
             return _dbSet.Find(id) != null;
         }

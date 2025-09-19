@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(CreatTrackDto model)
+        public ActionResult Add(CreatTrackDto model)
         {
             if (ModelState.IsValid)
             {
@@ -27,6 +27,12 @@ namespace CloudApp.WebApi.Controllers
                 return Ok("Successfull Add");
             }
             return BadRequest("Invalid data.");
+        }
+        [HttpGet]
+        public ActionResult<IEnumerable<Track>> GetAll()
+        {
+            var tracks = _trackService.GetAllTracks();
+            return Ok(tracks);
         }
     }
 }

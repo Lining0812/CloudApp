@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CloudApp.Data.Configs
 {
-    public class AblumConfig : IEntityTypeConfiguration<Album>
+    public class AlbumConfig : IEntityTypeConfiguration<Album>
     {
         public void Configure(EntityTypeBuilder<Album> builder)
         {

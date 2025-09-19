@@ -4,11 +4,11 @@ namespace CloudApp.Service.Interfaces
 {
     public interface IRepository<T>
     {
-        public IEnumerable<T> GetAll();
-        public T GetById(int id);
-        public void Add(T entity);
-        public void Update(T entity);
-        public void Delete(int id);
-        public bool Find(int id);
+        public IEnumerable<T> GetAllEntities();
+        public T GetEntityById(int id);
+        public void AddEntity(T entity);
+        public void UpdateEntity(T entity);
+        public void DeleteEntity(int id);
+        public bool FindEntity(int id);
     }
 }
