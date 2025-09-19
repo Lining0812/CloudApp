@@ -34,9 +34,23 @@ namespace CloudApp.Service.Services
             }
         }
 
-        public IEnumerable<Track> GetAllTracks()
+        public IEnumerable<TrackInfoDto> GetAllTracks()
         {
-            return _trackrepository.GetAllEntities();
+            var tracks =  _trackrepository.GetAllEntities();
+            return tracks.Select(t => new TrackInfoDto
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Subtitle = t.Subtitle,
+                Description = t.Description,
+                AlbumInfo = new AlbumInfoDto
+                {
+                    Id = t.Album.Id,
+                    Title = t.Album.Title,
+                },
+                Composer = t.Composer,
+                Lyricist = t.Lyricist
+            }).ToList();
         }
     }
 }

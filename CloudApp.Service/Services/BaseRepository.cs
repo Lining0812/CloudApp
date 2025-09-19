@@ -29,7 +29,7 @@ namespace CloudApp.Service.Services
             }
         }
 
-        public IEnumerable<T> GetAllEntities()
+        public virtual IEnumerable<T> GetAllEntities()
         {
             return _dbSet.ToList();
         }

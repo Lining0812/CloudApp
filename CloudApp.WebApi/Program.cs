@@ -1,4 +1,5 @@
 
+using CloudApp.Core.Entities;
 using CloudApp.Data;
 using CloudApp.Service.Interfaces;
 using CloudApp.Service.Services;
@@ -25,9 +26,7 @@ namespace CloudApp.WebApi
 
 
             builder.Services.AddScoped(typeof(IRepository<>),typeof(BaseRepository<>));
-
-
-
+            builder.Services.AddScoped<IRepository<Track>,TrackRepository>();
 
             builder.Services.AddScoped<TrackService>();
 
