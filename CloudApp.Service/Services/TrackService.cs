@@ -39,11 +39,7 @@ namespace CloudApp.Service.Services
                 Title = t.Title,
                 Subtitle = t.Subtitle,
                 Description = t.Description,
-                AlbumInfo = new AlbumInfoDto
-                {
-                    Id = t.Album.Id,
-                    Title = t.Album.Title,
-                },
+                Albumtitle = t.Album.Title,
                 Composer = t.Composer,
                 Lyricist = t.Lyricist
             }).ToList();

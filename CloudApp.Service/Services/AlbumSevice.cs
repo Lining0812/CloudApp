@@ -20,18 +20,17 @@ namespace CloudApp.Service.Services
             _albumRepository = albumRepository;
         }
 
-        // 使用DTO类型写入
         public void AddAlbum(Album album)
         {
             this._albumRepository.AddEntity(album);
         }
+
         public IEnumerable<AlbumInfoDto> GetAllAlbums()
         {
             var albums = this._albumRepository.GetAllEntities();
 
             return albums.Select(a => new AlbumInfoDto
             {
-                Id = a.Id,
                 Title = a.Title,
                 Tracks = a.Tracks.Select(t => t.Title).ToList()
             }).ToList();

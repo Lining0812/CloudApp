@@ -8,7 +8,6 @@ namespace CloudApp.Core.Dtos
 {
     public class AlbumInfoDto
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public List<string> Tracks { get; set; }
     }

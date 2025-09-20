@@ -15,7 +15,7 @@ namespace CloudApp.Core.Dtos
         public string Title { get; set; } = string.Empty;
         public string? Subtitle { get; set; }
         public string? Description { get; set; }
-        public AlbumInfoDto AlbumInfo { get; set; }
+        public string Albumtitle { get; set; }
         public string? Composer { get; set; }
         public string? Lyricist { get; set; }
 

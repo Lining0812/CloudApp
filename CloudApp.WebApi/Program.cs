@@ -4,6 +4,7 @@ using CloudApp.Data;
 using CloudApp.Data.Repository;
 using CloudApp.Service.Interfaces;
 using CloudApp.Service.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -25,9 +26,9 @@ namespace CloudApp.WebApi
             builder.Services.AddDbContext<MyDBContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-            builder.Services.AddScoped(typeof(IRepository<>),typeof(BaseRepository<>));
-            builder.Services.AddScoped<IRepository<Track>,TrackRepository>();
+            // 注册其他服务
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+            builder.Services.AddScoped<IRepository<Track>, TrackRepository>();
             builder.Services.AddScoped<IRepository<Album>, AlbumRepository>();
 
             builder.Services.AddScoped<IAlbumService, AlbumSevice>();
@@ -44,8 +45,8 @@ namespace CloudApp.WebApi
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication(); // 添加认证中间件
             app.UseAuthorization();
-
 
             app.MapControllers();
 
