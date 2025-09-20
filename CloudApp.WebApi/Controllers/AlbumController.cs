@@ -1,4 +1,6 @@
-﻿using CloudApp.Service.Interfaces;
+﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Entities;
+using CloudApp.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +18,24 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAllAlbum()
+        public ActionResult<ICollection<Album>> GetAllAlbum()
         {
             var albums = _albumService.GetAllAlbums();
             return Ok(albums);
+        }
+        [HttpPost]
+        public ActionResult AddAlbum(CreateAlbumDto albumDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var album = new Album
+                {
+                    Title = albumDto.Title
+                };
+                _albumService.AddAlbum(album);
+                return Ok("Successful AddAlbum");
+            }
+            return BadRequest("Invalid data.");
         }
     }
 }

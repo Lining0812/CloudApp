@@ -18,18 +18,18 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(CreateTrackDto model)
+        public ActionResult AddTrack(CreateTrackDto model)
         {
             if (ModelState.IsValid)
             {
                 _trackService.AddTrack(model);
 
-                return Ok("Successfull Add");
+                return Ok("Successfull AddTrack");
             }
             return BadRequest("Invalid data.");
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Track>> GetAll()
+        public ActionResult<ICollection<Track>> GetAllTracks()
         {
             var tracks = _trackService.GetAllTracks();
             return Ok(tracks);
