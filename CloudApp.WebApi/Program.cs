@@ -1,6 +1,7 @@
 
 using CloudApp.Core.Entities;
 using CloudApp.Data;
+using CloudApp.Data.Repository;
 using CloudApp.Service.Interfaces;
 using CloudApp.Service.Services;
 using Microsoft.EntityFrameworkCore;
@@ -27,9 +28,10 @@ namespace CloudApp.WebApi
 
             builder.Services.AddScoped(typeof(IRepository<>),typeof(BaseRepository<>));
             builder.Services.AddScoped<IRepository<Track>,TrackRepository>();
+            builder.Services.AddScoped<IRepository<Album>, AlbumRepository>();
 
-            builder.Services.AddScoped<TrackService>();
-
+            builder.Services.AddScoped<IAlbumService, AlbumSevice>();
+            builder.Services.AddScoped<ITrackService, TrackService>();
 
             var app = builder.Build();
 

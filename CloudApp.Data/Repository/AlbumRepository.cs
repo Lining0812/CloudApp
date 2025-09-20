@@ -1,18 +1,19 @@
 ﻿using CloudApp.Core.Entities;
-using CloudApp.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudApp.Service.Services
+namespace CloudApp.Data.Repository
 {
     public class AlbumRepository : BaseRepository<Album>
     {
+        private readonly MyDBContext _dbContext;
         public AlbumRepository(MyDBContext dbContext) : base(dbContext)
         {
-            InitializeSampleData();
+            _dbContext = dbContext;
         }
 
         private void InitializeSampleData()
@@ -22,6 +23,11 @@ namespace CloudApp.Service.Services
                 var album = new Album { Title = "初始化专辑" };
                 AddEntity(album);
             }
+        }
+
+        public override IEnumerable<Album> GetAllEntities()
+        {
+            return _dbContext.Albums.Include(a => a.Tracks).ToList();
         }
     }
 }

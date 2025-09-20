@@ -1,8 +1,7 @@
 ﻿using CloudApp.Data;
-using CloudApp.Service.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CloudApp.Service.Services
+namespace CloudApp.Data.Repository
 {
     public class BaseRepository<T> : IRepository<T> where T : class
     {

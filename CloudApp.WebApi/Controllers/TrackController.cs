@@ -11,8 +11,8 @@ namespace CloudApp.WebApi.Controllers
     [ApiController]
     public class TrackController : ControllerBase
     {
-        private readonly TrackService _trackService;
-        public TrackController(TrackService trackService)
+        private readonly ITrackService _trackService;
+        public TrackController(ITrackService trackService)
         {
             _trackService = trackService;
         }

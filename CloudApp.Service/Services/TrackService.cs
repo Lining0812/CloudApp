@@ -1,15 +1,11 @@
 ﻿using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
+using CloudApp.Data.Repository;
 using CloudApp.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudApp.Service.Services
 {
-    public class TrackService
+    public class TrackService : ITrackService
     {
         private readonly IRepository<Track> _trackrepository;
         private readonly IRepository<Album> _albumrepository;

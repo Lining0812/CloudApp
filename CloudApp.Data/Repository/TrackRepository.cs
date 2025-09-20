@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CloudApp.Service.Services
+namespace CloudApp.Data.Repository
 {
     public class TrackRepository : BaseRepository<Track>
     {
@@ -21,6 +21,5 @@ namespace CloudApp.Service.Services
         {
             return _dbContext.Tracks.Include(t => t.Album).ToList();
         }
-
     }
 }
