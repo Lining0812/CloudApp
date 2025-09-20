@@ -26,11 +26,12 @@ namespace CloudApp.WebApi
             builder.Services.AddDbContext<MyDBContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // 注册其他服务
+            // 仓储服务
             builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             builder.Services.AddScoped<IRepository<Track>, TrackRepository>();
             builder.Services.AddScoped<IRepository<Album>, AlbumRepository>();
 
+            // 实体服务
             builder.Services.AddScoped<IAlbumService, AlbumSevice>();
             builder.Services.AddScoped<ITrackService, TrackService>();
 
