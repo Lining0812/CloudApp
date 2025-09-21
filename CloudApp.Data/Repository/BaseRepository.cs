@@ -1,4 +1,4 @@
-﻿using CloudApp.Data;
+using CloudApp.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.Data.Repository
@@ -33,7 +33,7 @@ namespace CloudApp.Data.Repository
             return _dbSet.ToList();
         }
 
-        public T GetEntityById(int id)
+        public virtual T GetEntityById(int id)
         {
             return _dbSet.Find(id);
         }

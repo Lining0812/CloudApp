@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using CloudApp.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +23,18 @@ namespace CloudApp.WebApi.Controllers
             var albums = _albumService.GetAllAlbums();
             return Ok(albums);
         }
+
+        [HttpGet]
+        public ActionResult<AlbumInfoDto> GetAlbumById(int id)
+        {
+            var album = _albumService.GetAlbumById(id);
+            if (album == null)
+            {
+                return NotFound("Album not found.");
+            }
+            return Ok(album);
+        }
+
         [HttpPost]
         public ActionResult AddAlbum(CreateAlbumDto albumDto)
         {

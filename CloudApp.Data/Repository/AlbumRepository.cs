@@ -29,5 +29,17 @@ namespace CloudApp.Data.Repository
         {
             return _dbContext.Albums.Include(a => a.Tracks).ToList();
         }
+
+        override public Album GetEntityById(int id)
+        {
+            var album = _dbContext.Albums.Include(a => a.Tracks).FirstOrDefault(a => a.Id == id);
+
+            if (album == null)
+            {
+                throw new Exception("Album not found");
+            }
+
+            return album;
+        }
     }
 }

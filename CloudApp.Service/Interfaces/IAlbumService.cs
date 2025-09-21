@@ -1,4 +1,4 @@
-锘縰sing CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,8 +10,15 @@ namespace CloudApp.Service.Interfaces
 {
     public interface IAlbumService
     {
-        void UpdateAlbum(int id, CreateAlbumDto album);
         void AddAlbum(CreateAlbumDto album);
+
+        /// <summary>
+        /// 获取所有专辑信息
+        /// </summary>
+        /// <returns></returns>
         ICollection<AlbumInfoDto> GetAllAlbums();
+        AlbumInfoDto GetAlbumById(int id);
+        void UpdateAlbum(int id, CreateAlbumDto album);
+        void DeleteAlbum(int id);
     }
 }

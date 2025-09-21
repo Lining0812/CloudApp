@@ -40,7 +40,6 @@ namespace CloudApp.Service.Services
             var tracks =  _trackrepository.GetAllEntities();
             return tracks.Select(t => new TrackInfoDto
             {
-                Id = t.Id,
                 Title = t.Title,
                 Subtitle = t.Subtitle,
                 Description = t.Description,

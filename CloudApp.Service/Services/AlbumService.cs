@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using CloudApp.Data.Repository;
 using CloudApp.Service.Interfaces;
@@ -34,20 +34,28 @@ namespace CloudApp.Service.Services
             this._albumRepository.AddEntity(album);
         }
 
+        public void DeleteAlbum(int id)
+        {
+            this._albumRepository.DeleteEntity(id);
+        }
+
+        public AlbumInfoDto GetAlbumById(int id)
+        {
+            var album = this._albumRepository.GetEntityById(id);
+
+            return new AlbumInfoDto(album);
+        }
+
         public ICollection<AlbumInfoDto> GetAllAlbums()
         {
             var albums = this._albumRepository.GetAllEntities();
 
-            return albums.Select(a => new AlbumInfoDto
-            {
-                Title = a.Title,
-                Tracks = a.Tracks.Select(t => t.Title).ToList()
-            }).ToList();
+            return albums.Select(a => new AlbumInfoDto(a)).ToList();
         }
 
         public void UpdateAlbum(int id, CreateAlbumDto model)
         {
-            Album album = _albumRepository.GetEntityById(id);
+             Album album = _albumRepository.GetEntityById(id);
             if (album != null)
             {
                 album.Title = model.Title;

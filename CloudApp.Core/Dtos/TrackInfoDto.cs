@@ -11,10 +11,9 @@ namespace CloudApp.Core.Dtos
 {
     public class TrackInfoDto
     {
-        [Key]
-        public int Id { get; set; }
         [JsonPropertyName("歌名")]
         public string Title { get; set; } = string.Empty;
+        [JsonPropertyName("副歌名")]
         public string? Subtitle { get; set; }
         [JsonPropertyName("描述")]
         public string? Description { get; set; }
