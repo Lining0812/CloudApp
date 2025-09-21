@@ -1,4 +1,5 @@
 ﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace CloudApp.Service.Interfaces
     public interface ITrackService
     {
         void AddTrack(CreateTrackDto model);
-        IEnumerable<TrackInfoDto> GetAllTracks();
+        ICollection<TrackInfoDto> GetAllTracks();
     }
 }

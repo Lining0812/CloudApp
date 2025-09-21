@@ -30,7 +30,7 @@ namespace CloudApp.WebApi
             builder.Services.AddScoped<IRepository<Track>,TrackRepository>();
             builder.Services.AddScoped<IRepository<Album>, AlbumRepository>();
 
-            builder.Services.AddScoped<IAlbumService, AlbumSevice>();
+            builder.Services.AddScoped<IAlbumService, AlbumService>();
             builder.Services.AddScoped<ITrackService, TrackService>();
 
             var app = builder.Build();

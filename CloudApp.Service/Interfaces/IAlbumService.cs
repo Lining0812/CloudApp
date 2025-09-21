@@ -10,7 +10,8 @@ namespace CloudApp.Service.Interfaces
 {
     public interface IAlbumService
     {
-        void AddAlbum(Album album);
-        IEnumerable<AlbumInfoDto> GetAllAlbums();
+        void UpdateAlbum(int id, CreateAlbumDto album);
+        void AddAlbum(CreateAlbumDto album);
+        ICollection<AlbumInfoDto> GetAllAlbums();
     }
 }

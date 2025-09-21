@@ -28,16 +28,19 @@ namespace CloudApp.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var album = new Album
-                {
-                    Title = albumDto.Title,
-                    Description = albumDto.Description,
-                    Artist = albumDto.Artist,
-                    ReleaseDate = albumDto.ReleaseDate,
-                    CoverImageUrl = albumDto.CoverImageUrl
-                };
-                _albumService.AddAlbum(album);
+                _albumService.AddAlbum(albumDto);
                 return Ok("Successful AddAlbum");
+            }
+            return BadRequest("Invalid data.");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateAlbum(int id, CreateAlbumDto albumDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _albumService.UpdateAlbum(id, albumDto);
+                return Ok("Successful UpdateAlbum");
             }
             return BadRequest("Invalid data.");
         }

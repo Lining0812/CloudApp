@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Entities
 {
+    /// <summary>
+    /// 专辑实体类
+    /// </summary>
     public class Album
     {
         [Key]

@@ -23,7 +23,6 @@ namespace CloudApp.WebApi.Controllers
             if (ModelState.IsValid)
             {
                 _trackService.AddTrack(model);
-
                 return Ok("Successfull AddTrack");
             }
             return BadRequest("Invalid data.");

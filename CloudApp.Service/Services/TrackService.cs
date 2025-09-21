@@ -17,20 +17,25 @@ namespace CloudApp.Service.Services
 
         public void AddTrack(CreateTrackDto model)
         {
-            var album = _albumrepository.GetEntityById(model.AlbumId);
+            Album album = _albumrepository.GetEntityById(model.AlbumId);
 
-            if (album != null)
+            var track = new Track
             {
-                var track = new Track
-                {
-                    Title = model.Title,
-                    Album = album
-                };
-                _trackrepository.AddEntity(track);
-            }
+                Title = model.Title,
+                Subtitle = model.Subtitle,
+                Description = model.Description,
+                ReleaseDate = DateTime.UtcNow,
+                URL = model.URL,
+                Artist = model.Artist,
+                Composer = model.Composer,
+                Lyricist = model.Lyricist,
+                Album = album
+            };
+
+            this._trackrepository.AddEntity(track);
         }
 
-        public IEnumerable<TrackInfoDto> GetAllTracks()
+        public ICollection<TrackInfoDto> GetAllTracks()
         {
             var tracks =  _trackrepository.GetAllEntities();
             return tracks.Select(t => new TrackInfoDto
