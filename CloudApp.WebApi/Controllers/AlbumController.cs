@@ -30,7 +30,11 @@ namespace CloudApp.WebApi.Controllers
             {
                 var album = new Album
                 {
-                    Title = albumDto.Title
+                    Title = albumDto.Title,
+                    Description = albumDto.Description,
+                    Artist = albumDto.Artist,
+                    ReleaseDate = albumDto.ReleaseDate,
+                    CoverImageUrl = albumDto.CoverImageUrl
                 };
                 _albumService.AddAlbum(album);
                 return Ok("Successful AddAlbum");

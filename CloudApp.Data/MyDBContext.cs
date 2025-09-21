@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CloudApp.Data
 {
-    public class MyDBContext : DbContext
+    public class MyDBContext: DbContext
     {
         public MyDBContext(DbContextOptions<MyDBContext> options)
             :base(options)
