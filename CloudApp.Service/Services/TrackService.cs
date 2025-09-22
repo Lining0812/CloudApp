@@ -1,7 +1,6 @@
 ﻿using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
-using CloudApp.Data.Repository;
-using CloudApp.Service.Interfaces;
+using CloudApp.Core.Interface;
 
 namespace CloudApp.Service.Services
 {

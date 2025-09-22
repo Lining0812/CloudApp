@@ -1,8 +1,8 @@
 
 using CloudApp.Core.Entities;
+using CloudApp.Core.Interface;
 using CloudApp.Data;
 using CloudApp.Data.Repository;
-using CloudApp.Service.Interfaces;
 using CloudApp.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

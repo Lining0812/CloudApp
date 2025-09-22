@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 
-namespace CloudApp.Data.Repository
+namespace CloudApp.Core.Interface
 {
     public interface IRepository<T>
     {

@@ -1,4 +1,4 @@
-using CloudApp.Data;
+using CloudApp.Core.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.Data.Repository

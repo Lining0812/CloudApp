@@ -1,13 +1,6 @@
 using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
-using CloudApp.Data.Repository;
-using CloudApp.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+using CloudApp.Core.Interface;
 
 namespace CloudApp.Service.Services
 {
@@ -22,40 +15,50 @@ namespace CloudApp.Service.Services
 
         public void AddAlbum(CreateAlbumDto model)
         {
-            Album album = new Album
+            if (model == null)
             {
-                Title = model.Title,
-                Description = model.Description,
-                Artist = model.Artist,
-                ReleaseDate = DateTime.UtcNow,
-                CoverImageUrl = model.CoverImageUrl
-            };
+                throw new ArgumentNullException(nameof(model));
+            }
+                Album album = new Album
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    Artist = model.Artist,
+                    ReleaseDate = DateTime.UtcNow,
+                    CoverImageUrl = model.CoverImageUrl
+                };
 
             this._albumRepository.AddEntity(album);
         }
-
         public void DeleteAlbum(int id)
-        {
+        {            
+            // 检查专辑是否存在
+            bool albumExists = this._albumRepository.FindEntity(id);
+            if (!albumExists)
+            {
+                throw new ArgumentException(nameof(id), "专辑不存在");
+            }
+            
             this._albumRepository.DeleteEntity(id);
         }
-
         public AlbumInfoDto GetAlbumById(int id)
         {
             var album = this._albumRepository.GetEntityById(id);
-
+            if (album == null)
+            {
+                throw new ArgumentException(nameof(id), "专辑不存在");
+            }
             return new AlbumInfoDto(album);
         }
-
         public ICollection<AlbumInfoDto> GetAllAlbums()
         {
             var albums = this._albumRepository.GetAllEntities();
 
             return albums.Select(a => new AlbumInfoDto(a)).ToList();
         }
-
         public void UpdateAlbum(int id, CreateAlbumDto model)
         {
-             Album album = _albumRepository.GetEntityById(id);
+            Album album = _albumRepository.GetEntityById(id);
             if (album != null)
             {
                 album.Title = model.Title;

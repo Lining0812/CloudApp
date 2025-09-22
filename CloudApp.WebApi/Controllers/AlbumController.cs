@@ -1,6 +1,6 @@
 using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
-using CloudApp.Service.Interfaces;
+using CloudApp.Core.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,12 +27,15 @@ namespace CloudApp.WebApi.Controllers
         [HttpGet]
         public ActionResult<AlbumInfoDto> GetAlbumById(int id)
         {
-            var album = _albumService.GetAlbumById(id);
-            if (album == null)
+            try
             {
-                return NotFound("Album not found.");
+                var album = _albumService.GetAlbumById(id);
+                return Ok(album);
             }
-            return Ok(album);
+            catch (ArgumentException ex) when (ex.Message == "专辑不存在")
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -55,6 +58,24 @@ namespace CloudApp.WebApi.Controllers
                 return Ok("Successful UpdateAlbum");
             }
             return BadRequest("Invalid data.");
+        }
+
+        [HttpDelete]
+        public ActionResult DeleteAlbum(int id)
+        {
+            try
+            {
+                _albumService.DeleteAlbum(id);
+                return Ok("Successful DeleteAlbum");
+            }
+            catch (ArgumentException ex) when (ex.Message == "专辑不存在")
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
-using CloudApp.Service.Interfaces;
+using CloudApp.Core.Interface;
 using CloudApp.Service.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
