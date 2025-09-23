@@ -33,6 +33,17 @@ namespace CloudApp.WebApi
             builder.Services.AddScoped<IAlbumService, AlbumService>();
             builder.Services.AddScoped<ITrackService, TrackService>();
 
+            builder.Services.AddCors(opt =>
+            {
+                opt.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins("http://localhost:5174")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -41,6 +52,8 @@ namespace CloudApp.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 
