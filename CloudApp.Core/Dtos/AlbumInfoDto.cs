@@ -22,7 +22,7 @@ namespace CloudApp.Core.Dtos
         [JsonPropertyName("单曲列表")]
         public List<string> Tracks { get; set; }
 
-        public AlbumInfoDto()
+        private AlbumInfoDto()
         {
         }
 

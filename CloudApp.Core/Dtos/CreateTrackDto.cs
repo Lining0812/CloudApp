@@ -33,7 +33,6 @@ namespace CloudApp.Core.Dtos
 
         public string URL { get; set; }
 
-        [Required(ErrorMessage = "所属专辑ID不能为空")]
         public int AlbumId { get; set; }
     }
 }

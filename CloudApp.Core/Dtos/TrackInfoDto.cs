@@ -24,5 +24,15 @@ namespace CloudApp.Core.Dtos
         [JsonPropertyName("作词")]
         public string? Lyricist { get; set; }
 
+        private TrackInfoDto()
+        {
+        }
+
+        public TrackInfoDto(Track track)
+        {
+            this.Title = track.Title;
+            this.Subtitle = track.Subtitle;
+            this.Description = track.Description;
+        }
     }
 }

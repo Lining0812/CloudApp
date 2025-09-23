@@ -28,7 +28,7 @@ namespace CloudApp.Data.Configs
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc) // 从数据库读取时的转换
             );
 
-            builder.HasOne(t => t.Album).WithMany(a => a.Tracks);
+            builder.HasOne(t => t.Album).WithMany(a => a.Tracks).HasForeignKey(a => a.AlbumId);
         }
     }
 }

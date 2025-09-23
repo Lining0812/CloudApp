@@ -19,14 +19,14 @@ namespace CloudApp.Service.Services
             {
                 throw new ArgumentNullException(nameof(model));
             }
-                Album album = new Album
-                {
-                    Title = model.Title,
-                    Description = model.Description,
-                    Artist = model.Artist,
-                    ReleaseDate = DateTime.UtcNow,
-                    CoverImageUrl = model.CoverImageUrl
-                };
+            Album album = new Album
+            {
+                Title = model.Title,
+                Description = model.Description,
+                Artist = model.Artist,
+                ReleaseDate = DateTime.UtcNow,
+                CoverImageUrl = model.CoverImageUrl
+            };
 
             this._albumRepository.AddEntity(album);
         }

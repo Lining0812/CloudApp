@@ -27,7 +27,7 @@ namespace CloudApp.Data.Configs
             // 艺术家配置
             builder.Property(b => b.Artist)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(50);
             // 发行日期配置
             builder.Property(b=>b.ReleaseDate)
                 .IsRequired();

@@ -49,6 +49,8 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 外键字段 - 所属专辑
         /// </summary>
-        public Album? Album { get; set; }
+        public Album Album { get; set; }
+
+        public int? AlbumId { get; set; }
     }
 }

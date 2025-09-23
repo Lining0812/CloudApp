@@ -37,7 +37,7 @@ namespace CloudApp.Service.Services
         public ICollection<TrackInfoDto> GetAllTracks()
         {
             var tracks =  _trackrepository.GetAllEntities();
-            return tracks.Select(t => new TrackInfoDto
+            return tracks.Select(t => new TrackInfoDto(t)
             {
                 Title = t.Title,
                 Subtitle = t.Subtitle,

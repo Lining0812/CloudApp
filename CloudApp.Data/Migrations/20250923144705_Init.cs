@@ -34,12 +34,15 @@ namespace CloudApp.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Subtitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AlbumId = table.Column<int>(type: "int", nullable: false),
-                    Composer = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Lyricist = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Subtitle = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    URL = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Artist = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Composer = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Lyricist = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    AlbumId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,8 +51,7 @@ namespace CloudApp.Data.Migrations
                         name: "FK_T_Tracks_T_Albums_AlbumId",
                         column: x => x.AlbumId,
                         principalTable: "T_Albums",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
