@@ -32,11 +32,10 @@ namespace CloudApp.Core.Entities
         /// 单曲链接URL
         /// </summary>
         public string URL { get; set; }
-
-        // 创作者信息
-
+        /// <summary>
+        /// 原唱
+        /// </summary>
         public string Artist { get; set; }
-
         /// <summary>
         /// 作曲者
         /// </summary>
@@ -49,7 +48,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 外键字段 - 所属专辑
         /// </summary>
-        public Album Album { get; set; }
+        public Album? Album { get; set; }
 
         public int? AlbumId { get; set; }
     }

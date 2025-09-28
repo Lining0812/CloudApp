@@ -9,8 +9,8 @@ namespace CloudApp.Core.Dtos
 {
     public class CreateTrackDto
     {
-        [Required(ErrorMessage = "专辑名称不能为空")]
-        [MaxLength(200, ErrorMessage = "歌名不能超过200个字符")]
+        [Required(ErrorMessage = "单曲名称不能为空")]
+        [MaxLength(200, ErrorMessage = "单曲名称不能超过200个字符")]
         public string Title { get; set; }
 
         [MaxLength(200, ErrorMessage = "副标题不能超过200个字符")]
@@ -20,17 +20,18 @@ namespace CloudApp.Core.Dtos
         public string? Description { get; set; } = string.Empty;
 
         [Required(ErrorMessage ="原唱不能为空")]
-        [MaxLength(100, ErrorMessage = "轨道名称不能超过100个字符")]
+        [MaxLength(100, ErrorMessage = "原唱不能超过100个字符")]
         public string Artist { get; set; }
 
         [Required(ErrorMessage = "作曲不能为空")]
-        [MaxLength(100, ErrorMessage = "作曲者不能超过100个字符")]
+        [MaxLength(100, ErrorMessage = "作曲不能超过100个字符")]
         public string Composer { get; set; }
 
         [Required(ErrorMessage = "作词不能为空")]
-        [MaxLength(100, ErrorMessage = "作词者不能超过100个字符")]
+        [MaxLength(100, ErrorMessage = "作词不能超过100个字符")]
         public string Lyricist { get; set; }
 
+        [MaxLength(500, ErrorMessage = "URL不能超过500个字符")]
         public string URL { get; set; }
 
         public int AlbumId { get; set; }

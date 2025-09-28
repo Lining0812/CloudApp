@@ -32,16 +32,14 @@ namespace CloudApp.Data.Migrations
 
                     b.Property<string>("Artist")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CoverImageUrl")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -54,6 +52,8 @@ namespace CloudApp.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title");
 
                     b.ToTable("T_Albums", (string)null);
                 });
@@ -80,7 +80,6 @@ namespace CloudApp.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -93,7 +92,6 @@ namespace CloudApp.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Subtitle")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -103,13 +101,14 @@ namespace CloudApp.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("URL")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
+
+                    b.HasIndex("Title");
 
                     b.ToTable("T_Tracks", (string)null);
                 });
@@ -118,7 +117,8 @@ namespace CloudApp.Data.Migrations
                 {
                     b.HasOne("CloudApp.Core.Entities.Album", "Album")
                         .WithMany("Tracks")
-                        .HasForeignKey("AlbumId");
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Album");
                 });

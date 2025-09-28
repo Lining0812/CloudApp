@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudApp.Core.Dtos
 {
@@ -13,7 +8,7 @@ namespace CloudApp.Core.Dtos
         [MaxLength(50, ErrorMessage = "专辑名不能超过50个字符")]
         public string Title { get; set; }
 
-        [MaxLength(1000, ErrorMessage = "描述不能超过1000个字符")]
+        [MaxLength(1000, ErrorMessage = "专辑描述不能超过1000个字符")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "艺术家不能为空")]
