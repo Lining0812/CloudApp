@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ICollection<Album>> GetAllAlbum()
+        public ActionResult<ICollection<AlbumInfoDto>> GetAllAlbums()
         {
             var albums = _albumService.GetAllAlbums();
             return Ok(albums);

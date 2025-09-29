@@ -1,40 +1,118 @@
-﻿using CloudApp.Core.Entities;
+using CloudApp.Core.Entities;
+using CloudApp.Core.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CloudApp.Data.Repository
 {
-    public class AlbumRepository : BaseRepository<Album>
+    public class AlbumRepository : BaseRepository<Album>, IRepository<Album>
     {
-        private readonly MyDBContext _dbContext;
         public AlbumRepository(MyDBContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
         }
 
-        private void InitializeSampleData()
+        #region 重写基础仓储实现
+        public override IEnumerable<Album> GetAll()
         {
-            if (GetAllEntities().Any())
-            {
-                var album = new Album { Title = "初始化专辑" };
-                AddEntity(album);
-            }
+            return _dbSet.Include(a => a.Tracks).ToList();
         }
 
-        public override IEnumerable<Album> GetAllEntities()
+        public override Album GetById(int id)
         {
-            return _dbContext.Albums.Include(a => a.Tracks).ToList();
+            return _dbSet.Include(a => a.Tracks).FirstOrDefault(a => a.Id == id);
         }
 
-        public override Album GetEntityById(int id)
+        //public override async Task<IEnumerable<Album>> GetAllAsync()
+        //{
+        //    return await _dbSet.Include(a => a.Tracks).ToListAsync();
+        //}
+
+        //public override async Task<Album> GetByIdAsync(int id)
+        //{
+        //    return await _dbSet.Include(a => a.Tracks).FirstOrDefaultAsync(a => a.Id == id);
+        //}
+        #endregion
+
+        #region Album特有查询方法
+        // 根据标题查询专辑
+        public IEnumerable<Album> GetAlbumsByTitle(string title)
         {
-            var album = _dbContext.Albums.Include(a => a.Tracks).FirstOrDefault(a => a.Id == id);
-
-            return album;
+            if (string.IsNullOrEmpty(title))
+                return Enumerable.Empty<Album>();
+            
+            return _dbSet
+                .Include(a => a.Tracks)
+                .Where(a => a.Title.Contains(title))
+                .ToList();
         }
+
+        // 异步根据标题查询专辑
+        public async Task<IEnumerable<Album>> GetAlbumsByTitleAsync(string title)
+        {
+            if (string.IsNullOrEmpty(title))
+                return Enumerable.Empty<Album>();
+            
+            return await _dbSet
+                .Include(a => a.Tracks)
+                .Where(a => a.Title.Contains(title))
+                .ToListAsync();
+        }
+
+        // 根据艺术家查询专辑
+        public IEnumerable<Album> GetAlbumsByArtist(string artist)
+        {
+            if (string.IsNullOrEmpty(artist))
+                return Enumerable.Empty<Album>();
+            
+            return _dbSet
+                .Include(a => a.Tracks)
+                .Where(a => a.Artist.Contains(artist))
+                .ToList();
+        }
+
+        // 异步根据艺术家查询专辑
+        public async Task<IEnumerable<Album>> GetAlbumsByArtistAsync(string artist)
+        {
+            if (string.IsNullOrEmpty(artist))
+                return Enumerable.Empty<Album>();
+            
+            return await _dbSet
+                .Include(a => a.Tracks)
+                .Where(a => a.Artist.Contains(artist))
+                .ToListAsync();
+        }
+
+        // 获取专辑及其曲目数量
+        public Dictionary<Album, int> GetAlbumsWithTrackCount()
+        {
+            return _dbSet
+                .Include(a => a.Tracks)
+                .ToDictionary(a => a, a => a.Tracks.Count);
+        }
+
+        //// 分页获取专辑，包含曲目
+        //public override IEnumerable<Album> GetPaged(int pageNumber, int pageSize)
+        //{
+        //    return _dbSet
+        //        .Include(a => a.Tracks)
+        //        .Skip((pageNumber - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToList();
+        //}
+
+        //// 异步分页获取专辑，包含曲目
+        //public override async Task<IEnumerable<Album>> GetPagedAsync(int pageNumber, int pageSize)
+        //{
+        //    return await _dbSet
+        //        .Include(a => a.Tracks)
+        //        .Skip((pageNumber - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToListAsync();
+        //}
+        #endregion
     }
 }
