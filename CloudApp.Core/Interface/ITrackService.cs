@@ -67,11 +67,11 @@ namespace CloudApp.Core.Interface
 
         #region 扩展功能（新增）
         /// <summary>
-        /// 根据专辑ID获取轨道
+        /// 根据专辑ID获取单曲
         /// </summary>
         /// <param name="albumId"></param>
         /// <returns></returns>
-        //ICollection<TrackInfoDto> GetTracksByAlbumId(int albumId);
+        ICollection<TrackInfoDto> GetTracksByAlbumId(int albumId);
         
         /// <summary>
         /// 异步根据专辑ID获取轨道

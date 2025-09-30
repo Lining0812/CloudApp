@@ -1,6 +1,7 @@
 using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Interface;
+using CloudApp.Data.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,48 @@ namespace CloudApp.Service.Services
             _trackrepository = trackrepository;
         }
 
-        // 同步方法
+        #region 查询方法
+        /// <summary>
+        /// 获取所有专辑
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<TrackInfoDto> GetAllTracks()
+        {
+            var tracks = _trackrepository.GetAll();
+            return tracks.Select(t => new TrackInfoDto(t)
+            {
+                Title = t.Title,
+                Description = t.Description,
+                Composer = t.Composer,
+                Lyricist = t.Lyricist
+            }).ToList();
+        }
+
+        /// <summary>
+        /// 根据id获取专辑信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public TrackInfoDto GetTrackById(int id)
+        {
+            var track = _trackrepository.GetById(id);
+            if (track == null)
+            {
+                throw new ArgumentException("曲目不存在");
+            }
+
+            return new TrackInfoDto(track)
+            {
+                Title = track.Title,
+                Description = track.Description,
+                Composer = track.Composer,
+                Lyricist = track.Lyricist
+            };
+        }
+        #endregion
+
+        #region 操作方法
         public void AddTrack(CreateTrackDto model)
         {
             if (model == null)
@@ -47,39 +89,6 @@ namespace CloudApp.Service.Services
             };
 
             this._trackrepository.Add(track);
-        }
-
-        public ICollection<TrackInfoDto> GetAllTracks()
-        {
-            var tracks = _trackrepository.GetAll();
-            return tracks.Select(t => new TrackInfoDto(t)
-            {
-                Title = t.Title,
-                Subtitle = t.Subtitle,
-                Description = t.Description,
-                Albumtitle = t.Album?.Title,
-                Composer = t.Composer,
-                Lyricist = t.Lyricist
-            }).ToList();
-        }
-
-        public TrackInfoDto GetTrackById(int id)
-        {
-            var track = _trackrepository.GetById(id);
-            if (track == null)
-            {
-                throw new ArgumentException("曲目不存在");
-            }
-            
-            return new TrackInfoDto(track)
-            {
-                Title = track.Title,
-                Subtitle = track.Subtitle,
-                Description = track.Description,
-                Albumtitle = track.Album?.Title,
-                Composer = track.Composer,
-                Lyricist = track.Lyricist
-            };
         }
 
         public void UpdateTrack(int id, CreateTrackDto model)
@@ -123,6 +132,7 @@ namespace CloudApp.Service.Services
             
             _trackrepository.Delete(id);
         }
+        #region
 
         // 异步方法（新增）
         //public async Task AddTrackAsync(CreateTrackDto model)
@@ -131,7 +141,7 @@ namespace CloudApp.Service.Services
         //    {
         //        throw new ArgumentNullException(nameof(model));
         //    }
-            
+
         //    Album album = await _albumrepository.GetByIdAsync(model.AlbumId);
         //    if (album == null)
         //    {
@@ -176,7 +186,7 @@ namespace CloudApp.Service.Services
         //    {
         //        throw new ArgumentException("曲目不存在");
         //    }
-            
+
         //    return new TrackInfoDto(track)
         //    {
         //        Title = track.Title,
@@ -194,19 +204,19 @@ namespace CloudApp.Service.Services
         //    {
         //        throw new ArgumentNullException(nameof(model));
         //    }
-            
+
         //    var track = await _trackrepository.GetByIdAsync(id);
         //    if (track == null)
         //    {
         //        throw new ArgumentException("曲目不存在");
         //    }
-            
+
         //    Album album = await _albumrepository.GetByIdAsync(model.AlbumId);
         //    if (album == null)
         //    {
         //        throw new ArgumentException("无效的专辑ID");
         //    }
-            
+
         //    track.Title = model.Title;
         //    track.Subtitle = model.Subtitle;
         //    track.Description = model.Description;
@@ -216,7 +226,7 @@ namespace CloudApp.Service.Services
         //    track.Lyricist = model.Lyricist;
         //    track.Album = album;
         //    track.AlbumId = model.AlbumId;
-            
+
         //    await _trackrepository.UpdateAsync(track);
         //}
 
@@ -226,39 +236,38 @@ namespace CloudApp.Service.Services
         //    {
         //        throw new ArgumentException("曲目不存在");
         //    }
-            
+
         //    await _trackrepository.DeleteAsync(id);
         //}
 
-        // 扩展功能（新增）
-        //public ICollection<TrackInfoDto> GetTracksByAlbumId(int albumId)
-        //{
-        //    if (_trackrepository is TrackRepository trackRepo)
-        //    {
-        //        return trackRepo.GetTracksByAlbumId(albumId)
-        //            .Select(t => new TrackInfoDto(t)
-        //            {
-        //                Title = t.Title,
-        //                Subtitle = t.Subtitle,
-        //                Description = t.Description,
-        //                Albumtitle = t.Album?.Title,
-        //                Composer = t.Composer,
-        //                Lyricist = t.Lyricist
-        //            })
-        //            .ToList();
-        //    }
-        //    // 降级处理
-        //    var tracks = _trackrepository.GetByCondition(t => t.AlbumId == albumId);
-        //    return tracks.Select(t => new TrackInfoDto(t)
-        //    {
-        //        Title = t.Title,
-        //        Subtitle = t.Subtitle,
-        //        Description = t.Description,
-        //        Albumtitle = t.Album?.Title,
-        //        Composer = t.Composer,
-        //        Lyricist = t.Lyricist
-        //    }).ToList();
-        //}
+        #region 扩展功能
+        public ICollection<TrackInfoDto> GetTracksByAlbumId(int albumId)
+        {
+            if (_trackrepository is TrackRepository trackRepo)
+            {
+                return trackRepo.GetTracksByAlbumId(albumId)
+                    .Select(t => new TrackInfoDto(t)
+                    {
+                        Title = t.Title,
+                        Description = t.Description,
+                        Composer = t.Composer,
+                        Lyricist = t.Lyricist
+                    })
+                    .ToList();
+            }
+            return new List<TrackInfoDto>();
+            // 降级处理
+            //var tracks = _trackrepository.GetByCondition(t => t.AlbumId == albumId);
+            //return tracks.Select(t => new TrackInfoDto(t)
+            //{
+            //    Title = t.Title,
+            //    Subtitle = t.Subtitle,
+            //    Description = t.Description,
+            //    Albumtitle = t.Album?.Title,
+            //    Composer = t.Composer,
+            //    Lyricist = t.Lyricist
+            //}).ToList();
+        }
 
         //public async Task<ICollection<TrackInfoDto>> GetTracksByAlbumIdAsync(int albumId)
         //{
@@ -316,5 +325,6 @@ namespace CloudApp.Service.Services
         //        Lyricist = t.Lyricist
         //    }).ToList();
         //}
+        #endregion
     }
 }

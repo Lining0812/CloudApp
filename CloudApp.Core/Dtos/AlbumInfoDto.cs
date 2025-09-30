@@ -1,25 +1,17 @@
 ﻿using CloudApp.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace CloudApp.Core.Dtos
 {
     public class AlbumInfoDto
     {
-        [JsonPropertyName("专辑名")]
         public string Title { get; set; }
 
-        [JsonPropertyName("专辑描述")]
         public string Description { get; set; }
 
-        [JsonPropertyName("演唱者")]
         public string Artist { get; set; }
 
-        [JsonPropertyName("单曲列表")]
+        public DateTime ReleaseDate { get; set; }
+
         public List<string> Tracks { get; set; }
 
         private AlbumInfoDto()
@@ -31,8 +23,8 @@ namespace CloudApp.Core.Dtos
             Title = album.Title;
             Description = album.Description;
             Artist = album.Artist;
+            ReleaseDate = album.ReleaseDate;
             Tracks = album.Tracks.Select(t => t.Title).ToList();
         }
-
     }
 }

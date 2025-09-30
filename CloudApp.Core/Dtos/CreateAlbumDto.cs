@@ -8,7 +8,7 @@ namespace CloudApp.Core.Dtos
         [MaxLength(50, ErrorMessage = "专辑名不能超过50个字符")]
         public string Title { get; set; }
 
-        [MaxLength(1000, ErrorMessage = "专辑描述不能超过1000个字符")]
+        [MaxLength(500, ErrorMessage = "描述不能超过500个字符")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "艺术家不能为空")]

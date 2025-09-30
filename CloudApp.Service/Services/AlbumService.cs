@@ -16,7 +16,37 @@ namespace CloudApp.Service.Services
             _albumRepository = albumRepository;
         }
 
-        // 同步方法
+        #region 查询方法
+        /// <summary>
+        /// 获取所有专辑
+        /// </summary>
+        /// <returns></returns>
+        public ICollection<AlbumInfoDto> GetAllAlbums()
+        {
+            var albums = this._albumRepository.GetAll();
+
+            return albums.Select(a => new AlbumInfoDto(a)).ToList();
+        }
+
+        /// <summary>
+        /// 根据id获取专辑信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public AlbumInfoDto GetAlbumById(int id)
+        {
+            var album = this._albumRepository.GetById(id);
+            if (album == null)
+            {
+                throw new ArgumentException(nameof(id), "专辑不存在");
+            }
+            return new AlbumInfoDto(album);
+        }
+
+        #endregion
+
+        #region 操作方法
         public void AddAlbum(CreateAlbumDto model)
         {
             if (model == null)
@@ -47,24 +77,6 @@ namespace CloudApp.Service.Services
             this._albumRepository.Delete(id);
         }
         
-        public AlbumInfoDto GetAlbumById(int id)
-        {
-            var album = this._albumRepository.GetById(id);
-            if (album == null)
-            {
-                throw new ArgumentException(nameof(id), "专辑不存在");
-            }
-            
-            return new AlbumInfoDto(album);
-        }
-        
-        public ICollection<AlbumInfoDto> GetAllAlbums()
-        {
-            var albums = this._albumRepository.GetAll();
-
-            return albums.Select(a => new AlbumInfoDto(a)).ToList();
-        }
-        
         public void UpdateAlbum(int id, CreateAlbumDto model)
         {
             Album album = _albumRepository.GetById(id);
@@ -77,6 +89,7 @@ namespace CloudApp.Service.Services
                 _albumRepository.Update(album);
             }
         }
+        #endregion
 
         // 异步方法（新增）
         //public async Task AddAlbumAsync(CreateAlbumDto model)
@@ -105,7 +118,7 @@ namespace CloudApp.Service.Services
         //    {
         //        throw new ArgumentException(nameof(id), "专辑不存在");
         //    }
-            
+
         //    await this._albumRepository.DeleteAsync(id);
         //}
 
@@ -116,7 +129,7 @@ namespace CloudApp.Service.Services
         //    {
         //        throw new ArgumentException(nameof(id), "专辑不存在");
         //    }
-            
+
         //    return new AlbumInfoDto(album);
         //}
 

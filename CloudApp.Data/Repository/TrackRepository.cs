@@ -63,7 +63,7 @@ namespace CloudApp.Data.Repository
         }
 
         // 根据专辑ID查询曲目
-        public IEnumerable<Track> GetTracksByAlbumId(int albumId)
+        public ICollection<Track> GetTracksByAlbumId(int albumId)
         {
             return _dbSet
                 .Include(t => t.Album)

@@ -11,18 +11,10 @@ namespace CloudApp.Core.Dtos
 {
     public class TrackInfoDto
     {
-        [JsonPropertyName("歌名")]
-        public string Title { get; set; } = string.Empty;
-        [JsonPropertyName("副歌名")]
-        public string? Subtitle { get; set; }
-        [JsonPropertyName("描述")]
+        public string Title { get; set; }
         public string? Description { get; set; }
-        [JsonPropertyName("所属专辑")]
-        public string Albumtitle { get; set; }
-        [JsonPropertyName("作曲")]
-        public string? Composer { get; set; }
-        [JsonPropertyName("作词")]
-        public string? Lyricist { get; set; }
+        public string Composer { get; set; }
+        public string Lyricist { get; set; }
 
         private TrackInfoDto()
         {
@@ -30,9 +22,10 @@ namespace CloudApp.Core.Dtos
 
         public TrackInfoDto(Track track)
         {
-            this.Title = track.Title;
-            this.Subtitle = track.Subtitle;
+            this.Title = track.Title + track.Subtitle;
             this.Description = track.Description;
+            this.Composer = track.Composer;
+            this.Lyricist = track.Lyricist;
         }
     }
 }

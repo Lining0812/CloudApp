@@ -15,7 +15,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 单曲标题
         /// </summary>
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
         /// <summary>
         /// 副标题
         /// </summary>

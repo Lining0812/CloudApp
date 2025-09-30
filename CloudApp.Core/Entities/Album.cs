@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 namespace CloudApp.Core.Entities
@@ -35,7 +33,7 @@ namespace CloudApp.Core.Entities
         public string CoverImageUrl { get; set; }
 
         /// <summary>
-        /// 导航属性 - 专辑中的曲目列表
+        /// 导航属性 - 专辑中的单曲列表
         /// </summary>
         public List<Track> Tracks { get; set; } = new List<Track>();
     }
