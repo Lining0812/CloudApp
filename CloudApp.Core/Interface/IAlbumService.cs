@@ -11,7 +11,7 @@ namespace CloudApp.Core.Interface
         /// 添加专辑
         /// </summary>
         /// <param name="album"></param>
-        void AddAlbum(CreateAlbumDto album);
+        int AddAlbum(CreateAlbumDto album);
         
         /// <summary>
         /// 获取所有专辑信息

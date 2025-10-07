@@ -4,6 +4,7 @@ namespace CloudApp.Core.Dtos
 {
     public class AlbumInfoDto
     {
+        public int id { get; set; }
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -20,6 +21,7 @@ namespace CloudApp.Core.Dtos
 
         public AlbumInfoDto(Album album)
         {
+            id = album.Id;
             Title = album.Title;
             Description = album.Description;
             Artist = album.Artist;

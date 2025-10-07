@@ -47,15 +47,15 @@ namespace CloudApp.Service.Services
         #endregion
 
         #region 操作方法
-        public void AddAlbum(CreateAlbumDto model)
+        public int AddAlbum(CreateAlbumDto model)
         {
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
             Album album = model.ToAlbum();
-
             this._albumRepository.Add(album);
+            return album.Id;
         }
         
         public void DeleteAlbum(int id)

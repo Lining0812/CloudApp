@@ -2,9 +2,6 @@ using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Interface;
 using CloudApp.Data.Repository;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CloudApp.Service.Services
 {

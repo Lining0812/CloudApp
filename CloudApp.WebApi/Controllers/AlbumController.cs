@@ -37,12 +37,12 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddAlbum(CreateAlbumDto albumDto)
+        public ActionResult<int> AddAlbum([FromForm]CreateAlbumDto albumDto)
         {
             if (ModelState.IsValid)
             {
-                _albumService.AddAlbum(albumDto);
-                return Ok("Successful AddAlbum");
+                int newid = _albumService.AddAlbum(albumDto);
+                return Ok(newid);
             }
             return BadRequest("Invalid data.");
         }
