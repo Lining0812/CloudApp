@@ -53,14 +53,7 @@ namespace CloudApp.Service.Services
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            Album album = new Album
-            {
-                Title = model.Title,
-                Description = model.Description,
-                Artist = model.Artist,
-                ReleaseDate = DateTime.UtcNow,
-                CoverImageUrl = model.CoverImageUrl
-            };
+            Album album = model.ToAlbum();
 
             this._albumRepository.Add(album);
         }
@@ -82,11 +75,7 @@ namespace CloudApp.Service.Services
             Album album = _albumRepository.GetById(id);
             if (album != null)
             {
-                album.Title = model.Title;
-                album.Description = model.Description;
-                album.Artist = model.Artist;
-                album.CoverImageUrl = model.CoverImageUrl;
-                _albumRepository.Update(album);
+                album = model.ToAlbum();
             }
         }
         #endregion

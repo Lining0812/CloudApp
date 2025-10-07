@@ -58,6 +58,7 @@ namespace CloudApp.Service.Services
                 Lyricist = track.Lyricist
             };
         }
+
         #endregion
 
         #region 操作方法
@@ -132,7 +133,7 @@ namespace CloudApp.Service.Services
             
             _trackrepository.Delete(id);
         }
-        #region
+        #endregion 
 
         // 异步方法（新增）
         //public async Task AddTrackAsync(CreateTrackDto model)

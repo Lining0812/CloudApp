@@ -5,7 +5,6 @@ using CloudApp.Data;
 using CloudApp.Data.Repository;
 using CloudApp.Service.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace CloudApp.WebApi
 {
@@ -60,6 +59,9 @@ namespace CloudApp.WebApi
             app.UseAuthorization();
 
             app.MapControllers();
+
+            // 启用静态文件访问（wwwroot为默认静态文件目录）
+            app.UseStaticFiles();
 
             app.Run();
         }

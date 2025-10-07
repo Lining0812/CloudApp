@@ -1,7 +1,5 @@
 using CloudApp.Core.Dtos;
-using CloudApp.Core.Entities;
 using CloudApp.Core.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApp.WebApi.Controllers
@@ -49,33 +47,33 @@ namespace CloudApp.WebApi.Controllers
             return BadRequest("Invalid data.");
         }
 
-        [HttpPost]
-        public ActionResult UpdateAlbum(int id, CreateAlbumDto albumDto)
-        {
-            if (ModelState.IsValid)
-            {
-                _albumService.UpdateAlbum(id, albumDto);
-                return Ok("Successful UpdateAlbum");
-            }
-            return BadRequest("Invalid data.");
-        }
+        //[HttpPost]
+        //public ActionResult UpdateAlbum(int id, CreateAlbumDto albumDto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _albumService.UpdateAlbum(id, albumDto);
+        //        return Ok("Successful UpdateAlbum");
+        //    }
+        //    return BadRequest("Invalid data.");
+        //}
 
-        [HttpDelete]
-        public ActionResult DeleteAlbum(int id)
-        {
-            try
-            {
-                _albumService.DeleteAlbum(id);
-                return Ok("Successful DeleteAlbum");
-            }
-            catch (ArgumentException ex) when (ex.Message == "专辑不存在")
-            {
-                return NotFound(ex.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpDelete]
+        //public ActionResult DeleteAlbum(int id)
+        //{
+        //    try
+        //    {
+        //        _albumService.DeleteAlbum(id);
+        //        return Ok("Successful DeleteAlbum");
+        //    }
+        //    catch (ArgumentException ex) when (ex.Message == "专辑不存在")
+        //    {
+        //        return NotFound(ex.Message);
+        //    }
+        //    catch (ArgumentException ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }
