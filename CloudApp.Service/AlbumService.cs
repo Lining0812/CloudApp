@@ -1,11 +1,8 @@
 using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
-using CloudApp.Core.Interface;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CloudApp.Core.Interfaces;
 
-namespace CloudApp.Service.Services
+namespace CloudApp.Service
 {
     public class AlbumService : IAlbumService
     {
@@ -23,7 +20,7 @@ namespace CloudApp.Service.Services
         /// <returns></returns>
         public ICollection<AlbumInfoDto> GetAllAlbums()
         {
-            var albums = this._albumRepository.GetAll();
+            var albums = _albumRepository.GetAll();
 
             return albums.Select(a => new AlbumInfoDto(a)).ToList();
         }
@@ -36,14 +33,13 @@ namespace CloudApp.Service.Services
         /// <exception cref="ArgumentException"></exception>
         public AlbumInfoDto GetAlbumById(int id)
         {
-            var album = this._albumRepository.GetById(id);
+            var album = _albumRepository.GetById(id);
             if (album == null)
             {
                 throw new ArgumentException(nameof(id), "专辑不存在");
             }
             return new AlbumInfoDto(album);
         }
-
         #endregion
 
         #region 操作方法
@@ -54,20 +50,20 @@ namespace CloudApp.Service.Services
                 throw new ArgumentNullException(nameof(model));
             }
             Album album = model.ToAlbum();
-            this._albumRepository.Add(album);
+            _albumRepository.Add(album);
             return album.Id;
         }
         
         public void DeleteAlbum(int id)
         {
             // 检查专辑是否存在
-            bool albumExists = this._albumRepository.Exists(id);
+            bool albumExists = _albumRepository.Exists(id);
             if (!albumExists)
             {
                 throw new ArgumentException(nameof(id), "专辑不存在");
             }
             
-            this._albumRepository.Delete(id);
+            _albumRepository.Delete(id);
         }
         
         public void UpdateAlbum(int id, CreateAlbumDto model)

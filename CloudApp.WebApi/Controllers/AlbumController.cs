@@ -1,5 +1,5 @@
 using CloudApp.Core.Dtos;
-using CloudApp.Core.Interface;
+using CloudApp.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApp.WebApi.Controllers
@@ -9,10 +9,12 @@ namespace CloudApp.WebApi.Controllers
     public class AlbumController : ControllerBase
     {
         private readonly IAlbumService _albumService;
+        private readonly IFileService _fileService;
 
-        public AlbumController(IAlbumService albumService)
+        public AlbumController(IAlbumService albumService, IFileService fileService)
         {
             _albumService = albumService;
+            _fileService = fileService;
         }
 
         [HttpGet]
@@ -35,7 +37,7 @@ namespace CloudApp.WebApi.Controllers
                 return NotFound(ex.Message);
             }
         }
-
+        
         [HttpPost]
         public ActionResult<int> AddAlbum([FromForm]CreateAlbumDto albumDto)
         {
@@ -46,6 +48,32 @@ namespace CloudApp.WebApi.Controllers
             }
             return BadRequest("Invalid data.");
         }
+
+        //[HttpPost]
+        //public ActionResult AddAlbum([FromForm] CreateAlbumDto albumDto, IFormFile coverImage)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // 如果提供了封面图片，使用FileService上传
+        //        if (coverImage != null && coverImage.Length > 0)
+        //        {
+        //            try
+        //            {
+        //                // 上传图片并获取URL
+        //                string imageUrl = _fileService.UploadFile(coverImage, "images/albums");
+        //                albumDto.CoverImageUrl = imageUrl;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                return BadRequest("图片上传失败: " + ex.Message);
+        //            }
+        //        }
+
+        //        _albumService.AddAlbum(albumDto);
+        //        return Ok("Successful AddAlbum");
+        //    }
+        //    return BadRequest("Invalid data.");
+        //}
 
         //[HttpPost]
         //public ActionResult UpdateAlbum(int id, CreateAlbumDto albumDto)

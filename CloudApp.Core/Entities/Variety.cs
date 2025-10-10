@@ -4,14 +4,11 @@ using System.ComponentModel.DataAnnotations;
 namespace CloudApp.Core.Entities
 {
     /// <summary>
-    /// 演唱会实体类
+    /// 综艺实体类
     /// </summary>
-    public class Concert
+    public class Variety
     {
         [Key]
         public int Id { get; set; }
-
-        public DateTime Time { get; set; }
-        public string Location { get; set; }
     }
 }

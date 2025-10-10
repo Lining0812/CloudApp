@@ -1,12 +1,7 @@
-using CloudApp.Core.Interface;
+using CloudApp.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 
-namespace CloudApp.Data.Repository
+namespace CloudApp.Data.Repositories
 {
     public class BaseRepository<T> : IRepository<T> where T : class
     {
@@ -25,11 +20,6 @@ namespace CloudApp.Data.Repository
             return _dbSet.ToList();
         }
 
-        //public virtual IEnumerable<T> GetByCondition(Expression<Func<T, bool>> predicate)
-        //{
-        //    return _dbSet.Where(predicate).ToList();
-        //}
-
         public virtual T GetById(int id)
         {
             return _dbSet.Find(id);
@@ -40,37 +30,10 @@ namespace CloudApp.Data.Repository
             return _dbSet.Find(id) != null;
         }
 
-        //public bool Exists(Expression<Func<T, bool>> predicate)
-        //{
-        //    return _dbSet.Any(predicate);
-        //}
-
         public int Count()
         {
             return _dbSet.Count();
         }
-
-        //public int Count(Expression<Func<T, bool>> predicate)
-        //{
-        //    return _dbSet.Count(predicate);
-        //}
-
-        //public virtual IEnumerable<T> GetPaged(int pageNumber, int pageSize)
-        //{
-        //    return _dbSet
-        //        .Skip((pageNumber - 1) * pageSize)
-        //        .Take(pageSize)
-        //        .ToList();
-        //}
-
-        //public virtual IEnumerable<T> GetPagedByCondition(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)
-        //{
-        //    return _dbSet
-        //        .Where(predicate)
-        //        .Skip((pageNumber - 1) * pageSize)
-        //        .Take(pageSize)
-        //        .ToList();
-        //}
         #endregion
 
         #region 同步操作方法
@@ -103,8 +66,7 @@ namespace CloudApp.Data.Repository
             var entity = _dbSet.Find(id);
             if (entity != null)
             {
-                _dbSet.Remove(entity);
-                _context.SaveChanges();
+                Delete(entity);
             }
         }
 

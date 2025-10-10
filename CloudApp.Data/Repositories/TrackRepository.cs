@@ -1,5 +1,5 @@
 using CloudApp.Core.Entities;
-using CloudApp.Core.Interface;
+using CloudApp.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,9 +7,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CloudApp.Data.Repository
+namespace CloudApp.Data.Repositories
 {
-    public class TrackRepository : BaseRepository<Track>, IRepository<Track>
+    public class TrackRepository : BaseRepository<Track>
     {
         public TrackRepository(MyDBContext dbContext) : base(dbContext)
         {

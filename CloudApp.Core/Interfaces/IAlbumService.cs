@@ -1,0 +1,40 @@
+using CloudApp.Core.Dtos;
+
+namespace CloudApp.Core.Interfaces
+{
+    public interface IAlbumService
+    {
+        /// <summary>
+        /// 创建专辑并返回新专辑ID
+        /// </summary>
+        /// <param name="album"></param>
+        /// <returns></returns>
+        int AddAlbum(CreateAlbumDto album);
+
+        /// <summary>
+        /// 获取所有专辑信息
+        /// </summary>
+        /// <returns></returns>
+        ICollection<AlbumInfoDto> GetAllAlbums();
+
+        /// <summary>
+        /// 根据Id获取专辑信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        AlbumInfoDto GetAlbumById(int id);
+
+        /// <summary>
+        /// 根据ID更新专辑信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="album"></param>
+        void UpdateAlbum(int id, CreateAlbumDto album);
+
+        /// <summary>
+        /// 根据ID删除专辑
+        /// </summary>
+        /// <param name="id"></param>
+        void DeleteAlbum(int id);
+    }
+}

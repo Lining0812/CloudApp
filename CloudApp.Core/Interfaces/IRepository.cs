@@ -1,6 +1,4 @@
-
-
-namespace CloudApp.Core.Interface
+namespace CloudApp.Core.Interfaces
 {
     public interface IRepository<T>
     {

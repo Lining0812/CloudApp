@@ -1,15 +1,9 @@
 using CloudApp.Core.Entities;
-using CloudApp.Core.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 
-namespace CloudApp.Data.Repository
+namespace CloudApp.Data.Repositories
 {
-    public class AlbumRepository : BaseRepository<Album>, IRepository<Album>
+    public class AlbumRepository : BaseRepository<Album>
     {
         public AlbumRepository(MyDBContext dbContext) : base(dbContext)
         {

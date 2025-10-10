@@ -1,9 +1,8 @@
-
 using CloudApp.Core.Entities;
-using CloudApp.Core.Interface;
+using CloudApp.Core.Interfaces;
 using CloudApp.Data;
-using CloudApp.Data.Repository;
-using CloudApp.Service.Services;
+using CloudApp.Data.Repositories;
+using CloudApp.Service;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.WebApi
@@ -26,11 +25,13 @@ namespace CloudApp.WebApi
 
 
             builder.Services.AddScoped(typeof(IRepository<>),typeof(BaseRepository<>));
-            builder.Services.AddScoped<IRepository<Track>,TrackRepository>();
+            builder.Services.AddScoped<IRepository<Track>, TrackRepository>();
             builder.Services.AddScoped<IRepository<Album>, AlbumRepository>();
 
             builder.Services.AddScoped<IAlbumService, AlbumService>();
             builder.Services.AddScoped<ITrackService, TrackService>();
+            builder.Services.AddScoped<IFileService>(provider => 
+                new FileService(builder.Environment.WebRootPath));
 
             builder.Services.AddCors(opt =>
             {
@@ -60,7 +61,6 @@ namespace CloudApp.WebApi
 
             app.MapControllers();
 
-            // 启用静态文件访问（wwwroot为默认静态文件目录）
             app.UseStaticFiles();
 
             app.Run();
