@@ -9,16 +9,16 @@ namespace CloudApp.Service.Services
     {
         private readonly IRepository<Track> _trackrepository;
         private readonly IRepository<Album> _albumrepository;
-        
+
         public TrackService(IRepository<Album> albumrepository, IRepository<Track> trackrepository)
         {
             _albumrepository = albumrepository;
             _trackrepository = trackrepository;
         }
 
-        #region æŸ¥è¯¢æ–¹æ³•
+        #region ²éÑ¯·½·¨
         /// <summary>
-        /// è·å–æ‰€æœ‰ä¸“è¾‘
+        /// »ñÈ¡ËùÓĞ×¨¼­
         /// </summary>
         /// <returns></returns>
         public ICollection<TrackInfoDto> GetAllTracks()
@@ -34,7 +34,7 @@ namespace CloudApp.Service.Services
         }
 
         /// <summary>
-        /// æ ¹æ®idè·å–ä¸“è¾‘ä¿¡æ¯
+        /// ¸ù¾İid»ñÈ¡×¨¼­ĞÅÏ¢
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -44,7 +44,7 @@ namespace CloudApp.Service.Services
             var track = _trackrepository.GetById(id);
             if (track == null)
             {
-                throw new ArgumentException("æ›²ç›®ä¸å­˜åœ¨");
+                throw new ArgumentException("ÇúÄ¿²»´æÔÚ");
             }
 
             return new TrackInfoDto(track)
@@ -58,18 +58,18 @@ namespace CloudApp.Service.Services
 
         #endregion
 
-        #region æ“ä½œæ–¹æ³•
+        #region ²Ù×÷·½·¨
         public void AddTrack(CreateTrackDto model)
         {
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            
+
             Album album = _albumrepository.GetById(model.AlbumId);
             if (album == null)
             {
-                throw new ArgumentException("æ— æ•ˆçš„ä¸“è¾‘ID");
+                throw new ArgumentException("ÎŞĞ§µÄ×¨¼­ID");
             }
 
             var track = new Track
@@ -95,19 +95,19 @@ namespace CloudApp.Service.Services
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            
+
             var track = _trackrepository.GetById(id);
             if (track == null)
             {
-                throw new ArgumentException("æ›²ç›®ä¸å­˜åœ¨");
+                throw new ArgumentException("ÇúÄ¿²»´æÔÚ");
             }
-            
+
             Album album = _albumrepository.GetById(model.AlbumId);
             if (album == null)
             {
-                throw new ArgumentException("æ— æ•ˆçš„ä¸“è¾‘ID");
+                throw new ArgumentException("ÎŞĞ§µÄ×¨¼­ID");
             }
-            
+
             track.Title = model.Title;
             track.Subtitle = model.Subtitle;
             track.Description = model.Description;
@@ -117,7 +117,7 @@ namespace CloudApp.Service.Services
             track.Lyricist = model.Lyricist;
             track.Album = album;
             track.AlbumId = model.AlbumId;
-            
+
             _trackrepository.Update(track);
         }
 
@@ -125,14 +125,14 @@ namespace CloudApp.Service.Services
         {
             if (!_trackrepository.Exists(id))
             {
-                throw new ArgumentException("æ›²ç›®ä¸å­˜åœ¨");
+                throw new ArgumentException("ÇúÄ¿²»´æÔÚ");
             }
-            
+
             _trackrepository.Delete(id);
         }
         #endregion 
 
-        // å¼‚æ­¥æ–¹æ³•ï¼ˆæ–°å¢ï¼‰
+        // Òì²½·½·¨£¨ĞÂÔö£©
         //public async Task AddTrackAsync(CreateTrackDto model)
         //{
         //    if (model == null)
@@ -143,7 +143,7 @@ namespace CloudApp.Service.Services
         //    Album album = await _albumrepository.GetByIdAsync(model.AlbumId);
         //    if (album == null)
         //    {
-        //        throw new ArgumentException("æ— æ•ˆçš„ä¸“è¾‘ID");
+        //        throw new ArgumentException("ÎŞĞ§µÄ×¨¼­ID");
         //    }
 
         //    var track = new Track
@@ -182,7 +182,7 @@ namespace CloudApp.Service.Services
         //    var track = await _trackrepository.GetByIdAsync(id);
         //    if (track == null)
         //    {
-        //        throw new ArgumentException("æ›²ç›®ä¸å­˜åœ¨");
+        //        throw new ArgumentException("ÇúÄ¿²»´æÔÚ");
         //    }
 
         //    return new TrackInfoDto(track)
@@ -206,13 +206,13 @@ namespace CloudApp.Service.Services
         //    var track = await _trackrepository.GetByIdAsync(id);
         //    if (track == null)
         //    {
-        //        throw new ArgumentException("æ›²ç›®ä¸å­˜åœ¨");
+        //        throw new ArgumentException("ÇúÄ¿²»´æÔÚ");
         //    }
 
         //    Album album = await _albumrepository.GetByIdAsync(model.AlbumId);
         //    if (album == null)
         //    {
-        //        throw new ArgumentException("æ— æ•ˆçš„ä¸“è¾‘ID");
+        //        throw new ArgumentException("ÎŞĞ§µÄ×¨¼­ID");
         //    }
 
         //    track.Title = model.Title;
@@ -232,13 +232,13 @@ namespace CloudApp.Service.Services
         //{
         //    if (!await _trackrepository.ExistsAsync(id))
         //    {
-        //        throw new ArgumentException("æ›²ç›®ä¸å­˜åœ¨");
+        //        throw new ArgumentException("ÇúÄ¿²»´æÔÚ");
         //    }
 
         //    await _trackrepository.DeleteAsync(id);
         //}
 
-        #region æ‰©å±•åŠŸèƒ½
+        #region À©Õ¹¹¦ÄÜ
         public ICollection<TrackInfoDto> GetTracksByAlbumId(int albumId)
         {
             if (_trackrepository is TrackRepository trackRepo)
@@ -254,7 +254,7 @@ namespace CloudApp.Service.Services
                     .ToList();
             }
             return new List<TrackInfoDto>();
-            // é™çº§å¤„ç†
+            // ½µ¼¶´¦Àí
             //var tracks = _trackrepository.GetByCondition(t => t.AlbumId == albumId);
             //return tracks.Select(t => new TrackInfoDto(t)
             //{
@@ -283,7 +283,7 @@ namespace CloudApp.Service.Services
         //        })
         //        .ToList();
         //    }
-        //    // é™çº§å¤„ç†
+        //    // ½µ¼¶´¦Àí
         //    var tracks = await _trackrepository.GetByConditionAsync(t => t.AlbumId == albumId);
         //    return tracks.Select(t => new TrackInfoDto(t)
         //    {
