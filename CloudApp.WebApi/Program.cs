@@ -31,6 +31,8 @@ namespace CloudApp.WebApi
 
             builder.Services.AddScoped<IAlbumService, AlbumService>();
             builder.Services.AddScoped<ITrackService, TrackService>();
+            builder.Services.AddScoped<IFileService>(provider => 
+                new FileService(builder.Environment.WebRootPath));
 
             builder.Services.AddCors(opt =>
             {
@@ -60,7 +62,7 @@ namespace CloudApp.WebApi
 
             app.MapControllers();
 
-            // ÆôÓÃ¾²Ì¬ÎÄ¼þ·ÃÎÊ£¨wwwrootÎªÄ¬ÈÏ¾²Ì¬ÎÄ¼þÄ¿Â¼£©
+            // ï¿½ï¿½ï¿½Ã¾ï¿½Ì¬ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ê£ï¿½wwwrootÎªÄ¬ï¿½Ï¾ï¿½Ì¬ï¿½Ä¼ï¿½Ä¿Â¼ï¿½ï¿½
             app.UseStaticFiles();
 
             app.Run();

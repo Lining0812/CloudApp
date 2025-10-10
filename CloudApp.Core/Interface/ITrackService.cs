@@ -6,90 +6,90 @@ namespace CloudApp.Core.Interface
 {
     public interface ITrackService
     {
-        #region åŒæ­¥æ–¹æ³•
+        #region Í¬²½·½·¨
         void AddTrack(CreateTrackDto model);
         ICollection<TrackInfoDto> GetAllTracks();
-        
+
         /// <summary>
-        /// æ ¹æ®IDè·å–è½¨é“ä¿¡æ¯
+        /// ¸ù¾İID»ñÈ¡¹ìµÀĞÅÏ¢
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         TrackInfoDto GetTrackById(int id);
-        
+
         /// <summary>
-        /// æ›´æ–°è½¨é“ä¿¡æ¯
+        /// ¸üĞÂ¹ìµÀĞÅÏ¢
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
         void UpdateTrack(int id, CreateTrackDto model);
-        
+
         /// <summary>
-        /// åˆ é™¤è½¨é“
+        /// É¾³ı¹ìµÀ
         /// </summary>
         /// <param name="id"></param>
         void DeleteTrack(int id);
         #endregion
 
-        #region å¼‚æ­¥æ–¹æ³•ï¼ˆæ–°å¢ï¼‰
+        #region Òì²½·½·¨£¨ĞÂÔö£©
         /// <summary>
-        /// å¼‚æ­¥æ·»åŠ è½¨é“
+        /// Òì²½Ìí¼Ó¹ìµÀ
         /// </summary>
         /// <param name="model"></param>
         //Task AddTrackAsync(CreateTrackDto model);
-        
+
         /// <summary>
-        /// å¼‚æ­¥è·å–æ‰€æœ‰è½¨é“
+        /// Òì²½»ñÈ¡ËùÓĞ¹ìµÀ
         /// </summary>
         /// <returns></returns>
         //Task<ICollection<TrackInfoDto>> GetAllTracksAsync();
-        
+
         /// <summary>
-        /// å¼‚æ­¥æ ¹æ®IDè·å–è½¨é“ä¿¡æ¯
+        /// Òì²½¸ù¾İID»ñÈ¡¹ìµÀĞÅÏ¢
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         //Task<TrackInfoDto> GetTrackByIdAsync(int id);
-        
+
         /// <summary>
-        /// å¼‚æ­¥æ›´æ–°è½¨é“ä¿¡æ¯
+        /// Òì²½¸üĞÂ¹ìµÀĞÅÏ¢
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
         //Task UpdateTrackAsync(int id, CreateTrackDto model);
-        
+
         /// <summary>
-        /// å¼‚æ­¥åˆ é™¤è½¨é“
+        /// Òì²½É¾³ı¹ìµÀ
         /// </summary>
         /// <param name="id"></param>
         //Task DeleteTrackAsync(int id);
         #endregion
 
-        #region æ‰©å±•åŠŸèƒ½ï¼ˆæ–°å¢ï¼‰
+        #region À©Õ¹¹¦ÄÜ£¨ĞÂÔö£©
         /// <summary>
-        /// æ ¹æ®ä¸“è¾‘IDè·å–å•æ›²
+        /// ¸ù¾İ×¨¼­ID»ñÈ¡µ¥Çú
         /// </summary>
         /// <param name="albumId"></param>
         /// <returns></returns>
         ICollection<TrackInfoDto> GetTracksByAlbumId(int albumId);
-        
+
         /// <summary>
-        /// å¼‚æ­¥æ ¹æ®ä¸“è¾‘IDè·å–è½¨é“
+        /// Òì²½¸ù¾İ×¨¼­ID»ñÈ¡¹ìµÀ
         /// </summary>
         /// <param name="albumId"></param>
         /// <returns></returns>
         //Task<ICollection<TrackInfoDto>> GetTracksByAlbumIdAsync(int albumId);
-        
+
         /// <summary>
-        /// åˆ†é¡µè·å–è½¨é“
+        /// ·ÖÒ³»ñÈ¡¹ìµÀ
         /// </summary>
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
         //ICollection<TrackInfoDto> GetTracksWithPagination(int pageNumber, int pageSize);
-        
+
         /// <summary>
-        /// å¼‚æ­¥åˆ†é¡µè·å–è½¨é“
+        /// Òì²½·ÖÒ³»ñÈ¡¹ìµÀ
         /// </summary>
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
