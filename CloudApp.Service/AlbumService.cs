@@ -14,10 +14,6 @@ namespace CloudApp.Service
         }
 
         #region 查询方法
-        /// <summary>
-        /// 获取所有专辑
-        /// </summary>
-        /// <returns></returns>
         public ICollection<AlbumInfoDto> GetAllAlbums()
         {
             var albums = _albumRepository.GetAll();
@@ -25,12 +21,6 @@ namespace CloudApp.Service
             return albums.Select(a => new AlbumInfoDto(a)).ToList();
         }
 
-        /// <summary>
-        /// 根据id获取专辑信息
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public AlbumInfoDto GetAlbumById(int id)
         {
             var album = _albumRepository.GetById(id);
@@ -42,7 +32,7 @@ namespace CloudApp.Service
         }
         #endregion
 
-        #region 操作方法
+        #region 同步操作方法
         public int AddAlbum(CreateAlbumDto model)
         {
             if (model == null)
@@ -56,7 +46,6 @@ namespace CloudApp.Service
         
         public void DeleteAlbum(int id)
         {
-            // 检查专辑是否存在
             bool albumExists = _albumRepository.Exists(id);
             if (!albumExists)
             {
@@ -76,7 +65,7 @@ namespace CloudApp.Service
         }
         #endregion
 
-        // 异步方法（新增）
+        // 异步操作方法
         //public async Task AddAlbumAsync(CreateAlbumDto model)
         //{
         //    if (model == null)

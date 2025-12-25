@@ -1,17 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace CloudApp.Core.Entities
+﻿namespace CloudApp.Core.Entities
 {
     /// <summary>
-    /// 演唱会实体类
+    /// 演出实体类
     /// </summary>
-    public class Concert
+    public class Concert : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
-        public DateTime Time { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime StartAt { get; set; }
+        public DateTime EndAt { get; set; }
         public string Location { get; set; }
+
+        public string CoverImageUrl { get; set; }
     }
 }

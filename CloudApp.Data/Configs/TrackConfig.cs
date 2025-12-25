@@ -1,11 +1,6 @@
 ﻿using CloudApp.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudApp.Data.Configs
 {
@@ -33,14 +28,14 @@ namespace CloudApp.Data.Configs
             builder.Property(t => t.Lyricist).IsRequired().HasMaxLength(100);
             // 发行日期配置
             builder.Property(t => t.ReleaseDate).IsRequired().HasConversion(
-                v => v, // 保存到数据库时的转换
-                v => DateTime.SpecifyKind(v, DateTimeKind.Utc) // 从数据库读取时的转换
+                v => v,
+                v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
 
             // Title字段创建索引
             builder.HasIndex(t => t.Title);
 
-            // Teack与Album的一对多关系配置
+            // Track与Album的一对多关系配置
             builder.HasOne(t => t.Album)
                 .WithMany(t => t.Tracks)
                 .HasForeignKey(t => t.AlbumId)

@@ -30,7 +30,6 @@ namespace CloudApp.Core.Entities
         /// 封面图片URL
         /// </summary>
         public string CoverImageUrl { get; set; }
-
         /// <summary>
         /// 导航属性 - 专辑中的单曲列表
         /// </summary>

@@ -44,10 +44,13 @@ namespace CloudApp.Core.Entities
         public string Lyricist { get; set; }
 
         /// <summary>
-        /// 外键字段 - 所属专辑
+        /// 导航属性，所属专辑
         /// </summary>
         public Album? Album { get; set; }
 
+        /// <summary>
+        /// 外键字段，所属专辑Id
+        /// </summary>
         public int? AlbumId { get; set; }
     }
 }

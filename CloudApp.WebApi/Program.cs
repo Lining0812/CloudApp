@@ -30,8 +30,6 @@ namespace CloudApp.WebApi
 
             builder.Services.AddScoped<IAlbumService, AlbumService>();
             builder.Services.AddScoped<ITrackService, TrackService>();
-            builder.Services.AddScoped<IFileService>(provider => 
-                new FileService(builder.Environment.WebRootPath));
 
             builder.Services.AddCors(opt =>
             {

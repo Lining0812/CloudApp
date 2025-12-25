@@ -17,10 +17,6 @@ namespace CloudApp.Service
         }
 
         #region 查询方法
-        /// <summary>
-        /// 获取所有专辑
-        /// </summary>
-        /// <returns></returns>
         public ICollection<TrackInfoDto> GetAllTracks()
         {
             var tracks = _trackrepository.GetAll();
@@ -32,13 +28,6 @@ namespace CloudApp.Service
                 Lyricist = t.Lyricist
             }).ToList();
         }
-
-        /// <summary>
-        /// 根据id获取专辑信息
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public TrackInfoDto GetTrackById(int id)
         {
             var track = _trackrepository.GetById(id);

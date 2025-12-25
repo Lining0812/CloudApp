@@ -33,7 +33,6 @@ namespace CloudApp.Core.Dtos
 
         [MaxLength(500, ErrorMessage = "URL不能超过500个字符")]
         public string URL { get; set; }
-
         public int AlbumId { get; set; }
     }
 }
