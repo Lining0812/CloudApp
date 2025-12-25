@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos
 {
@@ -33,7 +28,6 @@ namespace CloudApp.Core.Dtos
 
         [MaxLength(500, ErrorMessage = "URL不能超过500个字符")]
         public string URL { get; set; }
-
         public int AlbumId { get; set; }
     }
 }

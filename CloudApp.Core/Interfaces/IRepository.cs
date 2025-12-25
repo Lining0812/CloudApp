@@ -1,6 +1,8 @@
+using CloudApp.Core.Entities;
+
 namespace CloudApp.Core.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : BaseEntity
     {
         #region 查询方法
 

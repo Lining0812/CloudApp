@@ -1,9 +1,10 @@
+using CloudApp.Core.Entities;
 using CloudApp.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.Data.Repositories
 {
-    public class BaseRepository<T> : IRepository<T> where T : class
+    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly DbContext _context;
         protected readonly DbSet<T> _dbSet;

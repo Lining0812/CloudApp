@@ -1,4 +1,3 @@
-using CloudApp.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos
@@ -21,17 +20,5 @@ namespace CloudApp.Core.Dtos
 
         [MaxLength(500, ErrorMessage = "封面图片URL不能超过500个字符")]
         public string CoverImageUrl { get; set; }
-
-        public Album ToAlbum()
-        {
-            return new Album
-            {
-                Title = this.Title,
-                Description = this.Description,
-                Artist = this.Artist,
-                ReleaseDate = this.ReleaseDate,
-                CoverImageUrl = this.CoverImageUrl
-            };
-        }
     }
 }

@@ -1,15 +1,11 @@
-using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Entities
 {
     /// <summary>
     /// 专辑实体类
     /// </summary>
-    public class Album
+    public class Album : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-
         /// <summary>
         /// 专辑名称
         /// </summary>
@@ -17,7 +13,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 专辑描述
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// 艺术家
         /// </summary>
@@ -30,7 +26,6 @@ namespace CloudApp.Core.Entities
         /// 封面图片URL
         /// </summary>
         public string CoverImageUrl { get; set; }
-
         /// <summary>
         /// 导航属性 - 专辑中的单曲列表
         /// </summary>

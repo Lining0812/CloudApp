@@ -6,10 +6,8 @@ namespace CloudApp.Core.Entities
     /// <summary>
     /// 单曲实体类
     /// </summary>
-    public class Track
+    public class Track : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
         /// <summary>
         /// 单曲标题
         /// </summary>
@@ -44,10 +42,13 @@ namespace CloudApp.Core.Entities
         public string Lyricist { get; set; }
 
         /// <summary>
-        /// 外键字段 - 所属专辑
+        /// 导航属性，所属专辑
         /// </summary>
         public Album? Album { get; set; }
 
+        /// <summary>
+        /// 外键字段，所属专辑Id
+        /// </summary>
         public int? AlbumId { get; set; }
     }
 }

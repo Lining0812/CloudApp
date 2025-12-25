@@ -9,12 +9,10 @@ namespace CloudApp.WebApi.Controllers
     public class AlbumController : ControllerBase
     {
         private readonly IAlbumService _albumService;
-        private readonly IFileService _fileService;
 
-        public AlbumController(IAlbumService albumService, IFileService fileService)
+        public AlbumController(IAlbumService albumService)
         {
             _albumService = albumService;
-            _fileService = fileService;
         }
 
         [HttpGet]
@@ -86,22 +84,22 @@ namespace CloudApp.WebApi.Controllers
         //    return BadRequest("Invalid data.");
         //}
 
-        //[HttpDelete]
-        //public ActionResult DeleteAlbum(int id)
-        //{
-        //    try
-        //    {
-        //        _albumService.DeleteAlbum(id);
-        //        return Ok("Successful DeleteAlbum");
-        //    }
-        //    catch (ArgumentException ex) when (ex.Message == "专辑不存在")
-        //    {
-        //        return NotFound(ex.Message);
-        //    }
-        //    catch (ArgumentException ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+        [HttpDelete]
+        public ActionResult DeleteAlbum(int id)
+        {
+            try
+            {
+                _albumService.DeleteAlbum(id);
+                return Ok("Successful DeleteAlbum");
+            }
+            catch (ArgumentException ex) when (ex.Message == "专辑不存在")
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
