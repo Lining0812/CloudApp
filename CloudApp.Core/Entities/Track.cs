@@ -21,6 +21,10 @@ namespace CloudApp.Core.Entities
         /// </summary>
         public string Description { get; set; }
         /// <summary>
+        /// 时长
+        /// </summary>
+        public TimeSpan Duraction { get; set; }
+        /// <summary>
         /// 发行日期
         /// </summary>
         public DateTime ReleaseDate { get; set; }

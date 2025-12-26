@@ -31,11 +31,5 @@ namespace CloudApp.WebApi.Controllers
             var tracks = _trackService.GetAllTracks();
             return Ok(tracks);
         }
-        [HttpGet("{albumId}")]
-        public ActionResult<ICollection<TrackInfoDto>> GetTracksByAlbumId(int albumId)
-        {
-            var tracks = _trackService.GetTracksByAlbumId(albumId);
-            return Ok(tracks);
-        }
     }
 }

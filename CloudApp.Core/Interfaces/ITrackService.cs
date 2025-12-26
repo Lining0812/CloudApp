@@ -70,13 +70,6 @@ namespace CloudApp.Core.Interfaces
 
         #region ��չ���ܣ�������
         /// <summary>
-        /// ����ר��ID��ȡ����
-        /// </summary>
-        /// <param name="albumId"></param>
-        /// <returns></returns>
-        ICollection<TrackInfoDto> GetTracksByAlbumId(int albumId);
-
-        /// <summary>
         /// �첽����ר��ID��ȡ���
         /// </summary>
         /// <param name="albumId"></param>

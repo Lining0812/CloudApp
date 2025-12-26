@@ -5,11 +5,11 @@ namespace CloudApp.Core.Interfaces
     public interface IAlbumService
     {
         /// <summary>
-        /// 创建专辑并返回新专辑Id
+        /// 创建专辑
         /// </summary>
         /// <param name="album"></param>
         /// <returns></returns>
-        int AddAlbum(CreateAlbumDto album);
+        void AddAlbum(CreateAlbumDto album);
 
         /// <summary>
         /// 获取所有专辑信息

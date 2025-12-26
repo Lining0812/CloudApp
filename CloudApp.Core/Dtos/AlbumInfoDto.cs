@@ -1,6 +1,4 @@
-﻿using CloudApp.Core.Entities;
-
-namespace CloudApp.Core.Dtos
+﻿namespace CloudApp.Core.Dtos
 {
     public class AlbumInfoDto
     {
@@ -14,19 +12,5 @@ namespace CloudApp.Core.Dtos
         public DateTime ReleaseDate { get; set; }
 
         public List<string> Tracks { get; set; }
-
-        private AlbumInfoDto()
-        {
-        }
-
-        public AlbumInfoDto(Album album)
-        {
-            Id = album.Id;
-            Title = album.Title;
-            Description = album.Description;
-            Artist = album.Artist;
-            ReleaseDate = album.ReleaseDate;
-            Tracks = album.Tracks.Select(t => t.Title).ToList();
-        }
     }
 }

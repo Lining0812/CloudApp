@@ -25,5 +25,22 @@ namespace CloudApp.Core.Extensions
                 IsDeleted = false,
             };
         }
+
+        public static AlbumInfoDto ToInfoDto(this Album album)
+        {
+            if (album == null)
+            {
+                throw new ArgumentNullException(nameof(album));
+            }
+            return new AlbumInfoDto()
+            {
+                Id = album.Id,
+                Title = album.Title,
+                Description = album.Description,
+                Artist = album.Artist,
+                ReleaseDate = album.ReleaseDate,
+                Tracks = album.Tracks.Select(t => t.Title).ToList(),
+            };
+        }
     }
 }

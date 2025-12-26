@@ -19,7 +19,7 @@ namespace CloudApp.Service
         {
             var albums = _albumRepository.GetAll();
 
-            return albums.Select(a => new AlbumInfoDto(a)).ToList();
+            return albums.Select(a => a.ToInfoDto()).ToList();
         }
 
         public AlbumInfoDto GetAlbumById(int id)
@@ -29,12 +29,12 @@ namespace CloudApp.Service
             {
                 throw new ArgumentException(nameof(id), "专辑不存在");
             }
-            return new AlbumInfoDto(album);
+            return album.ToInfoDto();
         }
         #endregion
 
         #region 同步操作方法
-        public int AddAlbum(CreateAlbumDto model)
+        public void AddAlbum(CreateAlbumDto model)
         {
             if (model == null)
             {
@@ -42,7 +42,6 @@ namespace CloudApp.Service
             }
             Album album = model.ToEntity();
             _albumRepository.Add(album);
-            return album.Id;
         }
         
         public void DeleteAlbum(int id)
