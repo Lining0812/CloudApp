@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 
 namespace CloudApp.Core.Extensions
@@ -17,7 +17,9 @@ namespace CloudApp.Core.Extensions
                 Title = dto.Title,
                 Subtitle = dto.Subtitle,
                 Description = dto.Description,
-                //ReleaseDate = dto.ReleaseDate,
+                Duration = dto.Duration,
+                ReleaseDate = dto.ReleaseDate,
+                CoverImageUrl = dto.CoverImageUrl,
                 Artist = dto.Artist,
                 Composer = dto.Composer,
                 Lyricist = dto.Lyricist,
@@ -35,6 +37,7 @@ namespace CloudApp.Core.Extensions
             {
                 Title = track.Title + track.Subtitle,
                 Description = track.Description,
+                Duration = track.Duration,
                 Composer = track.Composer,
                 Lyricist = track.Lyricist,
             };

@@ -1,6 +1,3 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
 namespace CloudApp.Core.Entities
 {
     /// <summary>
@@ -19,11 +16,11 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 单曲描述
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// 时长
         /// </summary>
-        public TimeSpan Duraction { get; set; }
+        public TimeSpan Duration { get; set; }
         /// <summary>
         /// 发行日期
         /// </summary>
@@ -32,6 +29,10 @@ namespace CloudApp.Core.Entities
         /// 单曲链接URL
         /// </summary>
         public string URL { get; set; }
+        /// <summary>
+        /// 封面图片URL
+        /// </summary>
+        public string CoverImageUrl { get; set; }
         /// <summary>
         /// 原唱
         /// </summary>

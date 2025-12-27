@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Entities;
+using CloudApp.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,6 +18,11 @@ namespace CloudApp.Data.Configs
             builder.Property(t => t.Subtitle).IsRequired(false).HasMaxLength(200);
             // 描述配置
             builder.Property(t => t.Description).IsRequired(false).HasMaxLength(1000);
+            // 时长配置
+            builder.Property(t => t.Duration).IsRequired().HasConversion(
+                v => (int)v.TotalSeconds,
+                v => TimeSpan.FromSeconds(v)
+            );
             // URL配置
             builder.Property(t => t.URL).IsRequired(false).HasMaxLength(500);
             // 原唱配置
@@ -31,7 +36,6 @@ namespace CloudApp.Data.Configs
                 v => v,
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
-
             // Title字段创建索引
             builder.HasIndex(t => t.Title);
 

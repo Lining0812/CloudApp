@@ -10,9 +10,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\Repositories\" />
-    <Folder Include="Interfaces\Services\" />
-  </ItemGroup>
-
 </Project>

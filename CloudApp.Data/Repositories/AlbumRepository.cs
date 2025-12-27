@@ -9,7 +9,7 @@ namespace CloudApp.Data.Repositories
         {
         }
 
-        #region 重写基础仓储实现
+        #region 同步方法
         public override IEnumerable<Album> GetAll()
         {
             return _dbSet.Include(a => a.Tracks).ToList();
@@ -17,9 +17,12 @@ namespace CloudApp.Data.Repositories
 
         public override Album GetById(int id)
         {
-            return _dbSet.Include(a => a.Tracks).FirstOrDefault(a => a.Id == id && !a.IsDeleted);
+            return _dbSet.Include(a => a.Tracks)
+                         .FirstOrDefault(a => a.Id == id && !a.IsDeleted);
         }
+        #endregion
 
+        #region 异步方法
         //public override async Task<IEnumerable<Album>> GetAllAsync()
         //{
         //    return await _dbSet.Include(a => a.Tracks).ToListAsync();

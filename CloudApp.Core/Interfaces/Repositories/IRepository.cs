@@ -1,6 +1,6 @@
 using CloudApp.Core.Entities;
 
-namespace CloudApp.Core.Interfaces
+namespace CloudApp.Core.Interfaces.Repositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
@@ -17,11 +17,12 @@ namespace CloudApp.Core.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         public T GetById(int id);
-
+        /// <summary>
+        /// 判断实体是否存在
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool Exists(int id);
-        #endregion
-
-        #region 同步操作方法
         /// <summary>
         /// 添加实体
         /// </summary>
@@ -57,6 +58,10 @@ namespace CloudApp.Core.Interfaces
         /// </summary>
         /// <param name="entities"></param>
         public void DeleteRange(IEnumerable<T> entities);
+        /// <summary>
+        /// 统一保存修改
+        /// </summary>
+        public int SaveChange();
         #endregion
     }
 }

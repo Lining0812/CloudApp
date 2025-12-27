@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudApp.Data.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20251226085034_init")]
+    [Migration("20251227081931_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -94,6 +94,10 @@ namespace CloudApp.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("CoverImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -103,6 +107,9 @@ namespace CloudApp.Data.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

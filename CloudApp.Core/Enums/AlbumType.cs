@@ -2,7 +2,9 @@
 {
     public enum AlbumType
     {
-        EP,
-        Single
+        Studio = 1,
+        EP = 2,
+        Single = 3,
+        OST = 4,
     }
 }

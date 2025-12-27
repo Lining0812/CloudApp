@@ -15,6 +15,17 @@ namespace CloudApp.WebApi.Controllers
             _albumService = albumService;
         }
 
+        [HttpPost]
+        public ActionResult AddAlbum([FromForm] CreateAlbumDto albumDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _albumService.AddAlbum(albumDto);
+                return Ok("成功新增专辑");
+            }
+            return BadRequest($"存在非法数据，添加失败");
+        }
+
         [HttpGet]
         public ActionResult<ICollection<AlbumInfoDto>> GetAllAlbums()
         {
@@ -30,59 +41,11 @@ namespace CloudApp.WebApi.Controllers
                 var album = _albumService.GetAlbumById(id);
                 return Ok(album);
             }
-            catch (ArgumentException ex) when (ex.Message == "专辑不存在")
+            catch (ArgumentException ex) when (ex.Message == "查询的专辑不存在")
             {
                 return NotFound(ex.Message);
             }
         }
-        
-        [HttpPost]
-        public ActionResult<int> AddAlbum([FromForm]CreateAlbumDto albumDto)
-        {
-            if (ModelState.IsValid)
-            {
-                int newid = _albumService.AddAlbum(albumDto);
-                return Ok(newid);
-            }
-            return BadRequest("Invalid data.");
-        }
-
-        //[HttpPost]
-        //public ActionResult AddAlbum([FromForm] CreateAlbumDto albumDto, IFormFile coverImage)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // 如果提供了封面图片，使用FileService上传
-        //        if (coverImage != null && coverImage.Length > 0)
-        //        {
-        //            try
-        //            {
-        //                // 上传图片并获取URL
-        //                string imageUrl = _fileService.UploadFile(coverImage, "images/albums");
-        //                albumDto.CoverImageUrl = imageUrl;
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                return BadRequest("图片上传失败: " + ex.Message);
-        //            }
-        //        }
-
-        //        _albumService.AddAlbum(albumDto);
-        //        return Ok("Successful AddAlbum");
-        //    }
-        //    return BadRequest("Invalid data.");
-        //}
-
-        //[HttpPost]
-        //public ActionResult UpdateAlbum(int id, CreateAlbumDto albumDto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _albumService.UpdateAlbum(id, albumDto);
-        //        return Ok("Successful UpdateAlbum");
-        //    }
-        //    return BadRequest("Invalid data.");
-        //}
 
         [HttpDelete]
         public ActionResult DeleteAlbum(int id)

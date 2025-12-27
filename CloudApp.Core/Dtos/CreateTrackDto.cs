@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos
 {
@@ -14,6 +14,12 @@ namespace CloudApp.Core.Dtos
         [MaxLength(1000, ErrorMessage = "描述不能超过1000个字符")]
         public string? Description { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "时长不能为空")]
+        public TimeSpan Duration { get; set; }
+
+        [Required(ErrorMessage = "发行时间不能为空")]
+        public DateTime ReleaseDate { get; set; }
+
         [Required(ErrorMessage ="原唱不能为空")]
         [MaxLength(100, ErrorMessage = "原唱不能超过100个字符")]
         public string Artist { get; set; }
@@ -28,6 +34,9 @@ namespace CloudApp.Core.Dtos
 
         [MaxLength(500, ErrorMessage = "URL不能超过500个字符")]
         public string URL { get; set; }
+
+        [MaxLength(500, ErrorMessage = "URL不能超过500个字符")]
+        public string CoverImageUrl { get; set; }
         public int AlbumId { get; set; }
     }
 }

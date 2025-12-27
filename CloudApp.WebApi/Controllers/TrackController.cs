@@ -16,15 +16,16 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddTrack(CreateTrackDto model)
+        public ActionResult AddTrack([FromForm] CreateTrackDto model)
         {
             if (ModelState.IsValid)
             {
                 _trackService.AddTrack(model);
-                return Ok("Successfull AddTrack");
+                return Ok("成功新增单曲");
             }
-            return BadRequest("Invalid data.");
+            return BadRequest("存在非法数据，添加失败");
         }
+
         [HttpGet]
         public ActionResult<ICollection<Track>> GetAllTracks()
         {

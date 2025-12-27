@@ -12,5 +12,10 @@ namespace CloudApp.Core.Entities
         public string Location { get; set; }
 
         public string? CoverImageUrl { get; set; }
+
+        /// <summary>
+        /// 导航属性，演唱会上表演的曲目列表
+        /// </summary>
+        public List<Track> Tracks { get; set; } = new List<Track>();
     }
 }

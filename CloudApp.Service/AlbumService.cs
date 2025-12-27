@@ -2,6 +2,7 @@ using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Interfaces;
 using CloudApp.Core.Extensions;
+using CloudApp.Core.Interfaces.Repositories;
 
 namespace CloudApp.Service
 {
@@ -14,11 +15,21 @@ namespace CloudApp.Service
             _albumRepository = albumRepository;
         }
 
-        #region 查询方法
+        #region 同步方法
+        public void AddAlbum(CreateAlbumDto model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            Album album = model.ToEntity();
+            _albumRepository.Add(album);
+            _albumRepository.SaveChange();
+        }
+
         public ICollection<AlbumInfoDto> GetAllAlbums()
         {
             var albums = _albumRepository.GetAll();
-
             return albums.Select(a => a.ToInfoDto()).ToList();
         }
 
@@ -31,18 +42,6 @@ namespace CloudApp.Service
             }
             return album.ToInfoDto();
         }
-        #endregion
-
-        #region 同步操作方法
-        public void AddAlbum(CreateAlbumDto model)
-        {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
-            Album album = model.ToEntity();
-            _albumRepository.Add(album);
-        }
         
         public void DeleteAlbum(int id)
         {
@@ -53,6 +52,7 @@ namespace CloudApp.Service
             }
             
             _albumRepository.Delete(id);
+            _albumRepository.SaveChange();
         }
         
         public void UpdateAlbum(int id, CreateAlbumDto model)
@@ -64,105 +64,5 @@ namespace CloudApp.Service
             }
         }
         #endregion
-
-        // 异步操作方法
-        //public async Task AddAlbumAsync(CreateAlbumDto model)
-        //{
-        //    if (model == null)
-        //    {
-        //        throw new ArgumentNullException(nameof(model));
-        //    }
-        //    Album album = new Album
-        //    {
-        //        Title = model.Title,
-        //        Description = model.Description,
-        //        Artist = model.Artist,
-        //        ReleaseDate = DateTime.UtcNow,
-        //        CoverImageUrl = model.CoverImageUrl
-        //    };
-
-        //    await this._albumRepository.AddAsync(album);
-        //}
-
-        //public async Task DeleteAlbumAsync(int id)
-        //{
-        //    // 检查专辑是否存在
-        //    bool albumExists = await this._albumRepository.ExistsAsync(id);
-        //    if (!albumExists)
-        //    {
-        //        throw new ArgumentException(nameof(id), "专辑不存在");
-        //    }
-
-        //    await this._albumRepository.DeleteAsync(id);
-        //}
-
-        //public async Task<AlbumInfoDto> GetAlbumByIdAsync(int id)
-        //{
-        //    var album = await this._albumRepository.GetByIdAsync(id);
-        //    if (album == null)
-        //    {
-        //        throw new ArgumentException(nameof(id), "专辑不存在");
-        //    }
-
-        //    return new AlbumInfoDto(album);
-        //}
-
-        //public async Task<ICollection<AlbumInfoDto>> GetAllAlbumsAsync()
-        //{
-        //    var albums = await this._albumRepository.GetAllAsync();
-
-        //    return albums.Select(a => new AlbumInfoDto(a)).ToList();
-        //}
-
-        //public async Task UpdateAlbumAsync(int id, CreateAlbumDto model)
-        //{
-        //    Album album = await _albumRepository.GetByIdAsync(id);
-        //    if (album != null)
-        //    {
-        //        album.Title = model.Title;
-        //        album.Description = model.Description;
-        //        album.Artist = model.Artist;
-        //        album.CoverImageUrl = model.CoverImageUrl;
-        //        await _albumRepository.UpdateAsync(album);
-        //    }
-        //}
-
-        // 扩展功能（新增）
-        //public ICollection<AlbumInfoDto> GetAlbumsByTitle(string title)
-        //{
-        //    if (_albumRepository is AlbumRepository albumRepo)
-        //    {
-        //        return albumRepo.GetAlbumsByTitle(title)
-        //            .Select(a => new AlbumInfoDto(a))
-        //            .ToList();
-        //    }
-        //    // 降级处理
-        //    var albums = _albumRepository.GetByCondition(a => a.Title.Contains(title));
-        //    return albums.Select(a => new AlbumInfoDto(a)).ToList();
-        //}
-
-        //public async Task<ICollection<AlbumInfoDto>> GetAlbumsByTitleAsync(string title)
-        //{
-        //    if (_albumRepository is AlbumRepository albumRepo)
-        //    {
-        //        var result = await albumRepo.GetAlbumsByTitleAsync(title);
-        //        return result.Select(a => new AlbumInfoDto(a)).ToList();
-        //    }
-        //    // 降级处理
-        //    var albums = await _albumRepository.GetByConditionAsync(a => a.Title.Contains(title));
-        //    return albums.Select(a => new AlbumInfoDto(a)).ToList();
-        //}
-
-        //public ICollection<AlbumInfoDto> GetAlbumsWithPagination(int pageNumber, int pageSize)
-        //{
-        //    var albums = _albumRepository.GetPaged(pageNumber, pageSize);
-        //    return albums.Select(a => new AlbumInfoDto(a)).ToList();
-        //}
-
-        //public async Task<ICollection<AlbumInfoDto>> GetAlbumsWithPaginationAsync(int pageNumber, int pageSize)
-        //{
-        //    var albums = await _albumRepository.GetPagedAsync(pageNumber, pageSize);
-        //    return albums.Select(a => new AlbumInfoDto(a)).ToList();
-        //}
     }
 }

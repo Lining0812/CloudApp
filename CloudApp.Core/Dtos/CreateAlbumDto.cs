@@ -1,3 +1,4 @@
+using CloudApp.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos

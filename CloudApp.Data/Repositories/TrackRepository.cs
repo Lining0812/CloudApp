@@ -123,26 +123,6 @@ namespace CloudApp.Data.Repositories
                 .Take(count)
                 .ToListAsync();
         }
-
-        //// 分页获取曲目，包含专辑
-        //public override IEnumerable<Track> GetPaged(int pageNumber, int pageSize)
-        //{
-        //    return _dbSet
-        //        .Include(t => t.Album)
-        //        .Skip((pageNumber - 1) * pageSize)
-        //        .Take(pageSize)
-        //        .ToList();
-        //}
-
-        //// 异步分页获取曲目，包含专辑
-        //public override async Task<IEnumerable<Track>> GetPagedAsync(int pageNumber, int pageSize)
-        //{
-        //    return await _dbSet
-        //        .Include(t => t.Album)
-        //        .Skip((pageNumber - 1) * pageSize)
-        //        .Take(pageSize)
-        //        .ToListAsync();
-        //}
         #endregion
     }
 }

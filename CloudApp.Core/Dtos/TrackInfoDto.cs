@@ -6,6 +6,7 @@ namespace CloudApp.Core.Dtos
     {
         public string Title { get; set; }
         public string? Description { get; set; }
+        public TimeSpan Duration { get; set; }
         public string Composer { get; set; }
         public string Lyricist { get; set; }
     }
