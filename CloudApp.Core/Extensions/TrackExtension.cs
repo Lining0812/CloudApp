@@ -5,7 +5,7 @@ namespace CloudApp.Core.Extensions
 {
     public static class TrackExtension
     {
-        public static Track ToEntity(this CreateTrackDto dto)
+        public static Track ToEntity(this CreateTrackDto dto, string imageurl)
         {
             if (dto == null)
             {
@@ -22,6 +22,7 @@ namespace CloudApp.Core.Extensions
                 Artist = dto.Artist,
                 Composer = dto.Composer,
                 Lyricist = dto.Lyricist,
+                CoverImageUrl = imageurl,
                 AlbumId = dto.AlbumId,
                 ConcertId = dto.ConcertId,
 

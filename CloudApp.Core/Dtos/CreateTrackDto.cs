@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos
@@ -32,7 +33,9 @@ namespace CloudApp.Core.Dtos
         [MaxLength(100, ErrorMessage = "作词不能超过100个字符")]
         public string Lyricist { get; set; }
 
-        public int AlbumId { get; set; }
-        public int ConcertId { get; set; }
+        public IFormFile CoverImage { get; set; }
+
+        public int? AlbumId { get; set; }
+        public int? ConcertId { get; set; }
     }
 }

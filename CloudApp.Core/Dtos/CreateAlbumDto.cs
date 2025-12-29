@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos
@@ -14,6 +15,8 @@ namespace CloudApp.Core.Dtos
         [Required(ErrorMessage = "艺术家不能为空")]
         [MaxLength(50, ErrorMessage = "艺术家名称不能超过50个字符")]
         public string Artist { get; set; }
+
+        public IFormFile? CoverImage { get; set; }
 
         [Required(ErrorMessage = "发行日期不能为空")]
         public DateTime ReleaseDate { get; set; }

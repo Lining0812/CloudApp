@@ -23,6 +23,10 @@ namespace CloudApp.Core.Entities
         /// </summary>
         public DateTime ReleaseDate { get; set; }
         /// <summary>
+        /// 封面图片URL
+        /// </summary>
+        public string CoverImageUrl { get; set; }
+        /// <summary>
         /// 导航属性 - 专辑中的单曲列表
         /// </summary>
         public IEnumerable<Track> Tracks { get; set; } = new List<Track>();

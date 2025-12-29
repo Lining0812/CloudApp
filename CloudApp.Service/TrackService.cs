@@ -10,11 +10,15 @@ namespace CloudApp.Service
     {
         private readonly ITrackRepository _trackrepository;
         private readonly IAlbumRepository _albumrepository;
+        private readonly IConcertRepository _concertrepository;
+        private readonly IImageStorageService _imagestorageservice;
 
-        public TrackService(IAlbumRepository albumrepository, ITrackRepository trackrepository)
+        public TrackService(IAlbumRepository albumrepository, ITrackRepository trackrepository, IImageStorageService imagestorageservice,IConcertRepository concertRepository)
         {
             _albumrepository = albumrepository;
             _trackrepository = trackrepository;
+            _imagestorageservice = imagestorageservice;
+            _concertrepository = concertRepository;
         }
 
         #region 同步方法
@@ -24,12 +28,16 @@ namespace CloudApp.Service
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            Album album = _albumrepository.GetById(model.AlbumId);
-            if (album == null)
-            {
-                throw new ArgumentException("专辑不存在");
-            }
-            var track = model.ToEntity();
+
+            //Album album = _albumrepository.GetById(model.AlbumId);
+            //Concert concert = _concertrepository.GetById(model.ConcertId);
+            //if (album == null)
+            //{
+            //    throw new ArgumentException("专辑不存在");
+            //}
+
+            string url = _imagestorageservice.SaveTrackImage(model.CoverImage);
+            var track = model.ToEntity(url);
             _trackrepository.Add(track);
             _trackrepository.SaveChange();
         }
