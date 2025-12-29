@@ -13,6 +13,8 @@ namespace CloudApp.Service.Extensions
             services.AddScoped<ITrackService, TrackService>();
             services.AddScoped<IConcertService, ConcertService>();
 
+            services.AddScoped<IImageStorageService, ImageStorageService>();
+
             return services;
         }
     }

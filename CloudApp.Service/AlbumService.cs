@@ -1,18 +1,18 @@
 using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
-using CloudApp.Core.Interfaces.Services;
 using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Repositories;
+using CloudApp.Core.Interfaces.Services;
 
 namespace CloudApp.Service
 {
     public class AlbumService : IAlbumService
     {
-        private readonly IRepository<Album> _albumRepository;
+        private readonly IAlbumRepository _albumRepository;
 
-        public AlbumService(IRepository<Album> albumRepository)
+        public AlbumService(IAlbumRepository repository)
         {
-            _albumRepository = albumRepository;
+            _albumRepository = repository;
         }
 
         #region 同步方法
@@ -29,10 +29,14 @@ namespace CloudApp.Service
 
         public void DeleteAlbum(int id)
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException("专辑ID无效", nameof(id));
+            }
             bool albumExists = _albumRepository.Exists(id);
             if (!albumExists)
             {
-                throw new ArgumentException(nameof(id), "专辑不存在");
+                throw new ArgumentException($"专辑不存在 (ID: {id})");
             }
             _albumRepository.Delete(id);
             _albumRepository.SaveChange();
@@ -43,7 +47,7 @@ namespace CloudApp.Service
             Album album = _albumRepository.GetById(id);
             if (album == null)
             {
-               throw new ArgumentException("专辑不存在");
+               throw new ArgumentException($"专辑不存在 (ID: {id})");
             }
             else
             {

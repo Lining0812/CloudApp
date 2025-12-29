@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Http;
+
 namespace CloudApp.Core.Dtos
 {
     public class AlbumInfoDto

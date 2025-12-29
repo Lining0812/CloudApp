@@ -17,6 +17,11 @@ namespace CloudApp.Data.Extensions
             // 添加通用仓储
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
+            // 添加特定仓储
+            services.AddScoped<IAlbumRepository, AlbumRepository>();
+            services.AddScoped<IConcertRepository, ConcertRepository>();
+            services.AddScoped<ITrackRepository, TrackRepository>();
+
             return services;
         }
     }

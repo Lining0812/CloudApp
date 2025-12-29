@@ -16,31 +16,31 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddAlbum([FromForm] CreateAlbumDto albumDto)
+        public ActionResult AddAlbum([FromForm] CreateAlbumDto model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest($"存在非法数据，添加失败");
+                return BadRequest("存在非法数据，添加失败");
             }
-            _albumService.AddAlbum(albumDto);
+                _albumService.AddAlbum(model);
             return Ok("成功新增专辑");
         }
 
-        [HttpDelete]
-        public ActionResult DeleteAlbum(int id)
+        [HttpDelete("{albumId}")]
+        public ActionResult DeleteAlbum(int albumId)
         {
-            _albumService.DeleteAlbum(id);
+            _albumService.DeleteAlbum(albumId);
             return Ok("成功删除专辑");
         }
 
-        [HttpPatch]
-        public ActionResult UpdateAlbum(int id, [FromForm] CreateAlbumDto albumDto)
+        [HttpPatch("{albumId}")]
+        public ActionResult UpdateAlbum(int albumId, [FromForm] CreateAlbumDto model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest($"存在非法数据，更新失败");
+                return BadRequest("存在非法数据，更新失败");
             }
-            _albumService.UpdateAlbum(id, albumDto);
+            _albumService.UpdateAlbum(albumId, model);
             return Ok("成功更新专辑");
         }
 
@@ -51,15 +51,15 @@ namespace CloudApp.WebApi.Controllers
             return Ok(albums);
         }
 
-        [HttpGet]
-        public ActionResult<AlbumInfoDto> GetAlbumById(int id)
+        [HttpGet("{albumId}")]
+        public ActionResult<AlbumInfoDto> GetAlbumById(int albumId)
         {
-            var album = _albumService.GetAlbumById(id);
-            if(album != null)
+            var album = _albumService.GetAlbumById(albumId);
+            if(album == null)
             {
-                return Ok(album);
+                return NotFound("未找到对应专辑");
             }
-            return NotFound("未找到对应专辑");
+            return Ok(album);
         }
     }
 }

@@ -18,30 +18,30 @@ namespace CloudApp.WebApi.Controllers
         [HttpPost]
         public ActionResult AddTrack([FromForm] CreateTrackDto model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _trackService.AddTrack(model);
-                return Ok("添加单曲成功");
+                return BadRequest("存在非法数据，添加失败");
             }
-            return BadRequest("存在非法数据，更新失败");
+            _trackService.AddTrack(model);
+            return Ok("成功新增单曲");
         }
 
         [HttpDelete("{trackId}")]
         public ActionResult DeleteTrack(int trackId)
         {
             _trackService.DeleteTrack(trackId);
-            return Ok("删除单曲成功");
+            return Ok("成功删除单曲");
         }
 
         [HttpPatch("{trackId}")]
         public ActionResult UpdateTrack(int trackId, [FromForm] CreateTrackDto model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _trackService.UpdateTrack(trackId, model);
-                return Ok("更新单曲成功");
+                return BadRequest("存在非法数据，更新失败");
             }
-            return BadRequest("存在非法数据，更新失败");
+            _trackService.UpdateTrack(trackId, model);
+            return Ok("成功更新单曲");
         }
 
         [HttpGet]

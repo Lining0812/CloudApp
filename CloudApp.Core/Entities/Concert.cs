@@ -10,7 +10,7 @@ namespace CloudApp.Core.Entities
         /// </summary>
         public string Title { get; set; }
         /// <summary>
-        /// 演唱会描述
+        /// 演出介绍
         /// </summary>
         public string? Description { get; set; }
         /// <summary>
@@ -22,10 +22,13 @@ namespace CloudApp.Core.Entities
         /// </summary>
         public DateTime EndAt { get; set; }
         /// <summary>
-        /// 地点
+        /// 演出地址
         /// </summary>
-        public string Location { get; set; }
-
+        public string Address { get; set; }
+        /// <summary>
+        /// 封面图片
+        /// </summary>
+        public string CoverImageUrl { get; set; } = "concerts\\default_cover.jpg";
         /// <summary>
         /// 导航属性 - 演唱会中的单曲列表
         /// </summary>

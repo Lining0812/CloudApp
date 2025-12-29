@@ -38,6 +38,8 @@ namespace CloudApp.Core.Extensions
                 Description = album.Description,
                 Artist = album.Artist,
                 ReleaseDate = album.ReleaseDate,
+
+
                 Tracks = album.Tracks.Select(t => t.Title).ToList(),
             };
         }

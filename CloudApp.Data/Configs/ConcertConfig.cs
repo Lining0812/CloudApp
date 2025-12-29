@@ -31,7 +31,9 @@ namespace CloudApp.Data.Configs
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
             // 地点配置
-            builder.Property(c => c.Location).IsRequired().HasMaxLength(300);
+            builder.Property(c => c.Address).IsRequired().HasMaxLength(300);
+            // 封面图片配置
+            //builder.Property(c => c.CoverImageUrl).IsRequired().HasMaxLength(500).HasDefaultValue("concerts\\default_cover.jpg");
         }
     }
 }

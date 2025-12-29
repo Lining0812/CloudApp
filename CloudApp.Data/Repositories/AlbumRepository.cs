@@ -1,9 +1,10 @@
 using CloudApp.Core.Entities;
+using CloudApp.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.Data.Repositories
 {
-    public class AlbumRepository : BaseRepository<Album>
+    public class AlbumRepository : BaseRepository<Album>, IAlbumRepository
     {
         public AlbumRepository(MyDBContext dbContext) 
             :base(dbContext)

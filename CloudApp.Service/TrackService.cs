@@ -8,10 +8,10 @@ namespace CloudApp.Service
 {
     public class TrackService : ITrackService
     {
-        private readonly IRepository<Track> _trackrepository;
-        private readonly IRepository<Album> _albumrepository;
+        private readonly ITrackRepository _trackrepository;
+        private readonly IAlbumRepository _albumrepository;
 
-        public TrackService(IRepository<Album> albumrepository, IRepository<Track> trackrepository)
+        public TrackService(IAlbumRepository albumrepository, ITrackRepository trackrepository)
         {
             _albumrepository = albumrepository;
             _trackrepository = trackrepository;
@@ -48,7 +48,7 @@ namespace CloudApp.Service
             var track = _trackrepository.GetById(id);
             if (track == null)
             {
-                throw new ArgumentException("单曲不存在");
+                throw new ArgumentException(nameof(id), "单曲不存在");
             }
             else
             {
@@ -76,11 +76,10 @@ namespace CloudApp.Service
             var track = _trackrepository.GetById(id);
             if (track == null)
             {
-                throw new ArgumentException("��Ŀ������");
+                throw new ArgumentException(nameof(id), "单曲不存在");
             }
             return track.ToInfoDto();
         }
-
         #endregion 
     }
 }

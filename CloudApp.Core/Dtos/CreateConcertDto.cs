@@ -1,4 +1,6 @@
-﻿namespace CloudApp.Core.Dtos
+using Microsoft.AspNetCore.Http;
+
+namespace CloudApp.Core.Dtos
 {
     public class CreateConcertDto
     {
@@ -10,6 +12,8 @@
 
         public DateTime EndAt { get; set; }
 
-        public string Location { get; set; }
+        public IFormFile? CoverImage { get; set; }
+
+        public string Address { get; set; }
     }
 }

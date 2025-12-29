@@ -4,7 +4,7 @@ namespace CloudApp.Core.Interfaces.Repositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        #region 查询方法
+        #region 同步方法
 
         /// <summary>
         /// 获取所有实体
@@ -44,15 +44,15 @@ namespace CloudApp.Core.Interfaces.Repositories
         /// <param name="entities"></param>
         public void UpdateRange(IEnumerable<T> entities);
         /// <summary>
-        /// 通过主键删除实体
-        /// </summary>
-        /// <param name="id"></param>
-        public void Delete(int id);
-        /// <summary>
         /// 删除实体
         /// </summary>
         /// <param name="entity"></param>
         public void Delete(T entity);
+        /// <summary>
+        /// 通过主键删除实体
+        /// </summary>
+        /// <param name="id"></param>
+        public void Delete(int id);
         /// <summary>
         /// 批量删除实体
         /// </summary>
