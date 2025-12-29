@@ -12,6 +12,7 @@ namespace CloudApp.Data
         }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Track> Tracks { get; set; }
+        public DbSet<Concert> Concerts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

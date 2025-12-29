@@ -12,7 +12,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 副标题
         /// </summary>
-        public string Subtitle { get; set; }
+        public string? Subtitle { get; set; }
         /// <summary>
         /// 单曲描述
         /// </summary>
@@ -25,14 +25,6 @@ namespace CloudApp.Core.Entities
         /// 发行日期
         /// </summary>
         public DateTime ReleaseDate { get; set; }
-        /// <summary>
-        /// 单曲链接URL
-        /// </summary>
-        public string URL { get; set; }
-        /// <summary>
-        /// 封面图片URL
-        /// </summary>
-        public string CoverImageUrl { get; set; }
         /// <summary>
         /// 原唱
         /// </summary>
@@ -47,13 +39,15 @@ namespace CloudApp.Core.Entities
         public string Lyricist { get; set; }
 
         /// <summary>
-        /// 导航属性，所属专辑
+        /// 专辑导航
         /// </summary>
         public Album? Album { get; set; }
+        public int? AlbumId { get; set; }
 
         /// <summary>
-        /// 外键字段，所属专辑Id
+        /// 演唱会导航
         /// </summary>
-        public int? AlbumId { get; set; }
+        public Concert? Concert { get; set; }
+        public int? ConcertId { get; set; }
     }
 }

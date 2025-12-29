@@ -5,14 +5,15 @@ namespace CloudApp.Data.Repositories
 {
     public class AlbumRepository : BaseRepository<Album>
     {
-        public AlbumRepository(MyDBContext dbContext) : base(dbContext)
+        public AlbumRepository(MyDBContext dbContext) 
+            :base(dbContext)
         {
         }
 
         #region 同步方法
         public override IEnumerable<Album> GetAll()
         {
-            return _dbSet.Include(a => a.Tracks).ToList();
+            return _dbSet.Include(a => a.Tracks).Where(a => !a.IsDeleted).ToList();
         }
 
         public override Album GetById(int id)

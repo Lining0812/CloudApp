@@ -1,5 +1,5 @@
 using CloudApp.Core.Dtos;
-using CloudApp.Core.Interfaces;
+using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApp.WebApi.Controllers
@@ -18,12 +18,30 @@ namespace CloudApp.WebApi.Controllers
         [HttpPost]
         public ActionResult AddAlbum([FromForm] CreateAlbumDto albumDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _albumService.AddAlbum(albumDto);
-                return Ok("成功新增专辑");
+                return BadRequest($"存在非法数据，添加失败");
             }
-            return BadRequest($"存在非法数据，添加失败");
+            _albumService.AddAlbum(albumDto);
+            return Ok("成功新增专辑");
+        }
+
+        [HttpDelete]
+        public ActionResult DeleteAlbum(int id)
+        {
+            _albumService.DeleteAlbum(id);
+            return Ok("成功删除专辑");
+        }
+
+        [HttpPatch]
+        public ActionResult UpdateAlbum(int id, [FromForm] CreateAlbumDto albumDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest($"存在非法数据，更新失败");
+            }
+            _albumService.UpdateAlbum(id, albumDto);
+            return Ok("成功更新专辑");
         }
 
         [HttpGet]
@@ -36,33 +54,12 @@ namespace CloudApp.WebApi.Controllers
         [HttpGet]
         public ActionResult<AlbumInfoDto> GetAlbumById(int id)
         {
-            try
+            var album = _albumService.GetAlbumById(id);
+            if(album != null)
             {
-                var album = _albumService.GetAlbumById(id);
                 return Ok(album);
             }
-            catch (ArgumentException ex) when (ex.Message == "查询的专辑不存在")
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        [HttpDelete]
-        public ActionResult DeleteAlbum(int id)
-        {
-            try
-            {
-                _albumService.DeleteAlbum(id);
-                return Ok("Successful DeleteAlbum");
-            }
-            catch (ArgumentException ex) when (ex.Message == "专辑不存在")
-            {
-                return NotFound(ex.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return NotFound("未找到对应专辑");
         }
     }
 }

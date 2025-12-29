@@ -1,7 +1,7 @@
 using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Extensions;
-using CloudApp.Core.Interfaces;
+using CloudApp.Core.Interfaces.Services;
 using CloudApp.Core.Interfaces.Repositories;
 
 namespace CloudApp.Service
@@ -18,6 +18,54 @@ namespace CloudApp.Service
         }
 
         #region 同步方法
+        public void AddTrack(CreateTrackDto model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+            Album album = _albumrepository.GetById(model.AlbumId);
+            if (album == null)
+            {
+                throw new ArgumentException("专辑不存在");
+            }
+            var track = model.ToEntity();
+            _trackrepository.Add(track);
+            _trackrepository.SaveChange();
+        }
+        public void DeleteTrack(int id)
+        {
+            bool trackExists = _trackrepository.Exists(id);
+            if (!trackExists)
+            {
+                throw new ArgumentException(nameof(id), "单曲不存在");
+            }
+            _trackrepository.Delete(id);
+            _trackrepository.SaveChange();
+        }
+        public void UpdateTrack(int id, CreateTrackDto model)
+        {
+            var track = _trackrepository.GetById(id);
+            if (track == null)
+            {
+                throw new ArgumentException("单曲不存在");
+            }
+            else
+            {
+                track.Title = model.Title;
+                track.Duration = model.Duration;
+                track.Subtitle = model.Subtitle;
+                track.Description = model.Description;
+                track.ReleaseDate = model.ReleaseDate;
+                track.Artist = model.Artist;
+                track.Composer = model.Composer;
+                track.Lyricist = model.Lyricist;
+                track.UpdatedAt = DateTime.UtcNow;
+
+                _trackrepository.Update(track);
+                _trackrepository.SaveChange();
+            }
+        }
         public ICollection<TrackInfoDto> GetAllTracks()
         {
             var tracks = _trackrepository.GetAll();
@@ -33,38 +81,6 @@ namespace CloudApp.Service
             return track.ToInfoDto();
         }
 
-        public void AddTrack(CreateTrackDto model)
-        {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
-
-            Album album = _albumrepository.GetById(model.AlbumId);
-            if (album == null)
-            {
-                throw new ArgumentException("��Ч��ר��ID");
-            }
-
-            var track = model.ToEntity();
-
-            _trackrepository.Add(track);
-            _trackrepository.SaveChange();
-        }
-
-        public void UpdateTrack(int id, CreateTrackDto model)
-        {
-        }
-
-        public void DeleteTrack(int id)
-        {
-            if (!_trackrepository.Exists(id))
-            {
-                throw new ArgumentException("��Ŀ������");
-            }
-
-            _trackrepository.Delete(id);
-        }
         #endregion 
     }
 }

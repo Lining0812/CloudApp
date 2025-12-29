@@ -23,10 +23,6 @@ namespace CloudApp.Data.Configs
                 v => v,
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
-            // 封面图片URL配置
-            builder.Property(b => b.CoverImageUrl).IsRequired(false).HasMaxLength(500);
-            // 一对多导航属性配置在TrackConfig中
-
             // 索引配置
             builder.HasIndex(a => a.Title);
         }

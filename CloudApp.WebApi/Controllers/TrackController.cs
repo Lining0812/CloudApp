@@ -1,6 +1,6 @@
 using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
-using CloudApp.Core.Interfaces;
+using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApp.WebApi.Controllers
@@ -21,9 +21,27 @@ namespace CloudApp.WebApi.Controllers
             if (ModelState.IsValid)
             {
                 _trackService.AddTrack(model);
-                return Ok("³É¹¦ĞÂÔöµ¥Çú");
+                return Ok("æ·»åŠ å•æ›²æˆåŠŸ");
             }
-            return BadRequest("´æÔÚ·Ç·¨Êı¾İ£¬Ìí¼ÓÊ§°Ü");
+            return BadRequest("å­˜åœ¨éæ³•æ•°æ®ï¼Œæ›´æ–°å¤±è´¥");
+        }
+
+        [HttpDelete("{trackId}")]
+        public ActionResult DeleteTrack(int trackId)
+        {
+            _trackService.DeleteTrack(trackId);
+            return Ok("åˆ é™¤å•æ›²æˆåŠŸ");
+        }
+
+        [HttpPatch("{trackId}")]
+        public ActionResult UpdateTrack(int trackId, [FromForm] CreateTrackDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                _trackService.UpdateTrack(trackId, model);
+                return Ok("æ›´æ–°å•æ›²æˆåŠŸ");
+            }
+            return BadRequest("å­˜åœ¨éæ³•æ•°æ®ï¼Œæ›´æ–°å¤±è´¥");
         }
 
         [HttpGet]

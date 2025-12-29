@@ -18,7 +18,6 @@ namespace CloudApp.Core.Extensions
                 Description = dto.Description,
                 Artist = dto.Artist,
                 ReleaseDate = dto.ReleaseDate,
-                CoverImageUrl = dto.CoverImageUrl,
 
                 CreatedAt = now,
                 UpdatedAt = now,

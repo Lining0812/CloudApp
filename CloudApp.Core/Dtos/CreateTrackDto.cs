@@ -32,11 +32,7 @@ namespace CloudApp.Core.Dtos
         [MaxLength(100, ErrorMessage = "作词不能超过100个字符")]
         public string Lyricist { get; set; }
 
-        [MaxLength(500, ErrorMessage = "URL不能超过500个字符")]
-        public string URL { get; set; }
-
-        [MaxLength(500, ErrorMessage = "URL不能超过500个字符")]
-        public string CoverImageUrl { get; set; }
         public int AlbumId { get; set; }
+        public int ConcertId { get; set; }
     }
 }

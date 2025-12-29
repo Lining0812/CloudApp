@@ -1,10 +1,5 @@
-using CloudApp.Core.Entities;
-using CloudApp.Core.Interfaces;
-using CloudApp.Core.Interfaces.Repositories;
-using CloudApp.Data;
-using CloudApp.Data.Repositories;
-using CloudApp.Service;
-using Microsoft.EntityFrameworkCore;
+using CloudApp.Data.Extensions;
+using CloudApp.Service.Extensions;
 
 namespace CloudApp.WebApi
 {
@@ -20,16 +15,10 @@ namespace CloudApp.WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<MyDBContext>(options =>
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
-            builder.Services.AddScoped(typeof(IRepository<>),typeof(BaseRepository<>));
-            builder.Services.AddScoped<IRepository<Track>, TrackRepository>();
-            builder.Services.AddScoped<IRepository<Album>, AlbumRepository>();
-
-            builder.Services.AddScoped<IAlbumService, AlbumService>();
-            builder.Services.AddScoped<ITrackService, TrackService>();
+            // 添加数据层服务
+            builder.Services.AddDataServices(builder.Configuration);
+            // 添加业务逻辑服务
+            builder.Services.AddBusinessServices();
 
             builder.Services.AddCors(opt =>
             {

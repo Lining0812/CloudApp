@@ -54,7 +54,12 @@ namespace CloudApp.Data.Repositories
 
         public virtual void Delete(T entity)
         {
-            _dbSet.Remove(entity);
+            //硬删除
+            //_dbSet.Remove(entity);
+
+            //软删除
+            entity.IsDeleted = true;
+            entity.DeletedAt = DateTime.UtcNow;
         }
 
         public virtual void Delete(int id)

@@ -1,4 +1,3 @@
-using CloudApp.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos
@@ -18,8 +17,5 @@ namespace CloudApp.Core.Dtos
 
         [Required(ErrorMessage = "发行日期不能为空")]
         public DateTime ReleaseDate { get; set; }
-
-        [MaxLength(500, ErrorMessage = "封面图片URL不能超过500个字符")]
-        public string CoverImageUrl { get; set; }
     }
 }

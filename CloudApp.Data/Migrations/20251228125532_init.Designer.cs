@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudApp.Data.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20251227081931_init")]
+    [Migration("20251228125532_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -37,10 +37,6 @@ namespace CloudApp.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("CoverImageUrl")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -73,6 +69,51 @@ namespace CloudApp.Data.Migrations
                     b.ToTable("T_Albums", (string)null);
                 });
 
+            modelBuilder.Entity("CloudApp.Core.Entities.Concert", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("EndAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("StartAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("T_Concerts", (string)null);
+                });
+
             modelBuilder.Entity("CloudApp.Core.Entities.Track", b =>
                 {
                     b.Property<int>("Id")
@@ -94,9 +135,8 @@ namespace CloudApp.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("CoverImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ConcertId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -131,16 +171,14 @@ namespace CloudApp.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("URL")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
+
+                    b.HasIndex("ConcertId");
 
                     b.HasIndex("Title");
 
@@ -154,10 +192,22 @@ namespace CloudApp.Data.Migrations
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("CloudApp.Core.Entities.Concert", "Concert")
+                        .WithMany("Tracks")
+                        .HasForeignKey("ConcertId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Album");
+
+                    b.Navigation("Concert");
                 });
 
             modelBuilder.Entity("CloudApp.Core.Entities.Album", b =>
+                {
+                    b.Navigation("Tracks");
+                });
+
+            modelBuilder.Entity("CloudApp.Core.Entities.Concert", b =>
                 {
                     b.Navigation("Tracks");
                 });

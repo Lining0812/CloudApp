@@ -5,17 +5,30 @@ namespace CloudApp.Core.Entities
     /// </summary>
     public class Concert : BaseEntity
     {
+        /// <summary>
+        /// 演唱会标题
+        /// </summary>
         public string Title { get; set; }
-        public string Description { get; set; }
+        /// <summary>
+        /// 演唱会描述
+        /// </summary>
+        public string? Description { get; set; }
+        /// <summary>
+        /// 开始时间
+        /// </summary>
         public DateTime StartAt { get; set; }
+        /// <summary>
+        /// 结束时间
+        /// </summary>
         public DateTime EndAt { get; set; }
+        /// <summary>
+        /// 地点
+        /// </summary>
         public string Location { get; set; }
 
-        public string? CoverImageUrl { get; set; }
-
         /// <summary>
-        /// 导航属性，演唱会上表演的曲目列表
+        /// 导航属性 - 演唱会中的单曲列表
         /// </summary>
-        public List<Track> Tracks { get; set; } = new List<Track>();
+        public IEnumerable<Track> Tracks { get; set; } = new List<Track>();
     }
 }

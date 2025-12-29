@@ -1,6 +1,6 @@
 using CloudApp.Core.Dtos;
 
-namespace CloudApp.Core.Interfaces
+namespace CloudApp.Core.Interfaces.Services
 {
     public interface IAlbumService
     {
@@ -22,7 +22,7 @@ namespace CloudApp.Core.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        AlbumInfoDto GetAlbumById(int id);
+        AlbumInfoDto? GetAlbumById(int id);
 
         /// <summary>
         /// 根据Id更新专辑信息

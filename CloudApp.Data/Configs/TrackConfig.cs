@@ -9,7 +9,6 @@ namespace CloudApp.Data.Configs
         public void Configure(EntityTypeBuilder<Track> builder)
         {
             builder.ToTable("T_Tracks");
-
             // 主键配置
             builder.HasKey(t=>t.Id);
             // 单曲名称配置
@@ -23,8 +22,6 @@ namespace CloudApp.Data.Configs
                 v => (int)v.TotalSeconds,
                 v => TimeSpan.FromSeconds(v)
             );
-            // URL配置
-            builder.Property(t => t.URL).IsRequired(false).HasMaxLength(500);
             // 原唱配置
             builder.Property(t => t.Artist).IsRequired().HasMaxLength(100);
             // 作曲人配置
@@ -41,8 +38,14 @@ namespace CloudApp.Data.Configs
 
             // Track与Album的一对多关系配置
             builder.HasOne(t => t.Album)
-                .WithMany(t => t.Tracks)
+                .WithMany(a => a.Tracks)
                 .HasForeignKey(t => t.AlbumId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Track与Concert的一对多关系配置
+            builder.HasOne(t => t.Concert)
+                .WithMany(c => c.Tracks)
+                .HasForeignKey(t => t.ConcertId)
                 .OnDelete(DeleteBehavior.SetNull);
         }
     }

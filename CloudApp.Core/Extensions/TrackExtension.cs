@@ -19,11 +19,11 @@ namespace CloudApp.Core.Extensions
                 Description = dto.Description,
                 Duration = dto.Duration,
                 ReleaseDate = dto.ReleaseDate,
-                CoverImageUrl = dto.CoverImageUrl,
                 Artist = dto.Artist,
                 Composer = dto.Composer,
                 Lyricist = dto.Lyricist,
                 AlbumId = dto.AlbumId,
+                ConcertId = dto.ConcertId,
 
                 CreatedAt = now,
                 UpdatedAt = now,
@@ -38,8 +38,11 @@ namespace CloudApp.Core.Extensions
                 Title = track.Title + track.Subtitle,
                 Description = track.Description,
                 Duration = track.Duration,
+                Artist = track.Artist,
                 Composer = track.Composer,
                 Lyricist = track.Lyricist,
+                AlbumTitle = track.Album?.Title,
+                ConcertTitle = track.Concert?.Title,
             };
         }
     }
