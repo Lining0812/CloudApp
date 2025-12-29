@@ -12,10 +12,16 @@ namespace CloudApp.Core.Interfaces.Services
         void AddConcert(CreateConcertDto concert);
 
         /// <summary>
+        /// 删除演唱会
+        /// </summary>
+        /// <param name="id"></param>
+        void DelectConcert(int id);
+
+        /// <summary>
         /// 根据Id获取演唱会实体
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>演唱会信息Dto</returns>
         public ConcertInfoDto? GetById(int id);
 
         /// <summary>

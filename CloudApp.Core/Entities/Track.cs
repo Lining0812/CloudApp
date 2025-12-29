@@ -37,6 +37,10 @@ namespace CloudApp.Core.Entities
         /// 作词者
         /// </summary>
         public string Lyricist { get; set; }
+        /// <summary>
+        /// 封面图片
+        /// </summary>
+        public string CoverImageUrl { get; set; }
 
         /// <summary>
         /// 专辑导航

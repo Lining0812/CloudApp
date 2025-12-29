@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专辑列表 - 前端演示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .album-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .album-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+        }
+        .album-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .album-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        .album-artist {
+            color: #666;
+            margin: 0 0 10px 0;
+        }
+        .album-date {
+            color: #999;
+            font-size: 14px;
+            margin: 0;
+        }
+        .loading {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-top: 50px;
+        }
+        .error {
+            text-align: center;
+            color: red;
+            font-size: 18px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>专辑列表</h1>
+    <div id="loading" class="loading">加载中...</div>
+    <div id="error" class="error" style="display: none;"></div>
+    <div id="albumContainer" class="album-container" style="display: none;"></div>
+
+    <script>
+        // 后端API基础URL
+        const API_BASE_URL = 'http://localhost:5101'; // 根据实际情况修改端口号
+        // 图片基础URL - 静态文件服务路径
+        const IMAGE_BASE_URL = `${API_BASE_URL}/images`;
+
+        // 获取专辑列表
+        async function fetchAlbums() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/Album/GetAllAlbums`);
+                if (!response.ok) {
+                    throw new Error(`HTTP错误! 状态: ${response.status}`);
+                }
+                const albums = await response.json();
+                return albums;
+            } catch (error) {
+                console.error('获取专辑失败:', error);
+                throw error;
+            }
+        }
+
+        // 渲染专辑列表
+        function renderAlbums(albums) {
+            const container = document.getElementById('albumContainer');
+            container.innerHTML = '';
+
+            albums.forEach(album => {
+                // 构建完整的图片URL
+                const fullImageUrl = `${IMAGE_BASE_URL}/${album.coverImageUrl}`;
+                
+                const albumCard = document.createElement('div');
+                albumCard.className = 'album-card';
+                
+                albumCard.innerHTML = `
+                    <img src="${fullImageUrl}" alt="${album.title}封面" class="album-cover" onerror="this.src='${IMAGE_BASE_URL}/albums/default_cover.jpg'">
+                    <h3 class="album-title">${album.title}</h3>
+                    <p class="album-artist">${album.artist}</p>
+                    <p class="album-date">发行日期: ${new Date(album.releaseDate).toLocaleDateString()}</p>
+                `;
+                
+                container.appendChild(albumCard);
+            });
+        }
+
+        // 初始化
+        async function init() {
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const container = document.getElementById('albumContainer');
+            
+            try {
+                const albums = await fetchAlbums();
+                renderAlbums(albums);
+                
+                loading.style.display = 'none';
+                error.style.display = 'none';
+                container.style.display = 'flex';
+            } catch (err) {
+                loading.style.display = 'none';
+                error.style.display = 'block';
+                error.textContent = '获取专辑失败: ' + err.message;
+                container.style.display = 'none';
+            }
+        }
+
+        // 页面加载完成后执行
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

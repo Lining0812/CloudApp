@@ -3,7 +3,6 @@ using CloudApp.Core.Entities;
 using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Core.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
 
 namespace CloudApp.Service
 {
@@ -30,6 +29,21 @@ namespace CloudApp.Service
             _concertRepository.SaveChange();
         }
 
+        public void DelectConcert(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException($"专辑id无效 (ID: {id})");
+            }
+            bool albumExists = _concertRepository.Exists(id);
+            if (!albumExists)
+            {
+                throw new ArgumentException($"专辑不存在 (ID: {id})");
+            }
+            _concertRepository.Delete(id);
+            _concertRepository.SaveChange();
+        }
+
         public ConcertInfoDto? GetById(int id)
         {
             var concert = _concertRepository.GetById(id);
@@ -38,27 +52,7 @@ namespace CloudApp.Service
             {
                 throw new ArgumentException("演唱会不存在");
             }
-
-            if (!string.IsNullOrEmpty(concert.CoverImageUrl))
-            {
-                var (stream, contentType) = GetCoverImage(concert);
-                stream.Position = 0;
-
-                string fileName = Path.GetFileName(concert.CoverImageUrl);
-                if (string.IsNullOrEmpty(fileName))
-                {
-                    fileName = $"concert_{id}_cover.jpg";
-                }
-                IFormFile image = new FormFile(
-                    baseStream: stream,
-                    baseStreamOffset: 0,
-                    length: stream.Length,
-                    name: "CoverImage",
-                    fileName: fileName
-                    );
-                return concert.ToInfoDto();
-            }
-            return null;
+            return concert.ToInfoDto();
         }
         
         public (Stream stream, string contentType) GetCoverImage(Concert concert)

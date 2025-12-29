@@ -23,7 +23,7 @@ namespace CloudApp.Service
             Directory.CreateDirectory(_trackpath);
         }
 
-        private string SaveImage(IFormFile image, string folderName)
+        public string SaveImage(IFormFile image, string folderName)
         {
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
             var filePath = Path.Combine(folderName, fileName);
@@ -33,15 +33,15 @@ namespace CloudApp.Service
                 image.CopyTo(stream);
             }
 
-            return Path.Combine("concerts", fileName);
+            string folder = new DirectoryInfo(folderName).Name;
+            return $"{folder}/{fileName}";
         }
 
         public string SaveAlbumImage(IFormFile image)
         {
             if (image == null)
             {
-                // 返回null也可以
-                return "albums\\default_cover.jpg";
+                return "albums/default_cover.jpg";
             }
             return SaveImage(image, _albumpath);
         }
@@ -50,7 +50,7 @@ namespace CloudApp.Service
         {
             if(image == null)
             {
-                return "concerts\\default_cover.jpg";
+                return "concerts/default_cover.jpg";
             }
             return SaveImage(image, _concertpath);
         }
@@ -59,7 +59,7 @@ namespace CloudApp.Service
         {
             if (image == null)
             {
-                return "tracks\\default_cover.jpg";
+                return "tracks/default_cover.jpg";
             }
             return SaveImage(image, _trackpath);
         }

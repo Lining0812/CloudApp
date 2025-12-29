@@ -9,9 +9,9 @@ namespace CloudApp.WebApi.Controllers
     public class ConcertController : ControllerBase
     {
         private IConcertService _concertService;
-        public ConcertController(IConcertService concertService)
+        public ConcertController(IConcertService Service)
         {
-            _concertService = concertService;
+            _concertService = Service;
         }
 
         [HttpPost]
@@ -28,7 +28,8 @@ namespace CloudApp.WebApi.Controllers
         [HttpDelete("{concertId}")]
         public ActionResult DelectConcert(int concertId)
         {
-            return Ok("成功删除演唱会，仅定义测试");
+            _concertService.DelectConcert(concertId);
+            return Ok("成功删除专辑");
         }
 
         [HttpPatch]
