@@ -44,22 +44,32 @@ namespace CloudApp.Service
             _concertRepository.SaveChange();
         }
 
+        public void UpdateConcert(int id, CreateConcertDto model)
+        {
+            Concert concert = _concertRepository.GetById(id);
+            if (concert == null)
+            {
+                throw new ArgumentException($"演唱会不存在 (ID: {id})");
+            }
+            else
+            {
+                concert.Title = model.Title;
+                concert.Description = model.Description;
+                concert.UpdatedAt = DateTime.UtcNow;
+
+                _concertRepository.Update(concert);
+                _concertRepository.SaveChange();
+            }
+        }
+
         public ConcertInfoDto? GetById(int id)
         {
-            var concert = _concertRepository.GetById(id);
-
+            Concert concert = _concertRepository.GetById(id);
             if (concert == null)
             {
                 throw new ArgumentException("演唱会不存在");
             }
             return concert.ToInfoDto();
-        }
-        
-        public (Stream stream, string contentType) GetCoverImage(Concert concert)
-        {
-            // 使用ImageStorageService获取图片
-            var (stream, contentType) = _imageStorageService.GetImage(concert.CoverImageUrl);
-            return (stream, contentType);
         }
         #endregion
     }

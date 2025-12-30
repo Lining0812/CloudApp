@@ -1,6 +1,7 @@
 using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Interfaces.Services;
+using CloudApp.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApp.WebApi.Controllers
@@ -45,10 +46,21 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ICollection<Track>> GetAllTracks()
+        public ActionResult<ICollection<TrackInfoDto>> GetAll()
         {
             var tracks = _trackService.GetAllTracks();
             return Ok(tracks);
+        }
+
+        [HttpGet]
+        public ActionResult<TrackInfoDto> GetById(int id)
+        {
+            var infoDto = _trackService.GetById(id);
+            if (infoDto == null)
+            {
+                return BadRequest("未找到对应演出");
+            }
+            return Ok(infoDto);
         }
     }
 }

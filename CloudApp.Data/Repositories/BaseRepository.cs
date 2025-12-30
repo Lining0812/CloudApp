@@ -44,6 +44,7 @@ namespace CloudApp.Data.Repositories
 
         public virtual void Update(T entity)
         {
+            entity.UpdatedAt = DateTime.Now;
             _dbSet.Update(entity);
         }
 

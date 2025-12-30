@@ -45,14 +45,14 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ICollection<AlbumInfoDto>> GetAllAlbums()
+        public ActionResult<ICollection<AlbumInfoDto>> GetAll()
         {
             var albums = _albumService.GetAllAlbums();
             return Ok(albums);
         }
 
         [HttpGet("{albumId}")]
-        public ActionResult<AlbumInfoDto> GetAlbumById(int albumId)
+        public ActionResult<AlbumInfoDto> GetById(int albumId)
         {
             var album = _albumService.GetAlbumById(albumId);
             if(album == null)

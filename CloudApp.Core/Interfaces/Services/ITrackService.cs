@@ -22,7 +22,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        TrackInfoDto GetTrackById(int id);
+        TrackInfoDto GetById(int id);
 
         /// <summary>
         /// 根据Id更新专辑信息

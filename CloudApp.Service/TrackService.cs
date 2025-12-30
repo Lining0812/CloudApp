@@ -77,7 +77,7 @@ namespace CloudApp.Service
             var tracks = _trackrepository.GetAll();
             return tracks.Select(t => t.ToInfoDto()).ToList();
         }
-        public TrackInfoDto GetTrackById(int id)
+        public TrackInfoDto GetById(int id)
         {
             var track = _trackrepository.GetById(id);
             if (track == null)
