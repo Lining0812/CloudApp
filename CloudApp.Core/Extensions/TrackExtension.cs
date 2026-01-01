@@ -47,5 +47,6 @@ namespace CloudApp.Core.Extensions
                 ConcertTitle = track.Concert?.Title,
             };
         }
+
     }
 }

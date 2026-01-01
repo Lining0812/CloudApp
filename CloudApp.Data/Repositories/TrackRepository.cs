@@ -21,6 +21,11 @@ namespace CloudApp.Data.Repositories
             return _dbSet.Include(t => t.Album).FirstOrDefault(t => t.Id == id);
         }
 
+        public IEnumerable<Track> GetTracksByAlbumId(int albumId)
+        {
+            return _dbSet.Include(t => t.Album).Where(t => t.AlbumId == albumId).ToList();
+        }
+
         public IEnumerable<Track> GetTracksByTitle(string title)
         {
             if (string.IsNullOrEmpty(title))
@@ -29,14 +34,6 @@ namespace CloudApp.Data.Repositories
             return _dbSet
                 .Include(t => t.Album)
                 .Where(t => t.Title.Contains(title))
-                .ToList();
-        }
-
-        public IEnumerable<Track> GetTracksByAlbumId(int albumId)
-        {
-            return _dbSet
-                .Include(t => t.Album)
-                .Where(t => t.AlbumId == albumId)
                 .ToList();
         }
         #endregion

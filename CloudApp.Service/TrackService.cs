@@ -9,16 +9,12 @@ namespace CloudApp.Service
     public class TrackService : ITrackService
     {
         private readonly ITrackRepository _trackrepository;
-        private readonly IAlbumRepository _albumrepository;
-        private readonly IConcertRepository _concertrepository;
         private readonly IImageStorageService _imagestorageservice;
 
-        public TrackService(IAlbumRepository albumrepository, ITrackRepository trackrepository, IImageStorageService imagestorageservice,IConcertRepository concertRepository)
+        public TrackService(ITrackRepository trackrepository, IImageStorageService imagestorageservice)
         {
-            _albumrepository = albumrepository;
             _trackrepository = trackrepository;
             _imagestorageservice = imagestorageservice;
-            _concertrepository = concertRepository;
         }
 
         #region 同步方法
@@ -72,11 +68,13 @@ namespace CloudApp.Service
                 _trackrepository.SaveChange();
             }
         }
+
         public ICollection<TrackInfoDto> GetAllTracks()
         {
             var tracks = _trackrepository.GetAll();
             return tracks.Select(t => t.ToInfoDto()).ToList();
         }
+
         public TrackInfoDto GetById(int id)
         {
             var track = _trackrepository.GetById(id);
@@ -86,6 +84,11 @@ namespace CloudApp.Service
             }
             return track.ToInfoDto();
         }
-        #endregion 
+
+        public ICollection<Track> GetByAlbumdID()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }
