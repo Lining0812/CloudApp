@@ -9,7 +9,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 专辑名称
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         /// <summary>
         /// 专辑描述
         /// </summary>
@@ -17,7 +17,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 艺术家
         /// </summary>
-        public string Artist { get; set; }
+        public string Artist { get; set; } = string.Empty;
         /// <summary>
         /// 发行日期
         /// </summary>
@@ -25,7 +25,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 封面图片URL
         /// </summary>
-        public string CoverImageUrl { get; set; }
+        public string CoverImageUrl { get; set; } = string.Empty;
         /// <summary>
         /// 导航属性 - 专辑中的单曲列表
         /// </summary>
