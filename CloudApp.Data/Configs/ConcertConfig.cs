@@ -1,14 +1,12 @@
 using CloudApp.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloudApp.Data.Configs
 {
+    /// <summary>
+    /// 演唱会配置类
+    /// </summary>
     public class ConcertConfig : IEntityTypeConfiguration<Concert>
     {
         public void Configure(EntityTypeBuilder<Concert> builder)

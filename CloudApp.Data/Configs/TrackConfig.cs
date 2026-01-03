@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CloudApp.Data.Configs
 {
+    /// <summary>
+    /// 单曲配置类
+    /// </summary>
     public class TrackConfig : IEntityTypeConfiguration<Track>
     {
         public void Configure(EntityTypeBuilder<Track> builder)
@@ -37,16 +40,10 @@ namespace CloudApp.Data.Configs
             builder.HasIndex(t => t.Title);
 
             // Track与Album的一对多关系配置
-            builder.HasOne(t => t.Album)
-                .WithMany(a => a.Tracks)
-                .HasForeignKey(t => t.AlbumId)
-                .OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(t => t.Album).WithMany(a => a.Tracks).HasForeignKey(t => t.AlbumId).OnDelete(DeleteBehavior.SetNull);
 
             // Track与Concert的一对多关系配置
-            builder.HasOne(t => t.Concert)
-                .WithMany(c => c.Tracks)
-                .HasForeignKey(t => t.ConcertId)
-                .OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(t => t.Concert).WithMany(c => c.Tracks).HasForeignKey(t => t.ConcertId).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

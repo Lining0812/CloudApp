@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CloudApp.Data.Configs
 {
+    /// <summary>
+    /// 专辑实体类
+    /// </summary>
     public class AlbumConfig : IEntityTypeConfiguration<Album>
     {
         public void Configure(EntityTypeBuilder<Album> builder)
