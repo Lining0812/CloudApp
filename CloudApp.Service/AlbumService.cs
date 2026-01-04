@@ -9,12 +9,12 @@ namespace CloudApp.Service
     public class AlbumService : IAlbumService
     {
         private readonly IAlbumRepository _albumRepository;
-        private readonly IImageStorageService _imageStorageService;
+        private readonly IStorageProvider _storageProvider;
 
-        public AlbumService(IAlbumRepository repository, IImageStorageService imageStorageService)
+        public AlbumService(IAlbumRepository repository, IStorageProvider storageProvider)
         {
             _albumRepository = repository;
-            _imageStorageService = imageStorageService;
+            _storageProvider = storageProvider;
         }
 
         #region 同步方法
@@ -24,7 +24,7 @@ namespace CloudApp.Service
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            string url = _imageStorageService.SaveAlbumImage(model.CoverImage);
+            string url = _storageProvider.SaveAlbumImage(model.CoverImage);
             Album album = model.ToEntity(url);
             _albumRepository.Add(album);
             _albumRepository.SaveChange();

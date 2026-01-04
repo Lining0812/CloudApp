@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 namespace CloudApp.Core.Interfaces.Services
 {
-    public interface IImageStorageService
+    public interface IStorageProvider
     {
         /// <summary>
         /// 保存专辑封面
@@ -27,11 +28,8 @@ namespace CloudApp.Core.Interfaces.Services
 
         string SaveImage(IFormFile image, string folder);
 
-        /// <summary>
-        /// 获取图片流。有问题，返回url即可，由前端渲染资源
-        /// </summary>
-        /// <param name="imagePath"></param>
-        /// <returns></returns>
-        (Stream stream, string contentType) GetImage(string imagePath);
+        string SaveFile(IFormFile file, string filepath);
+        void DeleteFile(string filepath);
+        void UpdateFile(string filepath);
     }
 }

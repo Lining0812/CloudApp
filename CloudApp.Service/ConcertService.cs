@@ -9,8 +9,8 @@ namespace CloudApp.Service
     public class ConcertService : IConcertService
     {
         private readonly IConcertRepository _concertRepository;
-        private readonly IImageStorageService _imageStorageService;
-        public ConcertService(IConcertRepository repository, IImageStorageService imageStorageService)
+        private readonly IStorageProvider _storageProvider;
+        public ConcertService(IConcertRepository repository, IStorageProvider storageProvider)
         {
             _concertRepository = repository;
             _imageStorageService = imageStorageService;
@@ -23,7 +23,7 @@ namespace CloudApp.Service
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            string url = _imageStorageService.SaveConcertImage(model.CoverImage);
+            string url = _storageProvider.SaveConcertImage(model.CoverImage);
             Concert concert = model.ToEntity(url);
             _concertRepository.Add(concert);
             _concertRepository.SaveChange();

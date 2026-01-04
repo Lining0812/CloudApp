@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace CloudApp.Service
 {
-    public class ImageStorageService : IImageStorageService
+    public class StorageProvider : IStorageProvider
     {
         private readonly IWebHostEnvironment _env;
         private readonly string _albumpath;
         private readonly string _concertpath;
         private readonly string _trackpath;
 
-        public ImageStorageService(IWebHostEnvironment env)
+        public StorageProvider(IWebHostEnvironment env)
         {
             _env = env;
             _albumpath = Path.Combine(env.WebRootPath, "images", "albums");
@@ -64,32 +64,19 @@ namespace CloudApp.Service
             return SaveImage(image, _trackpath);
         }
 
-        public (Stream stream, string contentType) GetImage(string imagePath)
+        public string SaveFile(IFormFile file, string filepath)
         {
-            if (string.IsNullOrEmpty(imagePath))
-            {
-                throw new ArgumentException("图片路径不能为空", nameof(imagePath));
-            }
-
-            string fullPath = Path.Combine(_env.WebRootPath, imagePath);
-
-            if (!File.Exists(fullPath))
-                throw new FileNotFoundException("图片不存在", imagePath);
-
-            var stream = File.OpenRead(fullPath);
-            return (stream, GetContentType(Path.GetExtension(imagePath)));
+            throw new NotImplementedException();
         }
 
-        // 根据文件扩展名获取MIME类型
-        private string GetContentType(string extension)
+        public void DeleteFile(string filepath)
         {
-            return extension.ToLower() switch
-            {
-                ".jpg" or ".jpeg" => "image/jpeg",
-                ".png" => "image/png",
-                ".gif" => "image/gif",
-                _ => "application/octet-stream"
-            };
+            throw new NotImplementedException();
+        }
+
+        public void UpdateFile(string filepath)
+        {
+            throw new NotImplementedException();
         }
     }
 }
