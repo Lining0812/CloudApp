@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CloudApp.Core\CloudApp.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FileStorage\" />
+  </ItemGroup>
+
 </Project>
