@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace CloudApp.Core.Interfaces.Services
 {
-    public interface IFileStorageService
+    public interface IFileService
     {
         string SaveFile(IFormFile file, string filepath);
         void DeleteFile(string filepath);

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace CloudApp.Service
 {
-    public class StorageProvider : IFileStorageService
+    public class StorageProvider : IFileService
     {
         private readonly IWebHostEnvironment _env;
         private readonly string _albumpath;

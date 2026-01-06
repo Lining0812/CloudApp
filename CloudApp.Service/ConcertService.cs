@@ -9,11 +9,9 @@ namespace CloudApp.Service
     public class ConcertService : IConcertService
     {
         private readonly IConcertRepository _concertRepository;
-        private readonly IStorageProvider _storageProvider;
-        public ConcertService(IConcertRepository repository, IStorageProvider storageProvider)
+        public ConcertService(IConcertRepository repository)
         {
             _concertRepository = repository;
-            _imageStorageService = imageStorageService;
         }
 
         #region 同步方法
@@ -23,7 +21,7 @@ namespace CloudApp.Service
             {
                 throw new ArgumentNullException(nameof(model));
             }
-            string url = _storageProvider.SaveConcertImage(model.CoverImage);
+            string url = "";
             Concert concert = model.ToEntity(url);
             _concertRepository.Add(concert);
             _concertRepository.SaveChange();

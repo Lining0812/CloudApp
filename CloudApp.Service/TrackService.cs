@@ -9,12 +9,10 @@ namespace CloudApp.Service
     public class TrackService : ITrackService
     {
         private readonly ITrackRepository _trackrepository;
-        private readonly IStorageProvider _storageProvider;
 
-        public TrackService(ITrackRepository trackrepository, IStorageProvider storageProvider)
+        public TrackService(ITrackRepository trackrepository)
         {
             _trackrepository = trackrepository;
-            _storageProvider = storageProvider;
         }
 
         #region 同步方法
@@ -30,7 +28,7 @@ namespace CloudApp.Service
             //{
             //    throw new ArgumentException("专辑不存在");
             //}
-            string url = _storageProvider.SaveTrackImage(model.CoverImage);
+            string url = "";
             var track = model.ToEntity(url);
             _trackrepository.Add(track);
             _trackrepository.SaveChange();
