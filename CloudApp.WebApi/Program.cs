@@ -18,7 +18,7 @@ namespace CloudApp.WebApi
             // 添加数据层服务
             builder.Services.AddDataServices(builder.Configuration);
             // 添加业务逻辑服务
-            builder.Services.AddBusinessServices();
+            builder.Services.AddServices();
 
             builder.Services.AddCors(opt =>
             {

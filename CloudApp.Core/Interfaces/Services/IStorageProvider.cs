@@ -1,0 +1,36 @@
+using Microsoft.AspNetCore.Http;
+
+namespace CloudApp.Core.Interfaces.Services
+{
+    /// <summary>
+    /// 存储提供者接口
+    /// </summary>
+    public interface IStorageProvider
+    {
+        /// <summary>
+        /// 存储文件
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
+        string SaveFile(IFormFile file, string filePath);
+
+        /// <summary>
+        /// 读取文件
+        /// </summary>
+        /// <returns></returns>
+        Stream ReadFile();
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="filepath"></param>
+        void DeleteFile(string filepath);
+
+        /// <summary>
+        /// 更新文件
+        /// </summary>
+        /// <param name="filepath"></param>
+        void UpdateFile(string filepath);
+    }
+}
