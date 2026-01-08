@@ -1,13 +1,21 @@
 ﻿
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace CloudApp.Service.Utils
 {
+    /// <summary>
+    /// 文件路径生成
+    /// </summary>
     public static class FilePathProvider
     {
+        private static readonly Dictionary<EntityType, string> _entitytype = new Dictionary<EntityType, string>();
+
         /// <summary>
         /// 生成唯一文件名（GUID + 原扩展名）
         /// </summary>
-        /// <param name="originalFileName"></param>
-        /// <returns></returns>
+        /// <param name="originalFileName">原始文件名</param>
+        /// <returns>文件名</returns>
         private static string GenerateUniqueFileName(string originalFileName)
         {
             if (string.IsNullOrWhiteSpace(originalFileName))
@@ -19,8 +27,9 @@ namespace CloudApp.Service.Utils
 
             return uniqueName;
         }
+
         /// <summary>
-        /// 确保目录存在，不存在则创建
+        /// 确保目录文件夹存在，不存在则创建
         /// </summary>
         /// <param name="directoryPath">目录路径</param>
         private static void EnsureDirectoryExists(string directoryPath)
@@ -46,16 +55,22 @@ namespace CloudApp.Service.Utils
         /// </summary>
         /// <param name="originalFileName"></param>
         /// <param name="fileType"></param>
-        /// <returns></returns>
+        /// <returns>文件相对路径</returns>
         public static string GenerateFullFilePath(string originalFileName, string fileType)
         {
             var uniqueFileName = GenerateUniqueFileName(originalFileName);
             var directoryPath = Path.Combine("_rootPath", GetFileType(fileType));
-            EnsureDirectoryExists(directoryPath);
 
+            EnsureDirectoryExists(directoryPath);
             var fullFilePath = Path.Combine(directoryPath, uniqueFileName);
+
             return fullFilePath;
+        }
+
+        public static string GenerateFullFilePath(IFormFile file, string fileType)
+        {
+            var originalFileName = file.FileName;
+            return GenerateFullFilePath(originalFileName, fileType);
         }
     }
 }
-    

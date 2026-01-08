@@ -8,12 +8,12 @@ namespace CloudApp.Core.Interfaces.Services
     public interface IStorageProvider
     {
         /// <summary>
-        /// 存储文件
+        /// 存储文件至目录
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="filepath"></param>
-        /// <returns></returns>
-        string SaveFile(IFormFile file, string filePath);
+        /// <param name="file">文件</param>
+        /// <param name="type">实体类型</param>
+        /// <returns>文件的相对路径</returns>
+        string SaveFile(IFormFile file, string type);
 
         /// <summary>
         /// 读取文件

@@ -1,23 +1,27 @@
 using CloudApp.Core.Interfaces.Services;
+using CloudApp.Service.Utils;
 using Microsoft.AspNetCore.Http;
 
 namespace CloudApp.Service
 {
     public class LocalStorageProvider : IStorageProvider
     {
-
-        public LocalStorageProvider()
+        public string SaveFile(IFormFile file, string type)
         {
-        }
-
-        public string SaveFile(IFormFile file, string filePath)
-        {
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                file.CopyTo(stream);
+                string filePath = FilePathProvider.GenerateFullFilePath(file, type);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                return "Success";
             }
-            // 返回相对路径
-            return "Success";
+            catch(Exception ex)
+            {
+                Console.WriteLine($"淇濆瓨澶辫触: {ex.Message}");
+                throw;
+            }
         }
 
         public void DeleteFile(string filepath)
