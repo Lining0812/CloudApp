@@ -1,4 +1,5 @@
 using CloudApp.Core.Interfaces.Services;
+using CloudApp.Service;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CloudApp.Service.Extensions
@@ -11,6 +12,9 @@ namespace CloudApp.Service.Extensions
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<ITrackService, TrackService>();
             services.AddScoped<IConcertService, ConcertService>();
+
+            // 添加存储提供者
+            services.AddScoped<IStorageProvider, LocalStorageProvider>();
 
             return services;
         }

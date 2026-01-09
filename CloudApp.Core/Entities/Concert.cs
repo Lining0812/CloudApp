@@ -32,6 +32,6 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 导航属性 - 演唱会中的单曲列表
         /// </summary>
-        public IEnumerable<Track> Tracks { get; set; } = new List<Track>();
+        public ICollection<Track> Tracks { get; set; } = new List<Track>();
     }
 }

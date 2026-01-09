@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CloudApp.Core.Enums
 {
-    public enum EntityType
+    public enum Entype
     {
-        Album = 0,
-        Concert = 1,
-        Track = 2,
-    }
+        Album,
+        Concert,
+		Track
+	}
 }

@@ -3,16 +3,19 @@ using CloudApp.Core.Entities;
 using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Services;
 using CloudApp.Core.Interfaces.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace CloudApp.Service
 {
     public class TrackService : ITrackService
     {
         private readonly ITrackRepository _trackrepository;
+        private readonly ILogger<TrackService> _logger;
 
-        public TrackService(ITrackRepository trackrepository)
+        public TrackService(ITrackRepository trackrepository, ILogger<TrackService> logger)
         {
             _trackrepository = trackrepository;
+            _logger = logger;
         }
 
         #region 同步方法
@@ -20,38 +23,70 @@ namespace CloudApp.Service
         {
             if (model == null)
             {
+                _logger.LogWarning("尝试添加单曲时，模型为null");
                 throw new ArgumentNullException(nameof(model));
             }
-            //Album album = _albumrepository.GetById(model.AlbumId);
-            //Concert concert = _concertrepository.GetById(model.ConcertId);
-            //if (album == null)
-            //{
-            //    throw new ArgumentException("专辑不存在");
-            //}
-            string url = "";
-            var track = model.ToEntity(url);
-            _trackrepository.Add(track);
-            _trackrepository.SaveChange();
+
+            try
+            {
+                _logger.LogInformation("开始添加单曲: {Title}, 艺术家: {Artist}", model.Title, model.Artist);
+                string url = "";
+                var track = model.ToEntity(url);
+                _trackrepository.Add(track);
+                _trackrepository.SaveChange();
+                _logger.LogInformation("成功添加单曲: ID={TrackId}, Title={Title}", track.Id, track.Title);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "添加单曲失败: Title={Title}, Artist={Artist}", model.Title, model.Artist);
+                throw;
+            }
         }
         public void DeleteTrack(int id)
         {
-            bool trackExists = _trackrepository.Exists(id);
-            if (!trackExists)
+            if (id <= 0)
             {
-                throw new ArgumentException(nameof(id), "单曲不存在");
+                _logger.LogWarning("尝试删除单曲时，ID无效: {TrackId}", id);
+                throw new ArgumentException("单曲ID无效", nameof(id));
             }
-            _trackrepository.Delete(id);
-            _trackrepository.SaveChange();
+
+            try
+            {
+                _logger.LogInformation("开始删除单曲: ID={TrackId}", id);
+                bool trackExists = _trackrepository.Exists(id);
+                if (!trackExists)
+                {
+                    _logger.LogWarning("尝试删除不存在的单曲: ID={TrackId}", id);
+                    throw new ArgumentException("单曲不存在", nameof(id));
+                }
+                _trackrepository.Delete(id);
+                _trackrepository.SaveChange();
+                _logger.LogInformation("成功删除单曲: ID={TrackId}", id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "删除单曲失败: ID={TrackId}", id);
+                throw;
+            }
         }
         public void UpdateTrack(int id, CreateTrackDto model)
         {
-            var track = _trackrepository.GetById(id);
-            if (track == null)
+            if (model == null)
             {
-                throw new ArgumentException(nameof(id), "单曲不存在");
+                _logger.LogWarning("尝试更新单曲时，模型为null: ID={TrackId}", id);
+                throw new ArgumentNullException(nameof(model));
             }
-            else
+
+            try
             {
+                _logger.LogInformation("开始更新单曲: ID={TrackId}", id);
+                var track = _trackrepository.GetById(id);
+                if (track == null)
+                {
+                    _logger.LogWarning("尝试更新不存在的单曲: ID={TrackId}", id);
+                    throw new ArgumentException("单曲不存在", nameof(id));
+                }
+
                 track.Title = model.Title;
                 track.Duration = model.Duration;
                 track.Subtitle = model.Subtitle;
@@ -64,23 +99,51 @@ namespace CloudApp.Service
 
                 _trackrepository.Update(track);
                 _trackrepository.SaveChange();
+                _logger.LogInformation("成功更新单曲: ID={TrackId}, Title={Title}", track.Id, track.Title);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "更新单曲失败: ID={TrackId}", id);
+                throw;
             }
         }
 
         public ICollection<TrackInfoDto> GetAllTracks()
         {
-            var tracks = _trackrepository.GetAll();
-            return tracks.Select(t => t.ToInfoDto()).ToList();
+            try
+            {
+                _logger.LogDebug("开始获取所有单曲列表");
+                var tracks = _trackrepository.GetAll();
+                var result = tracks.Select(t => t.ToInfoDto()).ToList();
+                _logger.LogInformation("成功获取单曲列表，共 {Count} 条记录", result.Count);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "获取单曲列表失败");
+                throw;
+            }
         }
 
         public TrackInfoDto GetById(int id)
         {
-            var track = _trackrepository.GetById(id);
-            if (track == null)
+            try
             {
-                throw new ArgumentException(nameof(id), "单曲不存在");
+                _logger.LogDebug("开始获取单曲详情: ID={TrackId}", id);
+                var track = _trackrepository.GetById(id);
+                if (track == null)
+                {
+                    _logger.LogWarning("未找到单曲: ID={TrackId}", id);
+                    throw new ArgumentException("单曲不存在", nameof(id));
+                }
+                _logger.LogInformation("成功获取单曲详情: ID={TrackId}, Title={Title}", track.Id, track.Title);
+                return track.ToInfoDto();
             }
-            return track.ToInfoDto();
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "获取单曲详情失败: ID={TrackId}", id);
+                throw;
+            }
         }
 
         public ICollection<Track> GetByAlbumdID()

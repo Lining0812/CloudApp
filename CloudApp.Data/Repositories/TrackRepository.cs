@@ -1,12 +1,13 @@
 using CloudApp.Core.Entities;
 using CloudApp.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CloudApp.Data.Repositories
 {
     public class TrackRepository : BaseRepository<Track>, ITrackRepository
     {
-        public TrackRepository(MyDBContext dbContext) : base(dbContext)
+        public TrackRepository(MyDBContext dbContext, ILogger<TrackRepository> logger) : base(dbContext, logger)
         {
         }
 
@@ -16,8 +17,9 @@ namespace CloudApp.Data.Repositories
             return _dbSet.Include(t => t.Album).ToList();
         }
 
-        public override Track GetById(int id)
+        public override Track? GetById(int id)
         {
+            // 全局查询过滤器已经自动过滤IsDeleted
             return _dbSet.Include(t => t.Album).FirstOrDefault(t => t.Id == id);
         }
 

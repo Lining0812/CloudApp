@@ -1,5 +1,6 @@
 using CloudApp.Data.Extensions;
 using CloudApp.Service.Extensions;
+using CloudApp.WebApi.Middleware;
 
 namespace CloudApp.WebApi
 {
@@ -39,6 +40,9 @@ namespace CloudApp.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            // 添加全局异常处理中间件（应该放在最前面）
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseCors();
 

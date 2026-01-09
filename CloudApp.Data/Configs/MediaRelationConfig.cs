@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Entities;
+using CloudApp.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,7 +15,13 @@ namespace CloudApp.Data.Configs
             builder.HasKey(m => m.Id);
             builder.Property(m => m.EntityId).IsRequired();
             builder.Property(m => m.MediaId).IsRequired();
-            builder.Property(m => m.MediaType).IsRequired(); 
+            builder.Property(m => m.MediaType).IsRequired();
+            
+            // 配置与MediaResource的关系
+            builder.HasOne(m => m.MediaResource)
+                   .WithMany(mr => mr.MediaRelations)
+                   .HasForeignKey(m => m.MediaId)
+                   .OnDelete(DeleteBehavior.Restrict); 
         }
     }
 }

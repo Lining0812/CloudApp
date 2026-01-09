@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Enums;
+using CloudApp.Core.Enums;
 
 namespace CloudApp.Core.Entities
 {
@@ -32,6 +32,6 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 导航属性->MediaRelation
         /// </summary>
-        public ICollection<MediaRelation> MediaRelations { get; set; }
+        public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
     }
 }
