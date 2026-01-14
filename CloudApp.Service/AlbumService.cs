@@ -36,7 +36,6 @@ namespace CloudApp.Service
             }
 
             string coverImageUrl = string.Empty;
-
             try
             {
                 _logger.LogInformation("开始添加专辑: {Title}, 艺术家: {Artist}", model.Title, model.Artist);
@@ -61,8 +60,7 @@ namespace CloudApp.Service
                 _albumRepository.Add(album);
                 _albumRepository.SaveChange();
                 
-                _logger.LogInformation("成功添加专辑: ID={AlbumId}, Title={Title}, CoverImageUrl={CoverImageUrl}", 
-                    album.Id, album.Title, album.CoverImageUrl);
+                _logger.LogInformation("成功添加专辑: ID={AlbumId}, Title={Title}", album.Id, album.Title);
             }
             catch (Exception ex)
             {
@@ -79,7 +77,6 @@ namespace CloudApp.Service
                         _logger.LogError(deleteEx, "删除已上传的图片失败: {CoverImageUrl}", coverImageUrl);
                     }
                 }
-
                 _logger.LogError(ex, "添加专辑失败: Title={Title}, Artist={Artist}", model.Title, model.Artist);
                 throw;
             }

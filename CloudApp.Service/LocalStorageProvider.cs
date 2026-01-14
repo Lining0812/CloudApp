@@ -14,7 +14,7 @@ namespace CloudApp.Service
     {
         private readonly IWebHostEnvironment _environment;
         private readonly ILogger<LocalStorageProvider> _logger;
-        private const long MaxFileSize = 10 * 1024 * 1024; // 10MB
+        private const long MaxFileSize = 20 * 1024 * 1024;
         private static readonly string[] AllowedExtensions = [".jpg", ".jpeg", ".png", ".gif", ".mp3", ".mp4", ".pdf"];
 
         public LocalStorageProvider(IWebHostEnvironment environment, ILogger<LocalStorageProvider> logger)
@@ -33,7 +33,10 @@ namespace CloudApp.Service
                 throw new ArgumentException("文件不能为空", nameof(file));
             }
 
-            ValidateFile(file);
+            if (!ValidateFile(file))
+            {
+                throw new ArgumentException("文件验证失败", nameof(file));
+            }
 
             try
             {
@@ -168,7 +171,7 @@ namespace CloudApp.Service
         /// <summary>
         /// 验证文件
         /// </summary>
-        private static void ValidateFile(IFormFile file)
+        public bool ValidateFile(IFormFile file)
         {
             if (file.Length > MaxFileSize)
             {
@@ -180,6 +183,7 @@ namespace CloudApp.Service
             {
                 throw new ArgumentException($"不支持的文件类型: {extension}", nameof(file));
             }
+            return true;
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace CloudApp.WebApi.Controllers
         [HttpPost]
         public ActionResult AddAlbum([FromForm] CreateAlbumDto model)
         {
-            _logger.LogInformation("收到添加专辑请求: Title={Title}, Artist={Artist}", model?.Title, model?.Artist);
+            _logger.LogInformation("收到添加专辑请求: Title={Title}", model?.Title);
             
             if (!ModelState.IsValid)
             {
@@ -39,7 +39,7 @@ namespace CloudApp.WebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "处理添加专辑请求时发生错误: Title={Title}", model?.Title);
-                throw; // 异常会被全局异常处理中间件捕获
+                throw;
             }
         }
 

@@ -4,18 +4,25 @@ using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Services;
 using CloudApp.Core.Interfaces.Repositories;
 using Microsoft.Extensions.Logging;
+using CloudApp.Core.Enums;
 
 namespace CloudApp.Service
 {
     public class TrackService : ITrackService
     {
         private readonly ITrackRepository _trackrepository;
+        private readonly IStorageProvider _storageProvider;
         private readonly ILogger<TrackService> _logger;
+        private readonly Entype _type = Entype.Track;
 
-        public TrackService(ITrackRepository trackrepository, ILogger<TrackService> logger)
+        public TrackService(
+            ITrackRepository trackrepository, 
+            ILogger<TrackService> logger, 
+            IStorageProvider storageProvider)
         {
             _trackrepository = trackrepository;
             _logger = logger;
+            _storageProvider = storageProvider;
         }
 
         #region 同步方法
@@ -27,17 +34,47 @@ namespace CloudApp.Service
                 throw new ArgumentNullException(nameof(model));
             }
 
+            string coverImageUrl = string.Empty;
             try
             {
                 _logger.LogInformation("开始添加单曲: {Title}, 艺术家: {Artist}", model.Title, model.Artist);
-                string url = "";
-                var track = model.ToEntity(url);
+
+                // 处理封面图片上传
+                if (model.CoverImage != null && model.CoverImage.Length > 0)
+                {
+                    _logger.LogInformation("开始上传专辑封面图片: FileName={FileName}, Size={Size} bytes",
+                        model.CoverImage.FileName, model.CoverImage.Length);
+
+                    coverImageUrl = _storageProvider.SaveFile(model.CoverImage, _type);
+
+                    _logger.LogInformation("封面图片上传成功: Path={CoverImageUrl}", coverImageUrl);
+                }
+                else
+                {
+                    _logger.LogWarning("添加专辑时未提供封面图片");
+                }
+
+                // 创建专辑实体并保存
+                Track track = model.ToEntity(coverImageUrl);
                 _trackrepository.Add(track);
                 _trackrepository.SaveChange();
                 _logger.LogInformation("成功添加单曲: ID={TrackId}, Title={Title}", track.Id, track.Title);
             }
             catch (Exception ex)
             {
+                // 如果保存数据库失败，尝试删除已上传的图片
+                if (!string.IsNullOrEmpty(coverImageUrl))
+                {
+                    try
+                    {
+                        _logger.LogWarning("专辑保存失败，尝试删除已上传的图片: {CoverImageUrl}", coverImageUrl);
+                        _storageProvider.DeleteFile(coverImageUrl);
+                    }
+                    catch (Exception deleteEx)
+                    {
+                        _logger.LogError(deleteEx, "删除已上传的图片失败: {CoverImageUrl}", coverImageUrl);
+                    }
+                }
                 _logger.LogError(ex, "添加单曲失败: Title={Title}, Artist={Artist}", model.Title, model.Artist);
                 throw;
             }
