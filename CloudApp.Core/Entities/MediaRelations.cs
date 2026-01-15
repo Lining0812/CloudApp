@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Enums;
+using CloudApp.Core.Enums;
 
 namespace CloudApp.Core.Entities
 {
