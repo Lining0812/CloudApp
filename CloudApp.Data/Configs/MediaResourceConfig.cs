@@ -17,7 +17,8 @@ namespace CloudApp.Data.Configs
             builder.Property(m => m.FileName).IsRequired().HasMaxLength(100);
             builder.Property(m => m.FilePath).IsRequired().HasMaxLength(200);
             builder.Property(m => m.FileUrl).IsRequired().HasMaxLength(200);
-            builder.Property(m => m.ContentTpye).IsRequired().HasMaxLength(50);
+            builder.Property(m => m.ContentType).IsRequired().HasMaxLength(50);
+            builder.Property(m => m.MediaType).IsRequired().HasConversion<int>();
             // 导航属性配置
             builder.HasMany(m=>m.MediaRelations).WithOne(m=>m.MediaResource).OnDelete(DeleteBehavior.Cascade);
         }

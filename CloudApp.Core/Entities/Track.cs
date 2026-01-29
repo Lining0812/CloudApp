@@ -1,3 +1,5 @@
+using CloudApp.Core.Enums;
+
 namespace CloudApp.Core.Entities
 {
     /// <summary>
@@ -40,8 +42,11 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 封面图片
         /// </summary>
-        public string CoverImageUrl { get; set; }
-
+        public MediaResource? CoverImage { get; set; }
+        /// <summary>
+        /// 单曲类型
+        /// </summary>
+        public TrackType Type { get; set; } = TrackType.Single;
         /// <summary>
         /// 专辑导航
         /// </summary>

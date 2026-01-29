@@ -22,7 +22,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 文件 MIME 类型
         /// </summary>
-        public string ContentTpye { get; set; } = string.Empty;
+        public string ContentType { get; set; } = string.Empty;
         /// <summary>
         /// 资源类型
         /// </summary>

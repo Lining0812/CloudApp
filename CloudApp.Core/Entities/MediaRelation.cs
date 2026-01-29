@@ -12,6 +12,10 @@ namespace CloudApp.Core.Entities
         /// </summary>
         public int EntityId { get; set; }
         /// <summary>
+        /// 实体类型
+        /// </summary>
+        public Entype EntityType { get; set; }
+        /// <summary>
         /// 关联资源ID
         /// </summary>
         public int MediaId { get; set; }

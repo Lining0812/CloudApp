@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using CloudApp.Core.Attributes;
 
 namespace CloudApp.Core.Dtos
 {
@@ -20,7 +19,6 @@ namespace CloudApp.Core.Dtos
         [Required(ErrorMessage = "发行日期不能为空")]
         public DateTime ReleaseDate { get; set; }
         
-        [FileSize(20 * 1024 * 1024, ErrorMessage = "封面图片大小不能超过20MB")]
         public IFormFile? CoverImage { get; set; }
     }
 }
