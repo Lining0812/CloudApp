@@ -12,6 +12,7 @@ namespace CloudApp.Data.Configs
         public void Configure(EntityTypeBuilder<Track> builder)
         {
             builder.ToTable("T_Tracks");
+
             // 主键配置
             builder.HasKey(t=>t.Id);
             // 单曲名称配置
@@ -36,6 +37,8 @@ namespace CloudApp.Data.Configs
                 v => v,
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
+
+
             // Title字段创建索引
             builder.HasIndex(t => t.Title);
 
