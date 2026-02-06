@@ -10,7 +10,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 单曲标题
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         /// <summary>
         /// 副标题
         /// </summary>
@@ -26,23 +26,23 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 发行日期
         /// </summary>
-        public DateTime ReleaseDate { get; set; }
+        public DateTime ReleaseDate { get; set; } = DateTime.UtcNow;
         /// <summary>
         /// 原唱
         /// </summary>
-        public string Artist { get; set; }
+        public string Artist { get; set; } = string.Empty;
         /// <summary>
         /// 作曲者
         /// </summary>
-        public string Composer { get; set; }
+        public string Composer { get; set; } = string.Empty;
         /// <summary>
         /// 作词者
         /// </summary>
-        public string Lyricist { get; set; }
+        public string Lyricist { get; set; } = string.Empty;
         /// <summary>
         /// 封面图片
         /// </summary>
-        public MediaResource? CoverImage { get; set; }
+        public string CoverImage { get; set; } = string.Empty;
         /// <summary>
         /// 单曲类型
         /// </summary>
@@ -50,7 +50,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 专辑导航
         /// </summary>
-        public Album? Album { get; set; }
+        public Album? Album { get; set; } 
         public int? AlbumId { get; set; }
 
         /// <summary>
