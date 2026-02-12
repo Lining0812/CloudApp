@@ -1,6 +1,7 @@
 using CloudApp.Core.Entities;
 using CloudApp.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
 namespace CloudApp.Data.Repositories
@@ -57,7 +58,6 @@ namespace CloudApp.Data.Repositories
             // 全局查询过滤器已经自动过滤IsDeleted
             return _dbSet.Any(e => e.Id == id);
         }
-        
 
         public virtual void Update(T entity)
         {
@@ -125,6 +125,12 @@ namespace CloudApp.Data.Repositories
                 throw;
             }
         }
+
+        public virtual IDbContextTransaction BeginTransaction()
+        {
+            return _context.Database.BeginTransaction();
+        }
+
         #endregion
 
         #region 异步方法
@@ -231,8 +237,12 @@ namespace CloudApp.Data.Repositories
 
         public virtual async Task<int> CountAsync()
         {
-            // 全局查询过滤器已经自动过滤IsDeleted
             return await _dbSet.CountAsync();
+        }
+
+        public virtual async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _context.Database.BeginTransactionAsync();
         }
         #endregion
     }

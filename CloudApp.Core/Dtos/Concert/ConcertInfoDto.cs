@@ -1,4 +1,4 @@
-namespace CloudApp.Core.Dtos
+namespace CloudApp.Core.Dtos.Concert
 {
     public class ConcertInfoDto
     {

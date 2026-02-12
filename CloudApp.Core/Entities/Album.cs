@@ -22,13 +22,14 @@ namespace CloudApp.Core.Entities
         /// 发行日期
         /// </summary>
         public DateTime ReleaseDate { get; set; } = DateTime.UtcNow;
+
         /// <summary>
-        /// 封面图片URL
-        /// </summary>
-        public string CoverImageUrl { get; set; } = string.Empty;
-        /// <summary>
-        /// 导航属性 - 专辑中的单曲列表
+        /// 导航属性 - 专辑中的单曲
         /// </summary>
         public ICollection<Track> Tracks { get; set; } = new List<Track>();
+        /// <summary>
+        /// 导航属性 - 资源
+        /// </summary>
+        public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
     }
 }

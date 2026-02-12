@@ -1,4 +1,4 @@
-using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos.Concert;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;

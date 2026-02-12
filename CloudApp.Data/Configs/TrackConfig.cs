@@ -38,7 +38,6 @@ namespace CloudApp.Data.Configs
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
 
-
             // Title字段创建索引
             builder.HasIndex(t => t.Title);
 

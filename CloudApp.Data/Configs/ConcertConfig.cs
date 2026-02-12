@@ -30,8 +30,6 @@ namespace CloudApp.Data.Configs
             );
             // 地点配置
             builder.Property(c => c.Address).IsRequired().HasMaxLength(300);
-            // 封面图片配置
-            //builder.Property(c => c.CoverImageUrl).IsRequired().HasMaxLength(500).HasDefaultValue("concerts\\default_cover.jpg");
         }
     }
 }

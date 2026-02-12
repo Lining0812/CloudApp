@@ -1,4 +1,4 @@
-using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos.Track;
 using CloudApp.Core.Entities;
 
 namespace CloudApp.Core.Extensions
@@ -22,7 +22,6 @@ namespace CloudApp.Core.Extensions
                 Artist = dto.Artist,
                 Composer = dto.Composer,
                 Lyricist = dto.Lyricist,
-                CoverImageUrl = imageurl,
                 AlbumId = dto.AlbumId,
                 ConcertId = dto.ConcertId,
 
@@ -42,7 +41,6 @@ namespace CloudApp.Core.Extensions
                 Artist = track.Artist,
                 Composer = track.Composer,
                 Lyricist = track.Lyricist,
-                CoverImageUrl = track.CoverImageUrl,
                 AlbumTitle = track.Album?.Title,
                 ConcertTitle = track.Concert?.Title,
             };

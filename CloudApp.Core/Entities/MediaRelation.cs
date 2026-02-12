@@ -24,7 +24,16 @@ namespace CloudApp.Core.Entities
         /// </summary>
         public MediaType MediaType { get; set; }
         /// <summary>
-        /// 导航属性->MediaResource
+        /// 排序顺序
+        /// </summary>
+        //public int OrderIndex { get; set; }
+        /// <summary>
+        /// 是否为默认资源
+        /// </summary>
+        public bool IsDefault { get; set; }
+
+        /// <summary>
+        /// 导航属性 -> MediaResource
         /// </summary>
         public MediaResource MediaResource { get; set; }
     }

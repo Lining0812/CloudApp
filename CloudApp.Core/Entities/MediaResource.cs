@@ -16,10 +16,6 @@ namespace CloudApp.Core.Entities
         /// </summary>
         public string FilePath { get; set; } = string.Empty;
         /// <summary>
-        /// 文件url
-        /// </summary>
-        public string FileUrl { get; set; } = string.Empty;
-        /// <summary>
         /// 文件 MIME 类型
         /// </summary>
         public string ContentType { get; set; } = string.Empty;
@@ -27,10 +23,9 @@ namespace CloudApp.Core.Entities
         /// 资源类型
         /// </summary>
         public MediaType MediaType { get; set; }
-        //public bool IsDefault { get; set; }
 
         /// <summary>
-        /// 导航属性->MediaRelation
+        /// 导航属性 - MediaRelation
         /// </summary>
         public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
     }

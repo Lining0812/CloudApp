@@ -1,11 +1,11 @@
-using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos.Album;
 using CloudApp.Core.Entities;
 
 namespace CloudApp.Core.Extensions
 {
     public static class AlbumExtension
     {
-        public static Album ToEntity(this CreateAlbumDto dto,string imageurl)
+        public static Album ToEntity(this CreateAlbumDto dto)
         {
             if (dto == null)
             {
@@ -18,7 +18,6 @@ namespace CloudApp.Core.Extensions
                 Description = dto.Description,
                 Artist = dto.Artist,
                 ReleaseDate = dto.ReleaseDate,
-                CoverImageUrl = imageurl,
 
                 CreatedAt = now,
                 UpdatedAt = now,
@@ -39,7 +38,6 @@ namespace CloudApp.Core.Extensions
                 Description = album.Description,
                 Artist = album.Artist,
                 ReleaseDate = album.ReleaseDate,
-                CoverImageUrl = album.CoverImageUrl,
 
                 Tracks = album.Tracks.Select(t => t.Title).ToList(),
             };

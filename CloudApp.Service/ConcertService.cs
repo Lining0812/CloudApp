@@ -1,10 +1,10 @@
-using CloudApp.Core.Dtos;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Core.Interfaces.Services;
 using CloudApp.Core.Exceptions;
 using Microsoft.Extensions.Logging;
+using CloudApp.Core.Dtos.Concert;
 
 namespace CloudApp.Service
 {

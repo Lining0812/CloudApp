@@ -29,9 +29,14 @@ namespace CloudApp.Core.Entities
         /// 封面图片
         /// </summary>
         public string CoverImageUrl { get; set; } = string.Empty;
+
         /// <summary>
-        /// 导航属性 - 演唱会中的单曲列表
+        /// 导航属性 - 演唱会中的单曲
         /// </summary>
         public ICollection<Track> Tracks { get; set; } = new List<Track>();
+        /// <summary>
+        /// 导航属性 - 资源
+        /// </summary>
+        public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
     }
 }

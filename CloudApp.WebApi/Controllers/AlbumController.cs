@@ -1,4 +1,4 @@
-using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos.Album;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

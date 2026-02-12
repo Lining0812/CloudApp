@@ -26,6 +26,13 @@ namespace CloudApp.Data.Configs
                 v => v,
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
+            // 资源关系配置
+            builder.HasMany(a => a.MediaRelations)
+                   .WithOne()
+                   .HasForeignKey(a => a.EntityId)
+                   .HasPrincipalKey(a => a.Id)
+                   .OnDelete(DeleteBehavior.Cascade);
+
             // 索引配置
             builder.HasIndex(a => a.Title);
         }

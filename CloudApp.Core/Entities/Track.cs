@@ -47,16 +47,20 @@ namespace CloudApp.Core.Entities
         /// 单曲类型
         /// </summary>
         public TrackType Type { get; set; } = TrackType.Single;
+
         /// <summary>
-        /// 专辑导航
+        /// 导航属性 - 专辑
         /// </summary>
         public Album? Album { get; set; } 
         public int? AlbumId { get; set; }
-
         /// <summary>
-        /// 演唱会导航
+        /// 导航属性 - 演唱会
         /// </summary>
         public Concert? Concert { get; set; }
         public int? ConcertId { get; set; }
+        /// <summary>
+        /// 导航属性 - 资源
+        /// </summary>
+        public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
     }
 }

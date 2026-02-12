@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Entities;
+using CloudApp.Core.Entities;
 
 namespace CloudApp.Core.Interfaces.Repositories
 {

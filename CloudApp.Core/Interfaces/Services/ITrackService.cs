@@ -1,4 +1,4 @@
-using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos.Track;
 using CloudApp.Core.Entities;
 
 namespace CloudApp.Core.Interfaces.Services

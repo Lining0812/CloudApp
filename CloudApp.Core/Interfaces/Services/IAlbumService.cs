@@ -1,4 +1,4 @@
-using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos.Album;
 
 namespace CloudApp.Core.Interfaces.Services
 {

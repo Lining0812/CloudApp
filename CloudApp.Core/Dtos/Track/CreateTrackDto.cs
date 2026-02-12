@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace CloudApp.Core.Dtos
+namespace CloudApp.Core.Dtos.Track
 {
     public class CreateTrackDto
     {

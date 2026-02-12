@@ -1,4 +1,4 @@
-using CloudApp.Core.Dtos;
+using CloudApp.Core.Dtos.Concert;
 
 namespace CloudApp.Core.Interfaces.Services
 {

@@ -16,11 +16,13 @@ namespace CloudApp.Data.Configs
             builder.HasKey(m => m.Id);
             builder.Property(m => m.FileName).IsRequired().HasMaxLength(100);
             builder.Property(m => m.FilePath).IsRequired().HasMaxLength(200);
-            builder.Property(m => m.FileUrl).IsRequired().HasMaxLength(200);
             builder.Property(m => m.ContentType).IsRequired().HasMaxLength(50);
             builder.Property(m => m.MediaType).IsRequired().HasConversion<int>();
-            // 导航属性配置
-            builder.HasMany(m=>m.MediaRelations).WithOne(m=>m.MediaResource).OnDelete(DeleteBehavior.Cascade);
+
+            // 导航属性配置（已在MediaRelation中配置）
+            //builder.HasMany(m=>m.MediaRelations)
+            //       .WithOne(m=>m.MediaResource)
+            //       .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

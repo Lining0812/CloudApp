@@ -1,7 +1,6 @@
 
-using Microsoft.AspNetCore.Http;
 
-namespace CloudApp.Core.Dtos
+namespace CloudApp.Core.Dtos.Album
 {
     public class AlbumInfoDto
     {
@@ -10,7 +9,6 @@ namespace CloudApp.Core.Dtos
         public string? Description { get; set; }
         public string Artist { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public string CoverImageUrl { get; set; }
         public List<string> Tracks { get; set; }
     }
 }
