@@ -19,8 +19,4 @@
     <ProjectReference Include="..\CloudApp.Core\CloudApp.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

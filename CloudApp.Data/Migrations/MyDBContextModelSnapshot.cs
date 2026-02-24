@@ -35,10 +35,6 @@ namespace CloudApp.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("CoverImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -122,10 +118,7 @@ namespace CloudApp.Data.Migrations
             modelBuilder.Entity("CloudApp.Core.Entities.MediaRelation", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -136,13 +129,18 @@ namespace CloudApp.Data.Migrations
                     b.Property<int>("EntityId")
                         .HasColumnType("int");
 
+                    b.Property<int>("EntityType")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDefault")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("MediaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MediaResourceId")
                         .HasColumnType("int");
 
                     b.Property<int>("MediaType")
@@ -153,7 +151,9 @@ namespace CloudApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MediaResourceId");
+                    b.HasIndex("EntityId");
+
+                    b.HasIndex("MediaId");
 
                     b.ToTable("T_MediaRelations", (string)null);
                 });
@@ -166,7 +166,7 @@ namespace CloudApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ContentTpye")
+                    b.Property<string>("ContentType")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -183,11 +183,6 @@ namespace CloudApp.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("FileUrl")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -230,7 +225,7 @@ namespace CloudApp.Data.Migrations
                     b.Property<int?>("ConcertId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CoverImageUrl")
+                    b.Property<string>("CoverImage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -267,6 +262,9 @@ namespace CloudApp.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -283,9 +281,27 @@ namespace CloudApp.Data.Migrations
 
             modelBuilder.Entity("CloudApp.Core.Entities.MediaRelation", b =>
                 {
+                    b.HasOne("CloudApp.Core.Entities.Album", null)
+                        .WithMany("MediaRelations")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CloudApp.Core.Entities.Concert", null)
+                        .WithMany("MediaRelations")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CloudApp.Core.Entities.MediaResource", "MediaResource")
                         .WithMany("MediaRelations")
-                        .HasForeignKey("MediaResourceId")
+                        .HasForeignKey("MediaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CloudApp.Core.Entities.Track", null)
+                        .WithMany("MediaRelations")
+                        .HasForeignKey("MediaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -311,15 +327,24 @@ namespace CloudApp.Data.Migrations
 
             modelBuilder.Entity("CloudApp.Core.Entities.Album", b =>
                 {
+                    b.Navigation("MediaRelations");
+
                     b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("CloudApp.Core.Entities.Concert", b =>
                 {
+                    b.Navigation("MediaRelations");
+
                     b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("CloudApp.Core.Entities.MediaResource", b =>
+                {
+                    b.Navigation("MediaRelations");
+                });
+
+            modelBuilder.Entity("CloudApp.Core.Entities.Track", b =>
                 {
                     b.Navigation("MediaRelations");
                 });

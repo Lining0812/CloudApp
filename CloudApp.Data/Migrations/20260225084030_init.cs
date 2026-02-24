@@ -21,7 +21,6 @@ namespace CloudApp.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Artist = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CoverImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -62,8 +61,7 @@ namespace CloudApp.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FileName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     FilePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    FileUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    ContentTpye = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     MediaType = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -89,7 +87,8 @@ namespace CloudApp.Data.Migrations
                     Artist = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Composer = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Lyricist = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CoverImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     AlbumId = table.Column<int>(type: "int", nullable: true),
                     ConcertId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -118,12 +117,12 @@ namespace CloudApp.Data.Migrations
                 name: "T_MediaRelations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     EntityId = table.Column<int>(type: "int", nullable: false),
+                    EntityType = table.Column<int>(type: "int", nullable: false),
                     MediaId = table.Column<int>(type: "int", nullable: false),
                     MediaType = table.Column<int>(type: "int", nullable: false),
-                    MediaResourceId = table.Column<int>(type: "int", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -133,9 +132,27 @@ namespace CloudApp.Data.Migrations
                 {
                     table.PrimaryKey("PK_T_MediaRelations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_T_MediaRelations_T_MediaResources_MediaResourceId",
-                        column: x => x.MediaResourceId,
+                        name: "FK_T_MediaRelations_T_Albums_EntityId",
+                        column: x => x.EntityId,
+                        principalTable: "T_Albums",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_T_MediaRelations_T_Concerts_Id",
+                        column: x => x.Id,
+                        principalTable: "T_Concerts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_T_MediaRelations_T_MediaResources_MediaId",
+                        column: x => x.MediaId,
                         principalTable: "T_MediaResources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_T_MediaRelations_T_Tracks_MediaId",
+                        column: x => x.MediaId,
+                        principalTable: "T_Tracks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -146,9 +163,14 @@ namespace CloudApp.Data.Migrations
                 column: "Title");
 
             migrationBuilder.CreateIndex(
-                name: "IX_T_MediaRelations_MediaResourceId",
+                name: "IX_T_MediaRelations_EntityId",
                 table: "T_MediaRelations",
-                column: "MediaResourceId");
+                column: "EntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_T_MediaRelations_MediaId",
+                table: "T_MediaRelations",
+                column: "MediaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_T_Tracks_AlbumId",
@@ -173,10 +195,10 @@ namespace CloudApp.Data.Migrations
                 name: "T_MediaRelations");
 
             migrationBuilder.DropTable(
-                name: "T_Tracks");
+                name: "T_MediaResources");
 
             migrationBuilder.DropTable(
-                name: "T_MediaResources");
+                name: "T_Tracks");
 
             migrationBuilder.DropTable(
                 name: "T_Albums");

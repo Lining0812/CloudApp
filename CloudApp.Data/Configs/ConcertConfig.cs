@@ -30,6 +30,13 @@ namespace CloudApp.Data.Configs
             );
             // 地点配置
             builder.Property(c => c.Address).IsRequired().HasMaxLength(300);
+
+            // 资源关系配置
+            builder.HasMany(c => c.MediaRelations)
+                .WithOne()
+                .HasForeignKey(m => m.Id)
+                .HasPrincipalKey(c => c.Id)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

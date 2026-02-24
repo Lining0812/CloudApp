@@ -14,6 +14,7 @@ namespace CloudApp.Data.Configs
             builder.ToTable("T_MediaRelations");
 
             builder.HasKey(m => m.Id);
+
             builder.Property(m => m.EntityId).IsRequired();
             builder.Property(m => m.MediaId).IsRequired();
             builder.Property(m => m.MediaType).IsRequired();
@@ -21,7 +22,7 @@ namespace CloudApp.Data.Configs
             builder.Property(m => m.IsDefault).IsRequired().HasDefaultValue(false);
 
             // 添加复合索引以提高查询性能
-            builder.HasIndex(m => new { m.EntityId, m.EntityType });
+            //builder.HasIndex(m => new { m.EntityId, m.EntityType });
 
             // 配置与MediaResource的关系
             builder.HasOne(m => m.MediaResource)

@@ -13,18 +13,15 @@ namespace CloudApp.Service
     {
         private readonly IAlbumRepository _albumRepository;
         private readonly IMediaService _mediaService;
-        private readonly IStorageProvider _storageProvider;
         private readonly ILogger<AlbumService> _logger;
         private readonly Entype _type = Entype.Album;
 
         public AlbumService(
             IAlbumRepository repository,
             IMediaService mediaService,
-            IStorageProvider storageProvider,
             ILogger<AlbumService> logger)
         {
             _albumRepository = repository;
-            _storageProvider = storageProvider;
             _logger = logger;
             _mediaService = mediaService;
         }
@@ -38,55 +35,36 @@ namespace CloudApp.Service
                 throw new ArgumentNullException(nameof(model));
             }
 
-            string coverImageUrl = string.Empty;
             using(var transaction = _albumRepository.BeginTransaction())
             {
                 try
                 {
-                    _logger.LogInformation("开始添加专辑: {Title}, 艺术家: {Artist}", model.Title, model.Artist);
+                    _logger.LogInformation($"开始添加专辑: {model.Title}, 艺术家: {model.Artist}");
 
                     // 创建专辑实体并保存
                     Album album = model.ToEntity();
                     _albumRepository.Add(album);
                     _albumRepository.SaveChange();
 
-                    _logger.LogInformation("成功添加专辑: ID={AlbumId}, Title={Title}", album.Id, album.Title);
+                    _logger.LogInformation($"成功添加专辑: ID={album.Id}, Title={album.Title}");
 
                     // 处理封面图片上传
                     if (model.CoverImage != null && model.CoverImage.Length > 0)
                     {
-                        _logger.LogInformation("开始上传专辑封面图片: FileName={FileName}, Size={Size} bytes",
-                            model.CoverImage.FileName, model.CoverImage.Length);
+                        _logger.LogInformation($"开始上传专辑封面图片: FileName={ model.CoverImage.FileName}, Size={model.CoverImage.Length} bytes");
 
-                        //coverImageUrl = _storageProvider.SaveFile(model.CoverImage, _type);
                         _mediaService.AddMediaWithRelation(model.CoverImage, MediaType.Image, album, _type);
 
-                        _logger.LogInformation("封面图片上传成功并创建关联");
+                        _logger.LogInformation("成功上传专辑封面图片并创建关联");
                     }
                     else
                     {
-                        _logger.LogWarning("封面图片上传失败");
+                        _logger.LogWarning("未提供专辑封面图片");
                     }
-
                     transaction.Commit();
                 }
                 catch (Exception ex)
                 {
-                    // 如果保存数据库失败，尝试删除已上传的图片
-                    if (!string.IsNullOrEmpty(coverImageUrl))
-                    {
-                        try
-                        {
-                            _logger.LogWarning("专辑保存失败，尝试删除已上传的图片: {CoverImageUrl}", coverImageUrl);
-                            // 待完善
-                            //_mediaService.DeleteMedia();
-                        }
-                        catch (Exception deleteEx)
-                        {
-                            _logger.LogError(deleteEx, "删除已上传的图片失败: {CoverImageUrl}", coverImageUrl);
-                        }
-                    }
-                    _logger.LogError(ex, "添加专辑失败: Title={Title}, Artist={Artist}", model.Title, model.Artist);
                     transaction.Rollback();
                     throw;
                 }
@@ -100,8 +78,6 @@ namespace CloudApp.Service
                 _logger.LogWarning("尝试删除专辑时，ID无效: {AlbumId}", id);
                 throw new ArgumentException("专辑ID无效", nameof(id));
             }
-
-            string? coverImageUrl = null;
 
             try
             {
@@ -121,22 +97,6 @@ namespace CloudApp.Service
                 _albumRepository.SaveChange();
                 
                 _logger.LogInformation("成功删除专辑: ID={AlbumId}", id);
-
-                // 删除关联的封面图片文件
-                if (!string.IsNullOrEmpty(coverImageUrl))
-                {
-                    try
-                    {
-                        _logger.LogInformation("开始删除专辑封面图片: Path={CoverImageUrl}", coverImageUrl);
-                        _storageProvider.DeleteFile(coverImageUrl);
-                        _logger.LogInformation("成功删除专辑封面图片: Path={CoverImageUrl}", coverImageUrl);
-                    }
-                    catch (Exception deleteEx)
-                    {
-                        // 图片删除失败不影响专辑删除，只记录警告
-                        _logger.LogWarning(deleteEx, "删除专辑封面图片失败: Path={CoverImageUrl}", coverImageUrl);
-                    }
-                }
             }
             catch (Exception ex)
             {
