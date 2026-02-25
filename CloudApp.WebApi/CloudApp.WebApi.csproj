@@ -27,9 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-    <Folder Include="wwwroot\images\albums\" />
-    <Folder Include="wwwroot\images\tracks\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

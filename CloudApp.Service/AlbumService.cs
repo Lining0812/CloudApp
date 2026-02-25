@@ -48,7 +48,7 @@ namespace CloudApp.Service
 
                     _logger.LogInformation($"成功添加专辑: ID={album.Id}, Title={album.Title}");
 
-                    // 处理封面图片上传
+                    // 处理资源上传
                     if (model.CoverImage != null && model.CoverImage.Length > 0)
                     {
                         _logger.LogInformation($"开始上传专辑封面图片: FileName={ model.CoverImage.FileName}, Size={model.CoverImage.Length} bytes");

@@ -33,6 +33,7 @@ public class MediaService : IMediaService
             throw new ArgumentException("文件不能为空");
         }
 
+        // 后续优化：关系创建后再保存
         string filePath = _storageProvider.SaveFile(file, Entype.Album);
 
         var mediaResource = new MediaResource

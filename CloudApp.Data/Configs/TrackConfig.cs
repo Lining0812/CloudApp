@@ -49,7 +49,6 @@ namespace CloudApp.Data.Configs
             // 资源关系配置
             builder.HasMany(t=>t.MediaRelations)
                    .WithOne()
-                   .HasForeignKey(m => m.MediaId)
                    .HasPrincipalKey(t => t.Id)
                    .OnDelete(DeleteBehavior.Cascade);
         }

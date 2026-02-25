@@ -29,7 +29,6 @@ namespace CloudApp.Data.Configs
             // 资源关系配置
             builder.HasMany(a => a.MediaRelations)
                    .WithOne()
-                   .HasForeignKey(a => a.EntityId)
                    .HasPrincipalKey(a => a.Id)
                    .OnDelete(DeleteBehavior.Cascade);
 

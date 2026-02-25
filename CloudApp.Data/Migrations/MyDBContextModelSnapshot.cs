@@ -118,6 +118,15 @@ namespace CloudApp.Data.Migrations
             modelBuilder.Entity("CloudApp.Core.Entities.MediaRelation", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ConcertId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -146,14 +155,21 @@ namespace CloudApp.Data.Migrations
                     b.Property<int>("MediaType")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TrackId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EntityId");
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("ConcertId");
 
                     b.HasIndex("MediaId");
+
+                    b.HasIndex("TrackId");
 
                     b.ToTable("T_MediaRelations", (string)null);
                 });
@@ -283,15 +299,13 @@ namespace CloudApp.Data.Migrations
                 {
                     b.HasOne("CloudApp.Core.Entities.Album", null)
                         .WithMany("MediaRelations")
-                        .HasForeignKey("EntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CloudApp.Core.Entities.Concert", null)
                         .WithMany("MediaRelations")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ConcertId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CloudApp.Core.Entities.MediaResource", "MediaResource")
                         .WithMany("MediaRelations")
@@ -301,9 +315,8 @@ namespace CloudApp.Data.Migrations
 
                     b.HasOne("CloudApp.Core.Entities.Track", null)
                         .WithMany("MediaRelations")
-                        .HasForeignKey("MediaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("MediaResource");
                 });
