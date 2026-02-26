@@ -44,7 +44,7 @@ namespace CloudApp.Service
             }
         }
 
-        public void DelectConcert(int id)
+        public void DeleteConcert(int id)
         {
             if (id <= 0)
             {

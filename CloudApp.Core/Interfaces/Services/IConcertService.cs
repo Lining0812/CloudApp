@@ -14,7 +14,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// 删除演唱会
         /// </summary>
         /// <param name="id"></param>
-        void DelectConcert(int id);
+        void DeleteConcert(int id);
 
         /// <summary>
         /// 更新演唱会
