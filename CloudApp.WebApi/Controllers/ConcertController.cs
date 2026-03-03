@@ -1,8 +1,6 @@
 using CloudApp.Core.Dtos.Concert;
-using CloudApp.Core.Entities;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CloudApp.WebApi.Controllers
 {
@@ -20,17 +18,17 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddConcert([FromForm]CreateConcertDto model)
+        public ActionResult AddConcert([FromForm] CreateConcertDto model)
         {
             _logger.LogInformation("收到添加演唱会请求: Title={Title}, Address={Address}", model?.Title, model?.Address);
-            
+
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("添加演唱会请求验证失败: {Errors}",
                     string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
                 return BadRequest("存在非法数据，添加失败");
             }
-            
+
             try
             {
                 _concertService.AddConcert(model);
@@ -48,10 +46,10 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult DelectConcert(int concertId)
         {
             _logger.LogInformation("收到删除演唱会请求: ID={ConcertId}", concertId);
-            
+
             try
             {
-                _concertService.DelectConcert(concertId);
+                _concertService.DeleteConcert(concertId);
                 _logger.LogInformation("成功处理删除演唱会请求: ID={ConcertId}", concertId);
                 return Ok("成功删除演唱会");
             }
@@ -66,14 +64,14 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult UpdateConcert(int concertId, [FromForm] CreateConcertDto model)
         {
             _logger.LogInformation("收到更新演唱会请求: ID={ConcertId}, Title={Title}", concertId, model?.Title);
-            
+
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("更新演唱会请求验证失败: ID={ConcertId}, {Errors}", concertId,
                     string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
                 return BadRequest("存在非法数据，更新失败");
             }
-            
+
             try
             {
                 _concertService.UpdateConcert(concertId, model);
@@ -98,11 +96,11 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult<ConcertInfoDto> GetById(int id)
         {
             _logger.LogDebug("收到获取演唱会详情请求: ID={ConcertId}", id);
-            
+
             try
             {
                 var infoDto = _concertService.GetById(id);
-                if(infoDto == null)
+                if (infoDto == null)
                 {
                     _logger.LogWarning("未找到演唱会: ID={ConcertId}", id);
                     return BadRequest("未找到对应演出");

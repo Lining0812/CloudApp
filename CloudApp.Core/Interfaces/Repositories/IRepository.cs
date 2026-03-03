@@ -1,5 +1,4 @@
 using CloudApp.Core.Entities;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CloudApp.Core.Interfaces.Repositories
 {
@@ -18,6 +17,7 @@ namespace CloudApp.Core.Interfaces.Repositories
         /// <param name="id"></param>
         /// <returns></returns>
         public T? GetById(int id);
+
         /// <summary>
         /// 判断实体是否存在
         /// </summary>
@@ -67,8 +67,6 @@ namespace CloudApp.Core.Interfaces.Repositories
         /// 获取实体数量
         /// </summary>
         public int Count();
-        // 事务相关方法
-        IDbContextTransaction BeginTransaction();
         #endregion
 
         #region 异步方法
@@ -120,8 +118,6 @@ namespace CloudApp.Core.Interfaces.Repositories
         /// 获取实体数量（异步）
         /// </summary>
         Task<int> CountAsync();
-
-        Task<IDbContextTransaction> BeginTransactionAsync();
         #endregion
     }
 }

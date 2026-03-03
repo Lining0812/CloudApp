@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CloudApp.Application\CloudApp.Application.csproj" />
     <ProjectReference Include="..\CloudApp.Core\CloudApp.Core.csproj" />
-    <ProjectReference Include="..\CloudApp.Service\CloudApp.Service.csproj" />
-    <ProjectReference Include="..\CloudApp.Data\CloudApp.Data.csproj" />
+    <ProjectReference Include="..\CloudApp.Infrastructure\CloudApp.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

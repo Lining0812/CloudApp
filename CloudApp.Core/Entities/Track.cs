@@ -42,7 +42,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 封面图片
         /// </summary>
-        public string CoverImage { get; set; } = string.Empty;
+        public string CoverImageUrl { get; set; } = string.Empty;
         /// <summary>
         /// 单曲类型
         /// </summary>

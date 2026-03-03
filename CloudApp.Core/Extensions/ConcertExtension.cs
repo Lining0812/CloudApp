@@ -23,9 +23,7 @@ namespace CloudApp.Core.Extensions
                 CoverImageUrl = imageurl,
                 Address = dto.Address,
 
-                CreatedAt = now,
                 UpdatedAt = now,
-                IsDeleted = false,
             };
         }
 

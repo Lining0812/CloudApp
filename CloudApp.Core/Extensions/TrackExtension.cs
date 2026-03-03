@@ -25,9 +25,7 @@ namespace CloudApp.Core.Extensions
                 AlbumId = dto.AlbumId,
                 ConcertId = dto.ConcertId,
 
-                CreatedAt = now,
                 UpdatedAt = now,
-                IsDeleted = false,
             };
         }
 

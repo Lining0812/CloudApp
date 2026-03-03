@@ -1,32 +1,31 @@
 using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
-using Microsoft.AspNetCore.Http;
 
 namespace CloudApp.Core.Interfaces.Services;
 
 public interface IMediaService
 {
     /// <summary>
-    /// Ôö¼ÓÃ½Ìå×ÊÔ´
+    /// å¢åŠ åª’ä½“èµ„æº
     /// </summary>
     /// <param name="file"></param>
     /// <param name="mediaType"></param>
-    MediaResource AddMedia(IFormFile file, MediaType mediaType);
+    MediaResource AddMedia(IFileContent file, MediaType mediaType);
 
     /// <summary>
-    /// Ôö¼ÓÃ½Ìå×ÊÔ´²¢Ôö¼ÓÊµÌå¹ØÏµ
+    /// å¢åŠ åª’ä½“èµ„æºå¹¶å¢åŠ å®ä½“å…³ç³»
     /// </summary>
     /// <param name="e"></param>
-    void AddMediaWithRelation(IFormFile file, MediaType mediaType, BaseEntity e, Entype t);
+    void AddMediaWithRelation(IFileContent file, MediaType mediaType, BaseEntity e, Entype t);
 
     void DeleteMedia(int id);
 
     /// <summary>
-    /// É¾³ıÊµÌå¹ØÁªµÄËùÓĞÃ½Ìå×ÊÔ´
+    /// åˆ é™¤å®ä½“å…³è”çš„æ‰€æœ‰åª’ä½“èµ„æº
     /// </summary>
     /// <param name="entityId"></param>
     /// <param name="entityType"></param>
     void DeleteMediaByEntity(int entityId, Entype entityType);
 
-    MediaResource UpdateResource(int id, IFormFile file);
+    MediaResource UpdateResource(int id, IFileContent file);
 }

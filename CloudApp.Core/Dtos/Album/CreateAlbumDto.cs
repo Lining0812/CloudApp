@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+using CloudApp.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos.Album;
@@ -19,5 +19,5 @@ public class CreateAlbumDto
     [Required(ErrorMessage = "发行日期不能为空")]
     public DateTime ReleaseDate { get; set; }
     
-    public IFormFile? CoverImage { get; set; }
+    public IFileContent? CoverImage { get; set; }
 }

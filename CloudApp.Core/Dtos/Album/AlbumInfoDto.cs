@@ -1,5 +1,4 @@
 
-
 namespace CloudApp.Core.Dtos.Album
 {
     public class AlbumInfoDto

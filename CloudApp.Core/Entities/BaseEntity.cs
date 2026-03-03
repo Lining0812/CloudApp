@@ -12,7 +12,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
         /// <summary>
         /// 更新时间
         /// </summary>
@@ -20,7 +20,16 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 是否删除
         /// </summary>
-        public bool IsDeleted { get; set; } = false;
-        public DateTime? DeletedAt { get; set; }
+        public bool IsDeleted { get; private set; } = false;
+        public DateTime? DeletedAt { get; private set; }
+
+        /// <summary>
+        /// 删除实体（软删除），并记录删除时间
+        /// </summary>
+        public void Delete()
+        {
+            IsDeleted = true;
+            DeletedAt = DateTime.UtcNow;
+        }
     }
 }

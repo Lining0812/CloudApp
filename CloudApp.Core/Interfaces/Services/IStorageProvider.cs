@@ -1,5 +1,4 @@
 using CloudApp.Core.Enums;
-using Microsoft.AspNetCore.Http;
 
 namespace CloudApp.Core.Interfaces.Services
 {
@@ -14,7 +13,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// <param name="file">文件</param>
         /// <param name="type">实体类型</param>
         /// <returns>文件的相对路径</returns>
-        string SaveFile(IFormFile file, Entype type);
+        string SaveFile(IFileContent file, Entype type);
 
         /// <summary>
         /// 读取文件
@@ -35,6 +34,6 @@ namespace CloudApp.Core.Interfaces.Services
         /// <param name="filepath">要替换的文件路径</param>
         /// <param name="newFile">新文件</param>
         /// <returns>更新后的文件路径</returns>
-        string UpdateFile(string filepath, IFormFile newFile);
+        string UpdateFile(string filepath, IFileContent newFile);
     }
 }

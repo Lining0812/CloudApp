@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+using CloudApp.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos.Track
@@ -33,7 +33,7 @@ namespace CloudApp.Core.Dtos.Track
         [MaxLength(100, ErrorMessage = "作词不能超过100个字符")]
         public string Lyricist { get; set; }
 
-        public IFormFile CoverImage { get; set; }
+        public IFileContent CoverImage { get; set; }
 
         public int? AlbumId { get; set; }
         public int? ConcertId { get; set; }

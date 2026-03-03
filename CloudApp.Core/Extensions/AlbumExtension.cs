@@ -18,10 +18,7 @@ namespace CloudApp.Core.Extensions
                 Description = dto.Description,
                 Artist = dto.Artist,
                 ReleaseDate = dto.ReleaseDate,
-
-                CreatedAt = now,
                 UpdatedAt = now,
-                IsDeleted = false,
             };
         }
 

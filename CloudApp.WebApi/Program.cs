@@ -1,5 +1,5 @@
-using CloudApp.Data.Extensions;
-using CloudApp.Service.Extensions;
+using CloudApp.Application.Extensions;
+using CloudApp.Infrastructure.Extensions;
 using CloudApp.WebApi.Middleware;
 
 namespace CloudApp.WebApi
@@ -12,6 +12,7 @@ namespace CloudApp.WebApi
 
             // Add services to the container.
             builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

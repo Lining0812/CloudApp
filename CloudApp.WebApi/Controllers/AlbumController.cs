@@ -1,7 +1,6 @@
 using CloudApp.Core.Dtos.Album;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CloudApp.WebApi.Controllers
 {
@@ -22,14 +21,14 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult AddAlbum([FromForm] CreateAlbumDto model)
         {
             _logger.LogInformation("收到添加专辑请求: Title={Title}", model?.Title);
-            
+
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("添加专辑请求验证失败: {Errors}", 
+                _logger.LogWarning("添加专辑请求验证失败: {Errors}",
                     string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
                 return BadRequest("存在非法数据，添加失败");
             }
-            
+
             try
             {
                 _albumService.AddAlbum(model);
@@ -47,7 +46,7 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult DeleteAlbum(int albumId)
         {
             _logger.LogInformation("收到删除专辑请求: ID={AlbumId}", albumId);
-            
+
             try
             {
                 _albumService.DeleteAlbum(albumId);
@@ -65,14 +64,14 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult UpdateAlbum(int albumId, [FromForm] CreateAlbumDto model)
         {
             _logger.LogInformation("收到更新专辑请求: ID={AlbumId}, Title={Title}", albumId, model?.Title);
-            
+
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("更新专辑请求验证失败: ID={AlbumId}, {Errors}", albumId,
                     string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
                 return BadRequest("存在非法数据，更新失败");
             }
-            
+
             try
             {
                 _albumService.UpdateAlbum(albumId, model);
@@ -90,7 +89,7 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult<ICollection<AlbumInfoDto>> GetAll()
         {
             _logger.LogDebug("收到获取所有专辑请求");
-            
+
             try
             {
                 var albums = _albumService.GetAllAlbums();
@@ -108,11 +107,11 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult<AlbumInfoDto> GetById(int albumId)
         {
             _logger.LogDebug("收到获取专辑详情请求: ID={AlbumId}", albumId);
-            
+
             try
             {
                 var album = _albumService.GetAlbumById(albumId);
-                if(album == null)
+                if (album == null)
                 {
                     _logger.LogWarning("未找到专辑: ID={AlbumId}", albumId);
                     return NotFound("未找到对应专辑");
