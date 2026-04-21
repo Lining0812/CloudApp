@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CloudApp.Infrastructure\CloudApp.Infrastructure.csproj" />
-    <ProjectReference Include="..\CloudApp.Core\CloudApp.Core.csproj" />
+    <Compile Remove="FileStorage\**" />
+    <EmbeddedResource Remove="FileStorage\**" />
+    <None Remove="FileStorage\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FileStorage\" />
+    <ProjectReference Include="..\CloudApp.Infrastructure\CloudApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\CloudApp.Core\CloudApp.Core.csproj" />
   </ItemGroup>
 
 </Project>

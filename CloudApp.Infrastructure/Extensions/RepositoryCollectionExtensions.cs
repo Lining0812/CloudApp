@@ -1,6 +1,7 @@
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Infrastructure.Identity;
 using CloudApp.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +41,24 @@ namespace CloudApp.Infrastructure.Extensions
         /// <returns></returns>
         public static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddDbContext<ArDbContext>();
+            // 添加数据库上下文
+            services.AddDbContext<ArDbContext>(opt => { opt.UseSqlServer("Server=.;Database=idtest1;Trusted_Connection=True;"); });
+            //services.AddDataProtection();
+
+            services.AddIdentityCore<AppUser>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequiredLength = 6;
+                opt.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
+                opt.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+            });
+
+            IdentityBuilder idBuilder = new IdentityBuilder(typeof(AppUser), typeof(AppRole), services);
+            idBuilder.AddEntityFrameworkStores<ArDbContext>().AddUserManager<UserManager<AppUser>>().AddRoleManager<RoleManager<AppRole>>();
+
             return services;
         }
     }
