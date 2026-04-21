@@ -15,7 +15,7 @@ namespace CloudApp.Infrastructure.Repositories
         protected readonly DbContext _context;
         protected readonly DbSet<T> _dbSet;
 
-        public BaseRepository(MyDBContext dbContext)
+        public BaseRepository(MyDBContext dbContext, ILogger<BaseRepository<T>> logger)
         {
             _context = dbContext;
             _dbSet = dbContext.Set<T>();

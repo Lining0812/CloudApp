@@ -11,6 +11,7 @@ namespace CloudApp.Core.Interfaces.Repositories
         /// </summary>
         /// <returns></returns>
         public IEnumerable<T> GetAll();
+
         /// <summary>
         /// 根据Id获取实体
         /// </summary>
@@ -24,6 +25,7 @@ namespace CloudApp.Core.Interfaces.Repositories
         /// <param name="id"></param>
         /// <returns></returns>
         public bool Exists(int id);
+
         /// <summary>
         /// 添加实体
         /// </summary>
