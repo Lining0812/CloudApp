@@ -3,12 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.Infrastructure.Identity
 {
-    public class ArDbContext : IdentityDbContext<AppUser, AppRole, int>
+    public class ArDBContext : IdentityDbContext<AppUser, AppRole, int>
     {
-        public ArDbContext(DbContextOptions options)
-            :base(options)
+        public ArDBContext(DbContextOptions<ArDBContext> options)
+            : base(options)
         {
         }
-
     }
 }

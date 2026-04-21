@@ -28,6 +28,8 @@ namespace CloudApp.Core.Entities
         /// </summary>
         public void Delete()
         {
+            if (IsDeleted) return;
+
             IsDeleted = true;
             DeletedAt = DateTime.UtcNow;
         }

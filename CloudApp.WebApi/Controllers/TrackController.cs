@@ -29,17 +29,8 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，添加失败");
             }
 
-            try
-            {
-                _trackService.AddTrack(model);
-                _logger.LogInformation("成功处理添加单曲请求: Title={Title}", model.Title);
-                return Ok("成功新增单曲");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理添加单曲请求时发生错误: Title={Title}", model?.Title);
-                throw;
-            }
+            _trackService.AddTrack(model);
+            return Ok("成功新增单曲");
         }
 
         [HttpDelete("{trackId}")]
@@ -47,17 +38,8 @@ namespace CloudApp.WebApi.Controllers
         {
             _logger.LogInformation("收到删除单曲请求: ID={TrackId}", trackId);
 
-            try
-            {
-                _trackService.DeleteTrack(trackId);
-                _logger.LogInformation("成功处理删除单曲请求: ID={TrackId}", trackId);
-                return Ok("成功删除单曲");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理删除单曲请求时发生错误: ID={TrackId}", trackId);
-                throw;
-            }
+            _trackService.DeleteTrack(trackId);
+            return Ok("成功删除单曲");
         }
 
         [HttpPatch("{trackId}")]
@@ -72,17 +54,8 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，更新失败");
             }
 
-            try
-            {
-                _trackService.UpdateTrack(trackId, model);
-                _logger.LogInformation("成功处理更新单曲请求: ID={TrackId}", trackId);
-                return Ok("成功更新单曲");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理更新单曲请求时发生错误: ID={TrackId}", trackId);
-                throw;
-            }
+            _trackService.UpdateTrack(trackId, model);
+            return Ok("成功更新单曲");
         }
 
         [HttpGet]
@@ -90,17 +63,8 @@ namespace CloudApp.WebApi.Controllers
         {
             _logger.LogDebug("收到获取所有单曲请求");
 
-            try
-            {
-                var tracks = _trackService.GetAllTracks();
-                _logger.LogInformation("成功处理获取所有单曲请求，返回 {Count} 条记录", tracks.Count);
-                return Ok(tracks);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理获取所有单曲请求时发生错误");
-                throw;
-            }
+            var tracks = _trackService.GetAllTracks();
+            return Ok(tracks);
         }
 
         [HttpGet]

@@ -1,6 +1,8 @@
 using CloudApp.Application.Extensions;
 using CloudApp.Infrastructure.Extensions;
+using CloudApp.Infrastructure.Identity;
 using CloudApp.WebApi.Middleware;
+using Microsoft.AspNetCore.Identity;
 
 namespace CloudApp.WebApi
 {
@@ -19,6 +21,8 @@ namespace CloudApp.WebApi
 
             // 添加数据层服务
             builder.Services.AddDataServices(builder.Configuration);
+            //builder.Services.AddIdentityService(builder.Configuration);
+
             // 添加业务逻辑服务
             builder.Services.AddServices();
 

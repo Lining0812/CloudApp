@@ -28,36 +28,16 @@ namespace CloudApp.WebApi.Controllers
                     string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
                 return BadRequest("存在非法数据，添加失败");
             }
-
-            try
-            {
-                _albumService.AddAlbum(model);
-                _logger.LogInformation("成功处理添加专辑请求: Title={Title}", model.Title);
-                return Ok("成功新增专辑");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理添加专辑请求时发生错误: Title={Title}", model?.Title);
-                throw;
-            }
+            _albumService.AddAlbum(model);
+            return Ok("成功新增专辑");
         }
 
         [HttpDelete("{albumId}")]
         public ActionResult DeleteAlbum(int albumId)
         {
             _logger.LogInformation("收到删除专辑请求: ID={AlbumId}", albumId);
-
-            try
-            {
-                _albumService.DeleteAlbum(albumId);
-                _logger.LogInformation("成功处理删除专辑请求: ID={AlbumId}", albumId);
-                return Ok("成功删除专辑");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理删除专辑请求时发生错误: ID={AlbumId}", albumId);
-                throw;
-            }
+            _albumService.DeleteAlbum(albumId);
+            return Ok("成功删除专辑");
         }
 
         [HttpPatch("{albumId}")]
@@ -72,35 +52,16 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，更新失败");
             }
 
-            try
-            {
-                _albumService.UpdateAlbum(albumId, model);
-                _logger.LogInformation("成功处理更新专辑请求: ID={AlbumId}", albumId);
-                return Ok("成功更新专辑");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理更新专辑请求时发生错误: ID={AlbumId}", albumId);
-                throw;
-            }
+            _albumService.UpdateAlbum(albumId, model);
+            return Ok("成功更新专辑");
         }
 
         [HttpGet]
         public ActionResult<ICollection<AlbumInfoDto>> GetAll()
         {
-            _logger.LogDebug("收到获取所有专辑请求");
-
-            try
-            {
-                var albums = _albumService.GetAllAlbums();
-                _logger.LogInformation("成功处理获取所有专辑请求，返回 {Count} 条记录", albums.Count);
-                return Ok(albums);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理获取所有专辑请求时发生错误");
-                throw;
-            }
+            _logger.LogInformation("收到获取所有专辑请求");
+            var albums = _albumService.GetAllAlbums();
+            return Ok(albums);
         }
 
         [HttpGet("{albumId}")]
@@ -108,22 +69,8 @@ namespace CloudApp.WebApi.Controllers
         {
             _logger.LogDebug("收到获取专辑详情请求: ID={AlbumId}", albumId);
 
-            try
-            {
-                var album = _albumService.GetAlbumById(albumId);
-                if (album == null)
-                {
-                    _logger.LogWarning("未找到专辑: ID={AlbumId}", albumId);
-                    return NotFound("未找到对应专辑");
-                }
-                _logger.LogInformation("成功处理获取专辑详情请求: ID={AlbumId}", albumId);
-                return Ok(album);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理获取专辑详情请求时发生错误: ID={AlbumId}", albumId);
-                throw;
-            }
+            var album = _albumService.GetAlbumById(albumId);
+            return Ok(album);
         }
     }
 }

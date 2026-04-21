@@ -42,11 +42,12 @@ namespace CloudApp.Infrastructure.Extensions
         public static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration configuration)
         {
             // 添加数据库上下文
-            services.AddDbContext<ArDbContext>(opt => { opt.UseSqlServer("Server=.;Database=idtest1;Trusted_Connection=True;"); });
-            //services.AddDataProtection();
+            services.AddDbContext<ArDBContext>(opt => { opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")); });
+            services.AddDataProtection();
 
             services.AddIdentityCore<AppUser>(opt =>
             {
+                // 密码配置
                 opt.Password.RequireDigit = false;
                 opt.Password.RequireLowercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
@@ -54,10 +55,11 @@ namespace CloudApp.Infrastructure.Extensions
                 opt.Password.RequiredLength = 6;
                 opt.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultEmailProvider;
                 opt.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
-            });
-
-            IdentityBuilder idBuilder = new IdentityBuilder(typeof(AppUser), typeof(AppRole), services);
-            idBuilder.AddEntityFrameworkStores<ArDbContext>().AddUserManager<UserManager<AppUser>>().AddRoleManager<RoleManager<AppRole>>();
+            })
+                .AddEntityFrameworkStores<MyDBContext>()
+                .AddDefaultTokenProviders()
+                .AddUserManager<UserManager<AppUser>>()
+                .AddRoleManager<RoleManager<AppRole>>();
 
             return services;
         }

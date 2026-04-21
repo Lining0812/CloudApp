@@ -114,7 +114,8 @@ namespace CloudApp.Application
                 if (concert == null)
                 {
                     _logger.LogWarning("未找到演唱会: ID={ConcertId}", id);
-                    throw new EntityNotFoundException("演唱会", id);
+                    //throw new EntityNotFoundException("演唱会", id);
+                    return null;
                 }
                 _logger.LogInformation("成功获取演唱会详情: ID={ConcertId}, Title={Title}", concert.Id, concert.Title);
                 return concert.ToInfoDto();

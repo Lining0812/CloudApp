@@ -29,17 +29,8 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，添加失败");
             }
 
-            try
-            {
-                _concertService.AddConcert(model);
-                _logger.LogInformation("成功处理添加演唱会请求: Title={Title}", model.Title);
-                return Ok("成功新增演唱会");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理添加演唱会请求时发生错误: Title={Title}", model?.Title);
-                throw;
-            }
+            _concertService.AddConcert(model);
+            return Ok("成功新增演唱会");
         }
 
         [HttpDelete("{concertId}")]
@@ -47,17 +38,8 @@ namespace CloudApp.WebApi.Controllers
         {
             _logger.LogInformation("收到删除演唱会请求: ID={ConcertId}", concertId);
 
-            try
-            {
-                _concertService.DeleteConcert(concertId);
-                _logger.LogInformation("成功处理删除演唱会请求: ID={ConcertId}", concertId);
-                return Ok("成功删除演唱会");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理删除演唱会请求时发生错误: ID={ConcertId}", concertId);
-                throw;
-            }
+            _concertService.DeleteConcert(concertId);
+            return Ok("成功删除演唱会");
         }
 
         [HttpPatch]
@@ -72,17 +54,8 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，更新失败");
             }
 
-            try
-            {
-                _concertService.UpdateConcert(concertId, model);
-                _logger.LogInformation("成功处理更新演唱会请求: ID={ConcertId}", concertId);
-                return Ok("成功更新演唱会");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理更新演唱会请求时发生错误: ID={ConcertId}", concertId);
-                throw;
-            }
+            _concertService.UpdateConcert(concertId, model);
+            return Ok("成功更新演唱会");
         }
 
         [HttpGet]
@@ -97,22 +70,12 @@ namespace CloudApp.WebApi.Controllers
         {
             _logger.LogDebug("收到获取演唱会详情请求: ID={ConcertId}", id);
 
-            try
+            var infoDto = _concertService.GetById(id);
+            if (infoDto == null)
             {
-                var infoDto = _concertService.GetById(id);
-                if (infoDto == null)
-                {
-                    _logger.LogWarning("未找到演唱会: ID={ConcertId}", id);
-                    return BadRequest("未找到对应演出");
-                }
-                _logger.LogInformation("成功处理获取演唱会详情请求: ID={ConcertId}", id);
-                return Ok(infoDto);
+                return BadRequest("未找到对应演唱会");
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理获取演唱会详情请求时发生错误: ID={ConcertId}", id);
-                throw;
-            }
+            return Ok(infoDto);
         }
     }
 }

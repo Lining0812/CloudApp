@@ -71,7 +71,6 @@ namespace CloudApp.Infrastructure.Repositories
 
         public virtual void Delete(T entity)
         {
-            // 统一使用软删除
             entity.Delete();
             entity.UpdatedAt = DateTime.UtcNow;
         }

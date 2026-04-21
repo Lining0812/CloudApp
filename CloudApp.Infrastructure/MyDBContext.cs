@@ -1,5 +1,7 @@
 
 using CloudApp.Core.Entities;
+using CloudApp.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.Infrastructure
