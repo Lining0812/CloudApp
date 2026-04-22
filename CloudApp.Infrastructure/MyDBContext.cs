@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CloudApp.Infrastructure
 {
-    public class MyDBContext: DbContext
+    public class MyDBContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public MyDBContext(DbContextOptions<MyDBContext> options)
             :base(options)
