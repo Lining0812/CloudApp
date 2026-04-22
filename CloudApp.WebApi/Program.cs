@@ -1,14 +1,12 @@
 using CloudApp.Application.Extensions;
 using CloudApp.Infrastructure.Extensions;
-using CloudApp.Infrastructure.Identity;
 using CloudApp.WebApi.Middleware;
-using Microsoft.AspNetCore.Identity;
 
 namespace CloudApp.WebApi
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +19,7 @@ namespace CloudApp.WebApi
 
             // 添加数据层服务
             builder.Services.AddDataServices(builder.Configuration);
-            //builder.Services.AddIdentityService(builder.Configuration);
+            builder.Services.AddIdentityService(builder.Configuration);
 
             // 添加业务逻辑服务
             builder.Services.AddServices();
@@ -38,6 +36,9 @@ namespace CloudApp.WebApi
             });
 
             var app = builder.Build();
+
+            // 初始化角色
+            await app.Services.InitializerRoleAsync();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

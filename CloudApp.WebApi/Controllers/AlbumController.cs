@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddAlbum([FromForm] CreateAlbumDto model)
+        public ActionResult CreateAlbum([FromForm] CreateAlbumDto model)
         {
             _logger.LogInformation("收到添加专辑请求: Title={Title}", model?.Title);
 
@@ -28,7 +28,7 @@ namespace CloudApp.WebApi.Controllers
                     string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
                 return BadRequest("存在非法数据，添加失败");
             }
-            _albumService.AddAlbum(model);
+            if (model != null) _albumService.CreateAlbum(model);
             return Ok("成功新增专辑");
         }
 
@@ -52,7 +52,7 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，更新失败");
             }
 
-            _albumService.UpdateAlbum(albumId, model);
+            if (model != null) _albumService.UpdateAlbum(albumId, model);
             return Ok("成功更新专辑");
         }
 

@@ -9,7 +9,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// </summary>
         /// <param name="album"></param>
         /// <returns></returns>
-        void AddAlbum(CreateAlbumDto album);
+        void CreateAlbum(CreateAlbumDto album);
 
         /// <summary>
         /// 获取所有专辑信息

@@ -29,7 +29,7 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，添加失败");
             }
 
-            _trackService.AddTrack(model);
+            if (model != null) _trackService.AddTrack(model);
             return Ok("成功新增单曲");
         }
 
@@ -54,7 +54,7 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，更新失败");
             }
 
-            _trackService.UpdateTrack(trackId, model);
+            if (model != null)  _trackService.UpdateTrack(trackId, model);
             return Ok("成功更新单曲");
         }
 

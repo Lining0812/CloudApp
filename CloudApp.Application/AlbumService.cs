@@ -27,7 +27,7 @@ namespace CloudApp.Application
         }
 
         #region 同步方法
-        public void AddAlbum(CreateAlbumDto model)
+        public void CreateAlbum(CreateAlbumDto model)
         {
             if (model == null)
             {
