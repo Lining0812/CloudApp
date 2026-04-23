@@ -1,6 +1,12 @@
+using CloudApp.Application;
 using CloudApp.Application.Extensions;
+using CloudApp.Core.Confige;
+using CloudApp.Core.Interfaces;
 using CloudApp.Infrastructure.Extensions;
 using CloudApp.WebApi.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CloudApp.WebApi
 {
@@ -24,11 +30,6 @@ namespace CloudApp.WebApi
             // 添加业务逻辑服务
             builder.Services.AddServices();
 
-            builder.Services.ConfigureApplicationCookie(opt =>
-            {
-                opt.Cookie.IsEssential = true;
-            });
-
             builder.Services.AddCors(opt =>
             {
                 opt.AddDefaultPolicy(policy =>
@@ -39,6 +40,27 @@ namespace CloudApp.WebApi
                           .AllowCredentials();
                 });
             });
+
+            builder.Services.Configure<JwtSetting>(builder.Configuration.GetSection("Jwt"));
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    var jwtSetting = builder.Configuration.GetSection("Jwt").Get<JwtSetting>();
+                    byte[] key = Encoding.UTF8.GetBytes(jwtSetting.SecKey);
+                    var secKey = new SymmetricSecurityKey(key);
+                    opt.TokenValidationParameters = new()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = secKey
+                    };
+                });
+
+            // 注入HttpClient和微信服务
+            //builder.Services.AddHttpClient();
+            //builder.Services.AddScoped<IWeChatService, WeChatService>();
 
             var app = builder.Build();
 
@@ -59,6 +81,7 @@ namespace CloudApp.WebApi
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();

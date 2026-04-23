@@ -1,8 +1,14 @@
-﻿using CloudApp.Core.Enums;
+﻿using CloudApp.Core.Confige;
+using CloudApp.Core.Enums;
 using CloudApp.Infrastructure.Extensions;
 using CloudApp.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace CloudApp.WebApi.Controllers
 {
@@ -12,11 +18,17 @@ namespace CloudApp.WebApi.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly IOptionsSnapshot<JwtSetting> _jwtSetting;
 
-        public AccountController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public AccountController(
+            UserManager<AppUser> userManager, 
+            RoleManager<AppRole> roleManager, 
+            IOptionsSnapshot<JwtSetting> jwtSetting
+            )
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtSetting = jwtSetting;
         }
 
         [HttpPost]
@@ -100,5 +112,68 @@ namespace CloudApp.WebApi.Controllers
             Console.WriteLine($"失败次数{count}");
             return BadRequest();
         }
+
+        [HttpPost]
+        public ActionResult<string> LoginTest(string userName, string password)
+        {
+            if (userName == "lyn" && password == "123456")
+            {
+                List<Claim> claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, "1"));
+                claims.Add(new Claim(ClaimTypes.Name, userName));
+
+                string key = _jwtSetting.Value.SecKey;
+                DateTime expire = DateTime.UtcNow.AddSeconds(_jwtSetting.Value.ExpireSeconds);
+
+                byte[] secBytes = Encoding.UTF8.GetBytes(key);
+                var secKey = new SymmetricSecurityKey(secBytes);
+                var credentials = new SigningCredentials(secKey, SecurityAlgorithms.HmacSha256Signature);
+                var token = new JwtSecurityToken(
+                    claims: claims,
+                    expires: expire,
+                    signingCredentials: credentials
+                );
+                string jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+                return jwt;
+            }
+            else            
+            {
+                return BadRequest("登录失败");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<string>> Login(string userName,string password)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null) return BadRequest("用户不存在");
+
+            var success = await _userManager.CheckPasswordAsync(user, password);
+            if(!success) return BadRequest("用户登录失败");
+
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var token = JwtTokenBuilder.BuildToken(claims, _jwtSetting.Value);
+
+            //Response.Cookies.Append("token", token, new CookieOptions
+            //{
+            //    HttpOnly = true,
+            //    Secure = true,
+            //    SameSite = SameSiteMode.Strict,
+            //    Expires = DateTimeOffset.UtcNow.AddSeconds(_jwtSetting.Value.ExpireSeconds)
+            //});
+
+            return Ok(token);
+        }
+
+
     }
 }
