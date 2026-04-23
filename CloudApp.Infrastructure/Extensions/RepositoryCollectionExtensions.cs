@@ -64,5 +64,10 @@ namespace CloudApp.Infrastructure.Extensions
 
             return services;
         }
+
+        public static IServiceCollection AddCookie(this IServiceCollection services)
+        {
+            return services;
+        }
     }
 }

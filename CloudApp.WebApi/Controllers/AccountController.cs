@@ -8,12 +8,12 @@ namespace CloudApp.WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class IdentityController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
 
-        public IdentityController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public AccountController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;

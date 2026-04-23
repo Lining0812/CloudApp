@@ -24,6 +24,11 @@ namespace CloudApp.WebApi
             // 添加业务逻辑服务
             builder.Services.AddServices();
 
+            builder.Services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.IsEssential = true;
+            });
+
             builder.Services.AddCors(opt =>
             {
                 opt.AddDefaultPolicy(policy =>
