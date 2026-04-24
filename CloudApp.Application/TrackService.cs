@@ -5,31 +5,32 @@ using CloudApp.Core.Interfaces.Repositories;
 using Microsoft.Extensions.Logging;
 using CloudApp.Core.Enums;
 using CloudApp.Core.Dtos.Track;
+using CloudApp.Core.Dtos.Album;
 
 namespace CloudApp.Application
 {
     public class TrackService : ITrackService
     {
         private readonly ITrackRepository _trackrepository;
-        private readonly IAlbumRepository _albumRepository;
+        private readonly IAlbumService _albumService;
         private readonly IStorageProvider _storageProvider;
         private readonly ILogger<TrackService> _logger;
         private readonly Entype _type = Entype.Track;
 
         public TrackService(
-            ITrackRepository trackrepository, 
-            IAlbumRepository albumRepository, 
+            ITrackRepository trackrepository,
+            IAlbumService albumService, 
             ILogger<TrackService> logger, 
             IStorageProvider storageProvider)
         {
             _trackrepository = trackrepository;
-            _albumRepository = albumRepository;
+            _albumService = albumService;
             _logger = logger;
             _storageProvider = storageProvider;
         }
 
         #region 同步方法
-        public void AddTrack(CreateTrackDto model)
+        public void CreateTrack(CreateTrackDto model)
         {
             if (model == null)
             {
@@ -63,20 +64,17 @@ namespace CloudApp.Application
                     _logger.LogInformation("未指定专辑ID，准备自动创建专辑");
                     
                     // 创建与单曲同名的专辑
-                    var album = new Album
+                    var creatAlbum = new CreateAlbumRequest
                     {
-                        Title = $"{model.Title} (single)",
+                        Title = $"{model.Title}-(Single)",
                         Artist = model.Artist,
                         ReleaseDate = model.ReleaseDate
                     };
                     
-                    _albumRepository.Add(album);
-                    _albumRepository.SaveChange();
+                    _albumService.CreateAlbum(creatAlbum);
                     
-                    _logger.LogInformation("自动创建专辑成功: ID={AlbumId}, Title={Title}", album.Id, album.Title);
+                    _logger.LogInformation($"自动创建专辑成功:Title={creatAlbum.Title}");
                     
-                    // 将新专辑ID赋值给单曲
-                    model.AlbumId = album.Id;
                 }
 
                 // 创建单曲实体并保存
@@ -169,7 +167,6 @@ namespace CloudApp.Application
                 throw;
             }
         }
-
         public ICollection<TrackInfoDto> GetAllTracks()
         {
             try
@@ -186,7 +183,6 @@ namespace CloudApp.Application
                 throw;
             }
         }
-
         public TrackInfoDto GetById(int id)
         {
             try
@@ -207,7 +203,6 @@ namespace CloudApp.Application
                 throw;
             }
         }
-
         public ICollection<Track> GetByAlbumdID()
         {
             throw new NotImplementedException();

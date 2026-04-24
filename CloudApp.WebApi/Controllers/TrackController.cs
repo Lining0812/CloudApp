@@ -29,7 +29,7 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，添加失败");
             }
 
-            if (model != null) _trackService.AddTrack(model);
+            if (model != null) _trackService.CreateTrack(model);
             return Ok("成功新增单曲");
         }
 

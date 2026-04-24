@@ -23,7 +23,7 @@ namespace CloudApp.Application.Extensions
             services.AddScoped<IMediaService, MediaService>();
 
             // 添加存储提供者
-            services.AddScoped<IStorageProvider, LocalStorageProvider>();
+            //services.AddScoped<IStorageProvider, LocalStorageProvider>();
 
             return services;
         }

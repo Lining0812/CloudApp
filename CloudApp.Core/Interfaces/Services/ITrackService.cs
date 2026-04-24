@@ -10,7 +10,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// 添加单曲
         /// </summary>
         /// <param name="model"></param>
-        void AddTrack(CreateTrackDto model);
+        void CreateTrack(CreateTrackDto model);
 
         /// <summary>
         /// 根据Id更新专辑信息

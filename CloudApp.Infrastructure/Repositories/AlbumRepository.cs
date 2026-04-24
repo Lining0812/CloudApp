@@ -15,15 +15,27 @@ namespace CloudApp.Infrastructure.Repositories
         #region 同步方法
         public override IEnumerable<Album> GetAll()
         {
-            // BaseRepository已经通过全局查询过滤器过滤了IsDeleted，这里只需要Include导航属性
             return _dbSet.Include(a => a.Tracks).ToList();
         }
 
         public override Album? GetById(int id)
         {
-            // BaseRepository已经通过全局查询过滤器过滤了IsDeleted，这里只需要Include导航属性
             return _dbSet.Include(a => a.Tracks)
                          .FirstOrDefault(a => a.Id == id);
+        }
+
+        public Album? FindByTitle(string title)
+        {
+            if (string.IsNullOrEmpty(title)) return null;
+
+            return _dbSet.Include(a => a.Tracks)
+                         .FirstOrDefault(a => a.Title.ToLower() == title.ToLower());
+        }
+
+        public bool AlbumExists(string title)
+        {
+            if (string.IsNullOrEmpty(title)) return false;
+            return _dbSet.Any(a => a.Title.ToLower() == title.ToLower());
         }
         #endregion
 

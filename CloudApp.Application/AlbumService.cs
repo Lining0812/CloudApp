@@ -14,6 +14,7 @@ namespace CloudApp.Application
         private readonly IAlbumRepository _albumRepository;
         private readonly IMediaService _mediaService;
         private readonly ILogger<AlbumService> _logger;
+
         private readonly Entype _type = Entype.Album;
 
         public AlbumService(
@@ -27,42 +28,47 @@ namespace CloudApp.Application
         }
 
         #region 同步方法
-        public void CreateAlbum(CreateAlbumRequest model)
+        public void CreateAlbum(CreateAlbumRequest request)
         {
-            if (model == null)
+            if (request == null)
             {
                 _logger.LogWarning("尝试添加专辑时，模型为null");
-                throw new ArgumentNullException(nameof(model));
+                throw new ArgumentNullException(nameof(request));
             }
 
             try
             {
-                _logger.LogInformation($"开始添加专辑: {model.Title}, 艺术家: {model.Artist}");
+                _logger.LogInformation($"开始添加专辑: {request.Title}, 艺术家: {request.Artist}");
+
+                {
+                    _logger.LogWarning("尝试添加已存在的专辑: Title={Title}, Artist={Artist}", request.Title, request.Artist);
+                    throw new ArgumentException("专辑已存在", nameof(request));
+                }
 
                 // 创建专辑实体并保存
-                Album album = model.ToEntity();
+                Album album = request.ToEntity();
                 _albumRepository.Add(album);
                 _albumRepository.SaveChange();
 
                 _logger.LogInformation($"成功添加专辑: ID={album.Id}, Title={album.Title}");
 
                 // 处理资源上传
-                if (model.CoverImage != null && model.CoverImage.Length > 0)
-                {
-                    _logger.LogInformation($"开始上传专辑封面图片: FileName={ model.CoverImage.FileName}, Size={model.CoverImage.Length} bytes");
+                //    if (model.CoverImage != null && model.CoverImage.Length > 0)
+                //    {
+                //        _logger.LogInformation($"开始上传专辑封面图片: FileName={ model.CoverImage.FileName}, Size={model.CoverImage.Length} bytes");
 
-                    _mediaService.AddMediaWithRelation(model.CoverImage, MediaType.Image, album, _type);
+                //        _mediaService.AddMediaWithRelation(model.CoverImage, MediaType.Image, album, _type);
 
-                    _logger.LogInformation("成功上传专辑封面图片并创建关联");
-                }
-                else
-                {
-                    _logger.LogWarning("未提供专辑封面图片");
-                }
+                //        _logger.LogInformation("成功上传专辑封面图片并创建关联");
+                //    }
+                //    else
+                //    {
+                //        _logger.LogWarning("未提供专辑封面图片");
+                //    }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "添加专辑失败: Title={Title}", model?.Title);
+                _logger.LogError(ex, "添加专辑失败: Title={Title}", request?.Title);
                 throw;
             }
         }
