@@ -8,7 +8,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// 创建演唱会
         /// </summary>
         /// <param name="concert"></param>
-        void AddConcert(CreateConcertDto concert);
+        void AddConcert(CreateConcertRequest concert);
 
         /// <summary>
         /// 删除演唱会
@@ -20,7 +20,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// 更新演唱会
         /// </summary>
         /// <param name="id"></param>
-        void UpdateConcert(int id, CreateConcertDto model);
+        void UpdateConcert(int id, CreateConcertRequest model);
 
         /// <summary>
         /// 根据Id获取演唱会实体

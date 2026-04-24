@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos.Album;
 
-public class CreateAlbumDto
+public class CreateAlbumRequest
 {
     [Required(ErrorMessage = "专辑名不能为空")]
     [MaxLength(50, ErrorMessage = "专辑名不能超过50个字符")]
@@ -19,5 +19,5 @@ public class CreateAlbumDto
     [Required(ErrorMessage = "发行日期不能为空")]
     public DateTime ReleaseDate { get; set; }
     
-    public IFileContent? CoverImage { get; set; }
+    //public IFileContent? CoverImage { get; set; }
 }

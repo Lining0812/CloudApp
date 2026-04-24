@@ -97,9 +97,8 @@ namespace CloudApp.Infrastructure.Repositories
         }
 
         public virtual int SaveChange()
-        {
-            var result = _context.SaveChanges();
-            return result;
+        { 
+            return _context.SaveChanges();
         }
 
         public virtual IDbContextTransaction BeginTransaction()

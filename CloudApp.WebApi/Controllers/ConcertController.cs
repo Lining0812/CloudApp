@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddConcert([FromForm] CreateConcertDto model)
+        public ActionResult AddConcert([FromForm] CreateConcertRequest model)
         {
             _logger.LogInformation("收到添加演唱会请求: Title={Title}, Address={Address}", model?.Title, model?.Address);
 
@@ -43,7 +43,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPatch]
-        public ActionResult UpdateConcert(int concertId, [FromForm] CreateConcertDto model)
+        public ActionResult UpdateConcert(int concertId, [FromForm] CreateConcertRequest model)
         {
             _logger.LogInformation("收到更新演唱会请求: ID={ConcertId}, Title={Title}", concertId, model?.Title);
 

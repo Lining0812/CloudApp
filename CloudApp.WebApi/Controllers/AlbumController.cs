@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateAlbum([FromForm] CreateAlbumDto model)
+        public ActionResult CreateAlbum([FromForm] CreateAlbumRequest model)
         {
             _logger.LogInformation("收到添加专辑请求: Title={Title}", model?.Title);
 
@@ -41,7 +41,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPatch("{albumId}")]
-        public ActionResult UpdateAlbum(int albumId, [FromForm] CreateAlbumDto model)
+        public ActionResult UpdateAlbum(int albumId, [FromForm] CreateAlbumRequest model)
         {
             _logger.LogInformation("收到更新专辑请求: ID={AlbumId}, Title={Title}", albumId, model?.Title);
 

@@ -11,7 +11,7 @@ namespace CloudApp.Core.Extensions
         /// <param name="dto"></param>
         /// <param name="imageurl"></param>
         /// <returns></returns>
-        public static Concert ToEntity(this CreateConcertDto dto, string imageurl)
+        public static Concert ToEntity(this CreateConcertRequest dto, string imageurl)
         {
             var now = DateTime.Now;
             return new Concert

@@ -11,16 +11,19 @@ namespace CloudApp.Application
     public class TrackService : ITrackService
     {
         private readonly ITrackRepository _trackrepository;
+        private readonly IAlbumRepository _albumRepository;
         private readonly IStorageProvider _storageProvider;
         private readonly ILogger<TrackService> _logger;
         private readonly Entype _type = Entype.Track;
 
         public TrackService(
             ITrackRepository trackrepository, 
+            IAlbumRepository albumRepository, 
             ILogger<TrackService> logger, 
             IStorageProvider storageProvider)
         {
             _trackrepository = trackrepository;
+            _albumRepository = albumRepository;
             _logger = logger;
             _storageProvider = storageProvider;
         }
@@ -42,7 +45,7 @@ namespace CloudApp.Application
                 // 处理封面图片上传
                 if (model.CoverImage != null && model.CoverImage.Length > 0)
                 {
-                    _logger.LogInformation("开始上传专辑封面图片: FileName={FileName}, Size={Size} bytes",
+                    _logger.LogInformation("开始上传单曲封面图片: FileName={FileName}, Size={Size} bytes",
                         model.CoverImage.FileName, model.CoverImage.Length);
 
                     coverImageUrl = _storageProvider.SaveFile(model.CoverImage, _type);
@@ -51,14 +54,36 @@ namespace CloudApp.Application
                 }
                 else
                 {
-                    _logger.LogWarning("添加专辑时未提供封面图片");
+                    _logger.LogWarning("添加单曲时未提供封面图片");
                 }
 
-                // 创建专辑实体并保存
+                // 检查是否需要自动创建专辑
+                if (!model.AlbumId.HasValue)
+                {
+                    _logger.LogInformation("未指定专辑ID，准备自动创建专辑");
+                    
+                    // 创建与单曲同名的专辑
+                    var album = new Album
+                    {
+                        Title = $"{model.Title} (single)",
+                        Artist = model.Artist,
+                        ReleaseDate = model.ReleaseDate
+                    };
+                    
+                    _albumRepository.Add(album);
+                    _albumRepository.SaveChange();
+                    
+                    _logger.LogInformation("自动创建专辑成功: ID={AlbumId}, Title={Title}", album.Id, album.Title);
+                    
+                    // 将新专辑ID赋值给单曲
+                    model.AlbumId = album.Id;
+                }
+
+                // 创建单曲实体并保存
                 Track track = model.ToEntity(coverImageUrl);
                 _trackrepository.Add(track);
                 _trackrepository.SaveChange();
-                _logger.LogInformation("成功添加单曲: ID={TrackId}, Title={Title}", track.Id, track.Title);
+                _logger.LogInformation("成功添加单曲: ID={TrackId}, Title={Title}, AlbumId={AlbumId}", track.Id, track.Title, track.AlbumId);
             }
             catch (Exception ex)
             {

@@ -5,20 +5,18 @@ namespace CloudApp.Core.Extensions
 {
     public static class AlbumExtension
     {
-        public static Album ToEntity(this CreateAlbumDto dto)
+        public static Album ToEntity(this CreateAlbumRequest dto)
         {
             if (dto == null)
             {
                 throw new ArgumentNullException(nameof(dto));
             }
-            var now = DateTime.UtcNow;
             return new Album()
             {
                 Title = dto.Title,
                 Description = dto.Description,
                 Artist = dto.Artist,
                 ReleaseDate = dto.ReleaseDate,
-                UpdatedAt = now,
             };
         }
 

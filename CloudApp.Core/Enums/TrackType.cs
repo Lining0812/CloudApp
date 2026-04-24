@@ -3,7 +3,8 @@
     public enum TrackType
     {
         Single,
-        AlbumTrack,
-        ConcertTrack,
+        Live,
+        Demo,
+        Remix,
     }
 }

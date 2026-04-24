@@ -9,7 +9,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// </summary>
         /// <param name="album"></param>
         /// <returns></returns>
-        void CreateAlbum(CreateAlbumDto album);
+        void CreateAlbum(CreateAlbumRequest album);
 
         /// <summary>
         /// 获取所有专辑信息
@@ -29,7 +29,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// </summary>
         /// <param name="id"></param>
         /// <param name="album"></param>
-        void UpdateAlbum(int id, CreateAlbumDto album);
+        void UpdateAlbum(int id, CreateAlbumRequest album);
 
         /// <summary>
         /// 根据Id删除专辑

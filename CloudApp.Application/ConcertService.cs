@@ -20,7 +20,7 @@ namespace CloudApp.Application
         }
 
         #region 同步方法
-        public void AddConcert(CreateConcertDto model)
+        public void AddConcert(CreateConcertRequest model)
         {
             if (model == null)
             {
@@ -72,7 +72,7 @@ namespace CloudApp.Application
             }
         }
 
-        public void UpdateConcert(int id, CreateConcertDto model)
+        public void UpdateConcert(int id, CreateConcertRequest model)
         {
             if (model == null)
             {
