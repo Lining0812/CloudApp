@@ -34,12 +34,12 @@ public class MediaService : IMediaService
         }
 
         // 后续优化：关系创建后再保存
-        string filePath = _storageProvider.SaveFile(file, Entype.Album);
+        //string filePath = _storageProvider.SaveFile(file, Entype.Album);
 
         var mediaResource = new MediaResource
         {
             FileName = file.FileName,
-            FilePath = filePath,
+            //FilePath = filePath,
             ContentType = file.ContentType,
             MediaType = mediaType,
             UpdatedAt = DateTime.UtcNow,

@@ -7,13 +7,15 @@ namespace CloudApp.Core.Interfaces.Services
     /// </summary>
     public interface IStorageProvider
     {
+        public StorageType StorageType { get; }
+
         /// <summary>
         /// 存储文件
         /// </summary>
-        /// <param name="file">文件</param>
-        /// <param name="type">实体类型</param>
-        /// <returns>文件的相对路径</returns>
-        string SaveFile(IFileContent file, Entype type);
+        /// <param name="key"></param>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        Uri SaveFile(string key,Stream stream);
 
         /// <summary>
         /// 读取文件

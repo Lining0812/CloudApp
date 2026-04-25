@@ -39,14 +39,8 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogInformation($"开始添加专辑: {request.Title}, 艺术家: {request.Artist}");
-
-                {
-                    _logger.LogWarning("尝试添加已存在的专辑: Title={Title}, Artist={Artist}", request.Title, request.Artist);
-                    throw new ArgumentException("专辑已存在", nameof(request));
-                }
-
                 // 创建专辑实体并保存
-                Album album = request.ToEntity();
+                var album = request.ToEntity();
                 _albumRepository.Add(album);
                 _albumRepository.SaveChange();
 

@@ -17,6 +17,7 @@ namespace CloudApp.Infrastructure
         public DbSet<Concert> Concerts { get; set; }
         public DbSet<MediaResource> MediaResources { get; set; }
         public DbSet<MediaRelation> MediaRelations { get; set; }
+        public DbSet<UploadedFile> UploadedFiles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

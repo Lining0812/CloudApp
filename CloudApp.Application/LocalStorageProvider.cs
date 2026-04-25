@@ -15,6 +15,7 @@ namespace CloudApp.Application
         private readonly ILogger<LocalStorageProvider> _logger;
         private const long MaxFileSize = 20 * 1024 * 1024;
         private static readonly string[] AllowedExtensions = [".jpg", ".jpeg", ".png", ".gif", ".mp3", ".mp4", ".pdf"];
+        public StorageType StorageType => StorageType.Bakeup;
 
         public LocalStorageProvider(ILogger<LocalStorageProvider> logger)
         {
@@ -201,6 +202,11 @@ namespace CloudApp.Application
 
             //return Path.Combine(_environment.WebRootPath ?? _environment.ContentRootPath, relativePath);
             return "/";
+        }
+
+        public Uri SaveFile(string key, Stream stream)
+        {
+            throw new NotImplementedException();
         }
     }
 }

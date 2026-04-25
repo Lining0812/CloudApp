@@ -49,7 +49,7 @@ namespace CloudApp.Application
                     _logger.LogInformation("开始上传单曲封面图片: FileName={FileName}, Size={Size} bytes",
                         model.CoverImage.FileName, model.CoverImage.Length);
 
-                    coverImageUrl = _storageProvider.SaveFile(model.CoverImage, _type);
+                    //coverImageUrl = _storageProvider.SaveFile(model.CoverImage, _type);
 
                     _logger.LogInformation("封面图片上传成功: Path={CoverImageUrl}", coverImageUrl);
                 }
