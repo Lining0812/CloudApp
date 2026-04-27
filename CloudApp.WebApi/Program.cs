@@ -1,7 +1,5 @@
-using CloudApp.Application;
 using CloudApp.Application.Extensions;
 using CloudApp.Core.Confige;
-using CloudApp.Core.Interfaces;
 using CloudApp.Infrastructure.Extensions;
 using CloudApp.WebApi.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -12,7 +12,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreatedAt { get; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
         /// <summary>
         /// 更新时间
         /// </summary>

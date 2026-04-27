@@ -1,4 +1,6 @@
+using CloudApp.Core.Confige;
 using CloudApp.Core.Interfaces.Repositories;
+using CloudApp.Core.Interfaces.Services;
 using CloudApp.Infrastructure.Identity;
 using CloudApp.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +13,7 @@ namespace CloudApp.Infrastructure.Extensions
     public static class RepositoryCollectionExtensions
     {
         /// <summary>
-        /// 统一注册仓储服务
+        /// 统一注册仓储与基础设施服务
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
@@ -29,6 +31,13 @@ namespace CloudApp.Infrastructure.Extensions
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<IConcertRepository, ConcertRepository>();
             services.AddScoped<ITrackRepository, TrackRepository>();
+            services.AddScoped<IFileRepository, FileRepository>();
+
+            // 添加存储配置
+            services.Configure<StorageOptions>(configuration.GetSection("Storage"));
+
+            // 添加存储提供者
+            services.AddScoped<IStorageProvider, LocalStorageProvider>();
 
             return services;
         }

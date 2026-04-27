@@ -10,12 +10,38 @@ namespace CloudApp.Core.Interfaces.Services
         public StorageType StorageType { get; }
 
         /// <summary>
-        /// 存储文件
+        /// 存储文件（通过 key 和 stream）
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        Uri SaveFile(string key,Stream stream);
+        /// <param name="key">文件键（相对路径）</param>
+        /// <param name="stream">文件流</param>
+        /// <returns>文件访问 URI</returns>
+        Uri SaveFile(string key, Stream stream);
+
+        /// <summary>
+        /// 异步存储文件（通过 key 和 stream）
+        /// </summary>
+        /// <param name="key">文件键（相对路径）</param>
+        /// <param name="stream">文件流</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        /// <returns>文件访问 URI</returns>
+        Task<Uri> SaveFileAsync(string key, Stream stream, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 存储文件（通过 IFileContent 和实体类型）
+        /// </summary>
+        /// <param name="file">文件内容</param>
+        /// <param name="entityType">实体类型</param>
+        /// <returns>文件相对路径</returns>
+        string SaveFile(IFileContent file, Entype entityType);
+
+        /// <summary>
+        /// 异步存储文件（通过 IFileContent 和实体类型）
+        /// </summary>
+        /// <param name="file">文件内容</param>
+        /// <param name="entityType">实体类型</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        /// <returns>文件相对路径</returns>
+        Task<string> SaveFileAsync(IFileContent file, Entype entityType, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 读取文件
@@ -25,10 +51,25 @@ namespace CloudApp.Core.Interfaces.Services
         Stream ReadFile(string filepath);
 
         /// <summary>
+        /// 异步读取文件
+        /// </summary>
+        /// <param name="filepath">文件路径（相对路径或绝对路径）</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        /// <returns>文件流</returns>
+        Task<Stream> ReadFileAsync(string filepath, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 删除文件
         /// </summary>
         /// <param name="filepath">文件路径（相对路径或绝对路径）</param>
         void DeleteFile(string filepath);
+
+        /// <summary>
+        /// 异步删除文件
+        /// </summary>
+        /// <param name="filepath">文件路径（相对路径或绝对路径）</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        Task DeleteFileAsync(string filepath, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新文件
@@ -37,5 +78,28 @@ namespace CloudApp.Core.Interfaces.Services
         /// <param name="newFile">新文件</param>
         /// <returns>更新后的文件路径</returns>
         string UpdateFile(string filepath, IFileContent newFile);
+
+        /// <summary>
+        /// 异步更新文件
+        /// </summary>
+        /// <param name="filepath">要替换的文件路径</param>
+        /// <param name="newFile">新文件</param>
+        /// <param name="cancellationToken">取消令牌</param>
+        /// <returns>更新后的文件路径</returns>
+        Task<string> UpdateFileAsync(string filepath, IFileContent newFile, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 检查文件是否存在
+        /// </summary>
+        /// <param name="filepath">文件路径</param>
+        /// <returns>是否存在</returns>
+        bool FileExists(string filepath);
+
+        /// <summary>
+        /// 获取文件信息
+        /// </summary>
+        /// <param name="filepath">文件路径</param>
+        /// <returns>文件信息，若不存在则返回 null</returns>
+        FileInfo? GetFileInfo(string filepath);
     }
 }

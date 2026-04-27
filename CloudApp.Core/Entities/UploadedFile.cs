@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CloudApp.Core.Entities
+﻿namespace CloudApp.Core.Entities
 {
     public class UploadedFile : BaseEntity
     {
@@ -16,7 +12,7 @@ namespace CloudApp.Core.Entities
 
         public Uri RemoteUrl { get; private set; }
 
-        public static UploadedFile Create(string name, long FileSize,string hash, Uri backupurl, Uri remoteurl)
+        public static UploadedFile Create(string name, long FileSize,string hash, Uri backupurl, Uri? remoteurl)
         {
             var upLoadedFile = new UploadedFile()
             {

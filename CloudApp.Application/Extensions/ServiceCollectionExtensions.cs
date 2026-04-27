@@ -1,5 +1,4 @@
 using CloudApp.Core.Interfaces.Services;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CloudApp.Application.Extensions
@@ -21,9 +20,7 @@ namespace CloudApp.Application.Extensions
             services.AddScoped<ITrackService, TrackService>();
             services.AddScoped<IConcertService, ConcertService>();
             services.AddScoped<IMediaService, MediaService>();
-
-            // 添加存储提供者
-            //services.AddScoped<IStorageProvider, LocalStorageProvider>();
+            services.AddScoped<IFileService, FileService>();
 
             return services;
         }
