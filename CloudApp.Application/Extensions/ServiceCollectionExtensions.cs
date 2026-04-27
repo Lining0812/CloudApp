@@ -1,5 +1,4 @@
 using CloudApp.Core.Interfaces.Services;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CloudApp.Application.Extensions
