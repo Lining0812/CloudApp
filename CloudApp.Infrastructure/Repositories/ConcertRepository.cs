@@ -8,7 +8,7 @@ namespace CloudApp.Infrastructure.Repositories
     public class ConcertRepository : BaseRepository<Concert>, IConcertRepository
     {
         public ConcertRepository(MyDBContext dbContext, ILogger<ConcertRepository> logger)
-            :base(dbContext, logger)
+            : base(dbContext, logger)
         {
         }
 

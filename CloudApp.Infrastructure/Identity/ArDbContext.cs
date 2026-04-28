@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace CloudApp.Infrastructure.Identity
+﻿namespace CloudApp.Infrastructure.Identity
 {
     //public class ArDBContext : IdentityDbContext<AppUser, AppRole, int>
     //{

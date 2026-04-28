@@ -1,7 +1,6 @@
 using CloudApp.Core.Confige;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
-using CloudApp.Core.Interfaces;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

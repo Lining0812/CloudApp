@@ -1,11 +1,10 @@
-using CloudApp.Core.Entities;
-using CloudApp.Core.Extensions;
-using CloudApp.Core.Interfaces.Services;
-using CloudApp.Core.Interfaces.Repositories;
-using Microsoft.Extensions.Logging;
-using CloudApp.Core.Enums;
 using CloudApp.Core.Dtos.Track;
-using CloudApp.Core.Dtos.Album;
+using CloudApp.Core.Entities;
+using CloudApp.Core.Enums;
+using CloudApp.Core.Extensions;
+using CloudApp.Core.Interfaces.Repositories;
+using CloudApp.Core.Interfaces.Services;
+using Microsoft.Extensions.Logging;
 
 namespace CloudApp.Application
 {
@@ -15,12 +14,13 @@ namespace CloudApp.Application
         private readonly IAlbumService _albumService;
         private readonly IStorageProvider _storageProvider;
         private readonly ILogger<TrackService> _logger;
+
         private readonly Entype _type = Entype.Track;
 
         public TrackService(
             ITrackRepository trackrepository,
-            IAlbumService albumService, 
-            ILogger<TrackService> logger, 
+            IAlbumService albumService,
+            ILogger<TrackService> logger,
             IStorageProvider storageProvider)
         {
             _trackrepository = trackrepository;
@@ -59,23 +59,29 @@ namespace CloudApp.Application
                 //}
 
                 // 检查是否需要自动创建专辑
-                if (!model.AlbumId.HasValue)
-                {
-                    _logger.LogInformation("未指定专辑ID，准备自动创建专辑");
+                //if (!model.AlbumId.HasValue)
+                //{
+                //    _logger.LogInformation("未指定专辑ID，准备自动创建专辑");
 
-                    // 创建与单曲同名的专辑
-                    var creatAlbum = new CreateAlbumRequest
-                    {
-                        Title = $"{model.Title}-(Single)",
-                        Description = null,
-                        Artist = model.Artist,
-                        ReleaseDate = model.ReleaseDate
-                    };
-                    
-                    _albumService.CreateAlbum(creatAlbum);
-                    
-                    _logger.LogInformation($"自动创建专辑成功:Title={creatAlbum.Title}");
-                    
+                //    // 创建与单曲同名的专辑
+                //    var creatAlbum = new CreateAlbumRequest
+                //    {
+                //        Title = $"{model.Title}-(Single)",
+                //        Description = null,
+                //        Artist = model.Artist,
+                //        ReleaseDate = model.ReleaseDate
+                //    };
+
+                //    _albumService.CreateAlbum(creatAlbum);
+
+                //    _logger.LogInformation($"自动创建专辑成功:Title={creatAlbum.Title}");
+
+                //}
+
+                if (_trackrepository.TrackExists(model.Title))
+                {
+                    _logger.LogWarning("尝试添加已存在的单曲: Title={Title}", model.Title);
+                    throw new ArgumentException("单曲已存在", nameof(model.Title));
                 }
 
                 // 创建单曲实体并保存

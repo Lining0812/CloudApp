@@ -1,6 +1,4 @@
-﻿using CloudApp.Core.Entities;
-
-namespace CloudApp.Core.Dtos.Track
+﻿namespace CloudApp.Core.Dtos.Track
 {
     public class TrackInfoDto
     {

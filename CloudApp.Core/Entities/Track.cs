@@ -51,7 +51,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 导航属性 - 专辑
         /// </summary>
-        public Album? Album { get; set; } 
+        public Album? Album { get; set; }
         public int? AlbumId { get; set; }
         /// <summary>
         /// 导航属性 - 演唱会

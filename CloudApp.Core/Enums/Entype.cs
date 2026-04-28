@@ -4,6 +4,6 @@
     {
         Album,
         Concert,
-		Track
-	}
+        Track
+    }
 }

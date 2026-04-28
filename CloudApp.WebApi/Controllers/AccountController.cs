@@ -21,8 +21,8 @@ namespace CloudApp.WebApi.Controllers
         private readonly IOptionsSnapshot<JwtSetting> _jwtSetting;
 
         public AccountController(
-            UserManager<AppUser> userManager, 
-            RoleManager<AppRole> roleManager, 
+            UserManager<AppUser> userManager,
+            RoleManager<AppRole> roleManager,
             IOptionsSnapshot<JwtSetting> jwtSetting
             )
         {
@@ -42,6 +42,7 @@ namespace CloudApp.WebApi.Controllers
             }
 
             var user = await _userManager.FindByNameAsync("yzk");
+
             if (user == null)
             {
                 user = new AppUser { UserName = "yzk" };
@@ -137,20 +138,20 @@ namespace CloudApp.WebApi.Controllers
 
                 return jwt;
             }
-            else            
+            else
             {
                 return BadRequest("登录失败");
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Login(string userName,string password)
+        public async Task<ActionResult<string>> Login(string userName, string password)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null) return BadRequest("用户不存在");
 
             var success = await _userManager.CheckPasswordAsync(user, password);
-            if(!success) return BadRequest("用户登录失败");
+            if (!success) return BadRequest("用户登录失败");
 
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));

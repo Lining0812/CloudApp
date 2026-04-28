@@ -45,7 +45,7 @@ namespace CloudApp.Core.Extensions
                 Description = concert.Description,
                 CoverImageUrl = concert.CoverImageUrl,
 
-                Tracks = concert.Tracks.Select(t=>t.Title).ToArray(),
+                Tracks = concert.Tracks.Select(t => t.Title).ToArray(),
             };
         }
 

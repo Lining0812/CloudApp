@@ -1,7 +1,5 @@
 ﻿using CloudApp.Core.Confige;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,7 +8,7 @@ namespace CloudApp.Infrastructure.Extensions
 {
     public static class JwtTokenBuilder
     {
-        public static string BuildToken(List<Claim> claims,JwtSetting jwtSetting)
+        public static string BuildToken(List<Claim> claims, JwtSetting jwtSetting)
         {
             string key = jwtSetting.SecKey;
             DateTime expire = DateTime.UtcNow.AddSeconds(jwtSetting.ExpireSeconds);

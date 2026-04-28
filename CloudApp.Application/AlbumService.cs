@@ -36,7 +36,7 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogInformation($"开始添加专辑: {request.Title}, 艺术家: {request.Artist}");
-                
+
                 var album = _albumRepository.FindAlbumByTitle(request.Title);
 
                 if (album != null)
@@ -97,7 +97,7 @@ namespace CloudApp.Application
                 // 删除专辑（软删除）
                 _albumRepository.Delete(id);
                 _albumRepository.SaveChange();
-                
+
                 _logger.LogInformation("成功删除专辑: ID={AlbumId}", id);
             }
             catch (Exception ex)
@@ -165,7 +165,7 @@ namespace CloudApp.Application
 
             //    _albumRepository.Update(album);
             //    _albumRepository.SaveChange();
-                
+
             //    _logger.LogInformation("成功更新专辑: ID={AlbumId}, Title={Title}, CoverImageUrl={CoverImageUrl}", 
             //        album.Id, album.Title, album.CoverImageUrl);
             //}

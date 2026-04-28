@@ -1,4 +1,3 @@
-using CloudApp.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos.Track
@@ -21,7 +20,7 @@ namespace CloudApp.Core.Dtos.Track
         [Required(ErrorMessage = "发行时间不能为空")]
         public DateTime ReleaseDate { get; set; }
 
-        [Required(ErrorMessage ="原唱不能为空")]
+        [Required(ErrorMessage = "原唱不能为空")]
         [MaxLength(100, ErrorMessage = "原唱不能超过100个字符")]
         public string Artist { get; set; }
 

@@ -97,7 +97,7 @@ namespace CloudApp.Infrastructure.Repositories
         }
 
         public virtual int SaveChange()
-        { 
+        {
             return _context.SaveChanges();
         }
 
@@ -120,7 +120,7 @@ namespace CloudApp.Infrastructure.Repositories
             // 全局查询过滤器已经自动过滤IsDeleted
             return await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
         }
-        
+
         public virtual async Task AddRangeAsync(IEnumerable<T> entities)
         {
             var now = DateTime.UtcNow;
@@ -142,7 +142,7 @@ namespace CloudApp.Infrastructure.Repositories
             entity.UpdatedAt = DateTime.UtcNow;
             _dbSet.Update(entity);
         }
-        
+
         public virtual async Task UpdateRangeAsync(IEnumerable<T> entities)
         {
             var now = DateTime.UtcNow;
@@ -152,7 +152,7 @@ namespace CloudApp.Infrastructure.Repositories
             }
             _dbSet.UpdateRange(entities);
         }
-        
+
         public virtual async Task DeleteAsync(int id)
         {
             // 全局查询过滤器已经自动过滤IsDeleted
@@ -162,7 +162,7 @@ namespace CloudApp.Infrastructure.Repositories
                 await DeleteAsync(entity);
             }
         }
-        
+
         public virtual async Task DeleteAsync(T entity)
         {
             // 统一使用软删除
@@ -170,7 +170,7 @@ namespace CloudApp.Infrastructure.Repositories
             entity.UpdatedAt = DateTime.UtcNow;
             _dbSet.Update(entity);
         }
-        
+
         public virtual async Task DeleteRangeAsync(IEnumerable<T> entities)
         {
             var now = DateTime.UtcNow;

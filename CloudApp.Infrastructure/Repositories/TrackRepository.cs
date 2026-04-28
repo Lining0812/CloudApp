@@ -39,10 +39,15 @@ namespace CloudApp.Infrastructure.Repositories
                 .ToList();
         }
 
-        public Track? FindTrackByTitle(string title)
+        public Track? FindByTitle(string trackTitle)
         {
-            if (string.IsNullOrEmpty(title)) return null;
-            return _dbSet.Include(t => t.Album).FirstOrDefault(a => a.Title.ToLower() == title.ToLower());
+            if (string.IsNullOrEmpty(trackTitle)) return null;
+            return _dbSet.Include(t => t.Album).FirstOrDefault(a => a.Title == trackTitle);
+        }
+
+        public bool TrackExists(string trackTitle)
+        {
+            return _dbSet.Any(t => t.Title == trackTitle);
         }
         #endregion
 

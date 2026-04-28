@@ -1,4 +1,3 @@
-using CloudApp.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos.Concert
@@ -18,7 +17,7 @@ namespace CloudApp.Core.Dtos.Concert
         [Required(ErrorMessage = "结束时间不能为空")]
         public DateTime EndAt { get; set; }
 
-        [Required(ErrorMessage ="地址不能为空")]
+        [Required(ErrorMessage = "地址不能为空")]
         public string Address { get; set; }
 
         //public IFileContent? CoverImage { get; set; }

@@ -54,7 +54,7 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，更新失败");
             }
 
-            if (model != null)  _trackService.UpdateTrack(trackId, model);
+            if (model != null) _trackService.UpdateTrack(trackId, model);
             return Ok("成功更新单曲");
         }
 

@@ -28,7 +28,7 @@ namespace CloudApp.Infrastructure.Configs
             builder.HasOne(m => m.MediaResource)
                    .WithMany(mr => mr.MediaRelations)
                    .HasForeignKey(m => m.MediaId)
-                   .OnDelete(DeleteBehavior.Restrict); 
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

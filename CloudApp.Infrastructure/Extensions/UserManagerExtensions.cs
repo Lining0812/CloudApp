@@ -15,12 +15,12 @@ namespace CloudApp.Infrastructure.Extensions
         /// <param name="userManager"></param>
         /// <param name="phoneNumber"></param>
         /// <returns></returns>
-        public static async Task<AppUser?> FindByPhoneNumberAsync(this UserManager<AppUser> userManager,string phoneNumber)
+        public static async Task<AppUser?> FindByPhoneNumberAsync(this UserManager<AppUser> userManager, string phoneNumber)
         {
             if (string.IsNullOrEmpty(phoneNumber)) return null;
 
             var users = userManager.Users;
-            return await users.FirstOrDefaultAsync(u=>u.PhoneNumber == phoneNumber);
+            return await users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
         }
 
         /// <summary>

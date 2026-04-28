@@ -9,7 +9,7 @@ namespace CloudApp.Core.Exceptions
         {
         }
 
-        public BusinessException(string message, Exception innerException) 
+        public BusinessException(string message, Exception innerException)
             : base(message, innerException)
         {
         }

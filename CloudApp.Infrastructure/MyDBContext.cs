@@ -9,8 +9,8 @@ namespace CloudApp.Infrastructure
     public class MyDBContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public MyDBContext(DbContextOptions<MyDBContext> options)
-            :base(options)
-        { 
+            : base(options)
+        {
         }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Track> Tracks { get; set; }
@@ -22,7 +22,7 @@ namespace CloudApp.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MyDBContext).Assembly);
-            
+
             // 全局查询过滤器：自动过滤软删除的实体
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {

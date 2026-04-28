@@ -14,7 +14,7 @@ namespace CloudApp.Infrastructure.Configs
             builder.ToTable("T_Tracks");
 
             // 主键配置
-            builder.HasKey(t=>t.Id);
+            builder.HasKey(t => t.Id);
             // 单曲名称配置
             builder.Property(t => t.Title).IsRequired().HasMaxLength(200);
             // 副标题配置
@@ -47,7 +47,7 @@ namespace CloudApp.Infrastructure.Configs
             builder.HasOne(t => t.Concert).WithMany(c => c.Tracks).HasForeignKey(t => t.ConcertId).OnDelete(DeleteBehavior.SetNull);
 
             // 资源关系配置
-            builder.HasMany(t=>t.MediaRelations)
+            builder.HasMany(t => t.MediaRelations)
                    .WithOne()
                    .HasPrincipalKey(t => t.Id)
                    .OnDelete(DeleteBehavior.Cascade);
