@@ -44,29 +44,30 @@ namespace CloudApp.Application
                 _logger.LogInformation("开始添加单曲: {Title}, 艺术家: {Artist}", model.Title, model.Artist);
 
                 // 处理封面图片上传
-                if (model.CoverImage != null && model.CoverImage.Length > 0)
-                {
-                    _logger.LogInformation("开始上传单曲封面图片: FileName={FileName}, Size={Size} bytes",
-                        model.CoverImage.FileName, model.CoverImage.Length);
+                //if (model.CoverImage != null && model.CoverImage.Length > 0)
+                //{
+                //    _logger.LogInformation("开始上传单曲封面图片: FileName={FileName}, Size={Size} bytes",
+                //        model.CoverImage, model.CoverImage.Length);
 
-                    //coverImageUrl = _storageProvider.SaveFile(model.CoverImage, _type);
+                //    //coverImageUrl = _storageProvider.SaveFile(model.CoverImage);
 
-                    _logger.LogInformation("封面图片上传成功: Path={CoverImageUrl}", coverImageUrl);
-                }
-                else
-                {
-                    _logger.LogWarning("添加单曲时未提供封面图片");
-                }
+                //    _logger.LogInformation("封面图片上传成功: Path={CoverImageUrl}", coverImageUrl);
+                //}
+                //else
+                //{
+                //    _logger.LogWarning("添加单曲时未提供封面图片");
+                //}
 
                 // 检查是否需要自动创建专辑
                 if (!model.AlbumId.HasValue)
                 {
                     _logger.LogInformation("未指定专辑ID，准备自动创建专辑");
-                    
+
                     // 创建与单曲同名的专辑
                     var creatAlbum = new CreateAlbumRequest
                     {
                         Title = $"{model.Title}-(Single)",
+                        Description = null,
                         Artist = model.Artist,
                         ReleaseDate = model.ReleaseDate
                     };

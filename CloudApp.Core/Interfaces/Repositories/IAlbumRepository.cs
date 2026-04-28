@@ -9,7 +9,7 @@ namespace CloudApp.Core.Interfaces.Repositories
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        Album? FindByTitle(string title);
+        Album? FindAlbumByTitle(string title);
 
         /// <summary>
         /// 根据专辑标题判断是否存在

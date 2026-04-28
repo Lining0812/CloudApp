@@ -62,7 +62,7 @@ namespace CloudApp.WebApi.Controllers
                 {
                     id = uploadedFile.Id,
                     fileName = uploadedFile.FileName,
-                    fileSize = uploadedFile.FileSizeBytes,
+                    fileSize = uploadedFile.FileSize,
                     hash = uploadedFile.FileSHA256Hash,
                     backupUrl = uploadedFile.BackUpUrl?.ToString(),
                     remoteUrl = uploadedFile.RemoteUrl?.ToString(),
@@ -116,7 +116,7 @@ namespace CloudApp.WebApi.Controllers
                     {
                         id = uploadedFile.Id,
                         fileName = uploadedFile.FileName,
-                        fileSize = uploadedFile.FileSizeBytes,
+                        fileSize = uploadedFile.FileSize,
                         hash = uploadedFile.FileSHA256Hash,
                         backupUrl = uploadedFile.BackUpUrl?.ToString(),
                         remoteUrl = uploadedFile.RemoteUrl?.ToString(),
@@ -175,7 +175,7 @@ namespace CloudApp.WebApi.Controllers
             {
                 id = file.Id,
                 fileName = file.FileName,
-                fileSize = file.FileSizeBytes,
+                fileSize = file.FileSize,
                 hash = file.FileSHA256Hash,
                 backupUrl = file.BackUpUrl?.ToString(),
                 remoteUrl = file.RemoteUrl?.ToString(),
@@ -223,7 +223,7 @@ namespace CloudApp.WebApi.Controllers
             {
                 id = f.Id,
                 fileName = f.FileName,
-                fileSize = f.FileSizeBytes,
+                fileSize = f.FileSize,
                 hash = f.FileSHA256Hash,
                 backupUrl = f.BackUpUrl?.ToString(),
                 remoteUrl = f.RemoteUrl?.ToString(),
@@ -252,7 +252,7 @@ namespace CloudApp.WebApi.Controllers
                 {
                     id = f.Id,
                     fileName = f.FileName,
-                    fileSize = f.FileSizeBytes,
+                    fileSize = f.FileSize,
                     hash = f.FileSHA256Hash,
                     backupUrl = f.BackUpUrl?.ToString(),
                     remoteUrl = f.RemoteUrl?.ToString(),

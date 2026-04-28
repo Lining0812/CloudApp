@@ -19,7 +19,6 @@ namespace CloudApp.Application.Extensions
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<ITrackService, TrackService>();
             services.AddScoped<IConcertService, ConcertService>();
-            services.AddScoped<IMediaService, MediaService>();
             services.AddScoped<IFileService, FileService>();
 
             return services;

@@ -33,7 +33,7 @@ namespace CloudApp.Core.Dtos.Track
         [MaxLength(100, ErrorMessage = "作词不能超过100个字符")]
         public string Lyricist { get; set; }
 
-        public IFileContent CoverImage { get; set; }
+        public string CoverImage { get; set; }
 
         public int? AlbumId { get; set; }
         public int? ConcertId { get; set; }

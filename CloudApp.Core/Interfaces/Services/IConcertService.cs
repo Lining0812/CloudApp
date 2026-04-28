@@ -8,7 +8,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// 创建演唱会
         /// </summary>
         /// <param name="concert"></param>
-        void AddConcert(CreateConcertRequest concert);
+        void CreateConcert(CreateConcertRequest concert);
 
         /// <summary>
         /// 删除演唱会

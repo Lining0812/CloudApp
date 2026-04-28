@@ -1,3 +1,4 @@
+using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
 
 namespace CloudApp.Core.Interfaces.Services
@@ -25,23 +26,6 @@ namespace CloudApp.Core.Interfaces.Services
         /// <param name="cancellationToken">取消令牌</param>
         /// <returns>文件访问 URI</returns>
         Task<Uri> SaveFileAsync(string key, Stream stream, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 存储文件（通过 IFileContent 和实体类型）
-        /// </summary>
-        /// <param name="file">文件内容</param>
-        /// <param name="entityType">实体类型</param>
-        /// <returns>文件相对路径</returns>
-        string SaveFile(IFileContent file, Entype entityType);
-
-        /// <summary>
-        /// 异步存储文件（通过 IFileContent 和实体类型）
-        /// </summary>
-        /// <param name="file">文件内容</param>
-        /// <param name="entityType">实体类型</param>
-        /// <param name="cancellationToken">取消令牌</param>
-        /// <returns>文件相对路径</returns>
-        Task<string> SaveFileAsync(IFileContent file, Entype entityType, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 读取文件
@@ -77,7 +61,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// <param name="filepath">要替换的文件路径</param>
         /// <param name="newFile">新文件</param>
         /// <returns>更新后的文件路径</returns>
-        string UpdateFile(string filepath, IFileContent newFile);
+        string UpdateFile(string filepath, UploadedFile newFile);
 
         /// <summary>
         /// 异步更新文件
@@ -86,7 +70,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// <param name="newFile">新文件</param>
         /// <param name="cancellationToken">取消令牌</param>
         /// <returns>更新后的文件路径</returns>
-        Task<string> UpdateFileAsync(string filepath, IFileContent newFile, CancellationToken cancellationToken = default);
+        Task<string> UpdateFileAsync(string filepath, UploadedFile newFile, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 检查文件是否存在

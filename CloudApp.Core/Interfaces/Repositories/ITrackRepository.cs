@@ -4,6 +4,9 @@ namespace CloudApp.Core.Interfaces.Repositories
 {
     public interface ITrackRepository : IRepository<Track>
     {
+
+        Track? FindTrackByTitle(string title);
+
         /// <summary>
         /// 根据标题查询曲目
         /// </summary>

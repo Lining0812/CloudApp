@@ -24,7 +24,7 @@ namespace CloudApp.Infrastructure.Repositories
                          .FirstOrDefault(a => a.Id == id);
         }
 
-        public Album? FindByTitle(string title)
+        public Album? FindAlbumByTitle(string title)
         {
             if (string.IsNullOrEmpty(title)) return null;
 

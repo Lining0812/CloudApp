@@ -20,11 +20,11 @@ namespace CloudApp.Application
         }
 
         #region 同步方法
-        public void AddConcert(CreateConcertRequest model)
+        public void CreateConcert(CreateConcertRequest model)
         {
             if (model == null)
             {
-                _logger.LogWarning("尝试添加演唱会时，模型为null");
+                _logger.LogWarning("尝试创建演唱会时，模型为null");
                 throw new ArgumentNullException(nameof(model));
             }
 

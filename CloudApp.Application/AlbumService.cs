@@ -12,18 +12,15 @@ namespace CloudApp.Application
     public class AlbumService : IAlbumService
     {
         private readonly IAlbumRepository _albumRepository;
-        private readonly IMediaService _mediaService;
         private readonly ILogger<AlbumService> _logger;
 
         private readonly Entype _type = Entype.Album;
 
         public AlbumService(
             IAlbumRepository repository,
-            IMediaService mediaService,
             ILogger<AlbumService> logger)
         {
             _albumRepository = repository;
-            _mediaService = mediaService;
             _logger = logger;
         }
 
@@ -39,12 +36,21 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogInformation($"开始添加专辑: {request.Title}, 艺术家: {request.Artist}");
+                
+                var album = _albumRepository.FindAlbumByTitle(request.Title);
+
+                if (album != null)
+                {
+                    _logger.LogWarning($"尝试添加已存在的专辑: Title={request.Title}");
+                    throw new InvalidOperationException("专辑已存在");
+                }
+
                 // 创建专辑实体并保存
-                var album = request.ToEntity();
-                _albumRepository.Add(album);
+                var model = request.ToEntity();
+                _albumRepository.Add(model);
                 _albumRepository.SaveChange();
 
-                _logger.LogInformation($"成功添加专辑: ID={album.Id}, Title={album.Title}");
+                _logger.LogInformation($"成功添加专辑: ID={model.Id}, Title={model.Title}");
 
                 // 处理资源上传
                 //    if (model.CoverImage != null && model.CoverImage.Length > 0)
@@ -62,7 +68,7 @@ namespace CloudApp.Application
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "添加专辑失败: Title={Title}", request?.Title);
+                _logger.LogError(ex, $"添加专辑失败: Title={request?.Title}");
                 throw;
             }
         }

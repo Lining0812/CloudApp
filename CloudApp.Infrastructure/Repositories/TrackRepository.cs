@@ -38,6 +38,12 @@ namespace CloudApp.Infrastructure.Repositories
                 .Where(t => t.Title.Contains(title))
                 .ToList();
         }
+
+        public Track? FindTrackByTitle(string title)
+        {
+            if (string.IsNullOrEmpty(title)) return null;
+            return _dbSet.Include(t => t.Album).FirstOrDefault(a => a.Title.ToLower() == title.ToLower());
+        }
         #endregion
 
         #region 异步方法

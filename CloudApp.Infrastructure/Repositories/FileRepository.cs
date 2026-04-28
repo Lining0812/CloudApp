@@ -15,7 +15,7 @@ namespace CloudApp.Infrastructure.Repositories
         public Task<UploadedFile?> FindFileAsync(long size, string hash)
         {
             return _dbSet.FirstOrDefaultAsync(f =>
-                f.FileSizeBytes == size && f.FileSHA256Hash == hash);
+                f.FileSize == size && f.FileSHA256Hash == hash);
         }
 
         public override Task<UploadedFile?> GetByIdAsync(int id)

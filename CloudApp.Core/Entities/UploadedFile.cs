@@ -4,7 +4,7 @@
     {
         public string FileName { get; private set; }
 
-        public long FileSizeBytes { get; private set; }
+        public long FileSize { get; private set; }
 
         public string FileSHA256Hash { get; private set; }
 
@@ -17,7 +17,7 @@
             var upLoadedFile = new UploadedFile()
             {
                 FileName = name,
-                FileSizeBytes = FileSize,
+                FileSize = FileSize,
                 FileSHA256Hash = hash,
                 BackUpUrl = backupurl,
                 RemoteUrl = remoteurl

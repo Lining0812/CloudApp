@@ -18,6 +18,18 @@ public class CreateAlbumRequest
 
     [Required(ErrorMessage = "发行日期不能为空")]
     public DateTime ReleaseDate { get; set; }
-    
+
     //public IFileContent? CoverImage { get; set; }
+
+    public CreateAlbumRequest()
+    {
+    }
+
+    public CreateAlbumRequest(string title, string? description, string artist, DateTime releaseDate)
+    {
+        Title = title;
+        Description = description;
+        Artist = artist;
+        ReleaseDate = releaseDate;
+    }
 }

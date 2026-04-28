@@ -1,4 +1,5 @@
 using CloudApp.Core.Confige;
+using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
 using CloudApp.Core.Interfaces;
 using CloudApp.Core.Interfaces.Services;
@@ -34,86 +35,6 @@ namespace CloudApp.Infrastructure
             else
             {
                 _basePath = Path.Combine(Directory.GetCurrentDirectory(), root);
-            }
-        }
-
-        /// <summary>
-        /// 存储文件至目录（通过 IFileContent 和实体类型）
-        /// </summary>
-        public string SaveFile(IFileContent file, Entype entityType)
-        {
-            if (file == null || file.Length == 0)
-            {
-                throw new ArgumentException("文件不能为空", nameof(file));
-            }
-
-            ValidateFile(file);
-
-            try
-            {
-                string extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-                string fileName = $"{Guid.NewGuid():N}{extension}";
-                string relativePath = Path.Combine(entityType.ToString().ToLowerInvariant(), DateTime.UtcNow.ToString("yyyy/MM"), fileName);
-                string fullPath = GetFullPath(relativePath);
-
-                string? directory = Path.GetDirectoryName(fullPath);
-                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                using (var stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-
-                _logger.LogInformation("文件保存成功: {FilePath}", relativePath);
-                return relativePath.Replace('\\', '/');
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "保存文件失败: {FileName}", file.FileName);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// 异步存储文件（通过 IFileContent 和实体类型）
-        /// </summary>
-        public async Task<string> SaveFileAsync(IFileContent file, Entype entityType, CancellationToken cancellationToken = default)
-        {
-            if (file == null || file.Length == 0)
-            {
-                throw new ArgumentException("文件不能为空", nameof(file));
-            }
-
-            ValidateFile(file);
-
-            try
-            {
-                string extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-                string fileName = $"{Guid.NewGuid():N}{extension}";
-                string relativePath = Path.Combine(entityType.ToString().ToLowerInvariant(), DateTime.UtcNow.ToString("yyyy/MM"), fileName);
-                string fullPath = GetFullPath(relativePath);
-
-                string? directory = Path.GetDirectoryName(fullPath);
-                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-
-                using (var stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    await file.OpenReadStream().CopyToAsync(stream, cancellationToken);
-                }
-
-                _logger.LogInformation("文件保存成功: {FilePath}", relativePath);
-                return relativePath.Replace('\\', '/');
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "保存文件失败: {FileName}", file.FileName);
-                throw;
             }
         }
 
@@ -279,14 +200,14 @@ namespace CloudApp.Infrastructure
         /// <summary>
         /// 更新文件（替换现有文件）
         /// </summary>
-        public string UpdateFile(string filepath, IFileContent newFile)
+        public string UpdateFile(string filepath, UploadedFile newFile)
         {
             if (string.IsNullOrWhiteSpace(filepath))
             {
                 throw new ArgumentException("文件路径不能为空", nameof(filepath));
             }
 
-            if (newFile == null || newFile.Length == 0)
+            if (newFile == null || newFile.FileSize == 0)
             {
                 throw new ArgumentException("新文件不能为空", nameof(newFile));
             }
@@ -306,7 +227,7 @@ namespace CloudApp.Infrastructure
 
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
-                    newFile.CopyTo(stream);
+                    //newFile.CopyTo(stream);
                 }
 
                 _logger.LogInformation("文件更新成功: {FilePath}", filepath);
@@ -322,14 +243,14 @@ namespace CloudApp.Infrastructure
         /// <summary>
         /// 异步更新文件
         /// </summary>
-        public async Task<string> UpdateFileAsync(string filepath, IFileContent newFile, CancellationToken cancellationToken = default)
+        public async Task<string> UpdateFileAsync(string filepath, UploadedFile newFile, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(filepath))
             {
                 throw new ArgumentException("文件路径不能为空", nameof(filepath));
             }
 
-            if (newFile == null || newFile.Length == 0)
+            if (newFile == null || newFile.FileSize == 0)
             {
                 throw new ArgumentException("新文件不能为空", nameof(newFile));
             }
@@ -349,7 +270,7 @@ namespace CloudApp.Infrastructure
 
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
-                    await newFile.OpenReadStream().CopyToAsync(stream, cancellationToken);
+                    //await newFile.OpenReadStream().CopyToAsync(stream, cancellationToken);
                 }
 
                 _logger.LogInformation("文件更新成功: {FilePath}", filepath);
@@ -406,9 +327,9 @@ namespace CloudApp.Infrastructure
         /// <summary>
         /// 验证文件
         /// </summary>
-        public bool ValidateFile(IFileContent file)
+        public bool ValidateFile(UploadedFile file)
         {
-            if (file.Length > _options.MaxFileSize)
+            if (file.FileSize > _options.MaxFileSize)
             {
                 throw new ArgumentException($"文件大小超过限制 ({_options.MaxFileSize / 1024 / 1024}MB)", nameof(file));
             }
