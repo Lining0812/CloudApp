@@ -20,7 +20,7 @@ namespace CloudApp.Core.Interfaces.Repositories
         public T? GetById(int id);
 
         /// <summary>
-        /// 判断实体是否存在
+        /// 根据主键判断实体是否存在（通用）
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

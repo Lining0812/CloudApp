@@ -35,7 +35,7 @@ namespace CloudApp.Infrastructure.Repositories
         public bool AlbumExists(string title)
         {
             if (string.IsNullOrEmpty(title)) return false;
-            return _dbSet.Any(a => a.Title.ToLower() == title.ToLower());
+            return _dbSet.Any(a => a.Title == title);
         }
         #endregion
 
