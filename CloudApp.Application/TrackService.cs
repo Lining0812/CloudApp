@@ -1,6 +1,6 @@
 using CloudApp.Core.Dtos.Track;
 using CloudApp.Core.Entities;
-using CloudApp.Core.Enums;
+using CloudApp.Core.Exceptions;
 using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Core.Interfaces.Services;
@@ -10,105 +10,54 @@ namespace CloudApp.Application
 {
     public class TrackService : ITrackService
     {
-        private readonly ITrackRepository _trackrepository;
-        private readonly IAlbumService _albumService;
-        private readonly IStorageProvider _storageProvider;
+        private readonly ITrackRepository _trackRepository;
+        private readonly IAlbumRepository _albumRepository;
+        private readonly IConcertRepository _concertRepository;
         private readonly ILogger<TrackService> _logger;
 
-        private readonly Entype _type = Entype.Track;
-
         public TrackService(
-            ITrackRepository trackrepository,
-            IAlbumService albumService,
-            ILogger<TrackService> logger,
-            IStorageProvider storageProvider)
+            ITrackRepository trackRepository,
+            IAlbumRepository albumRepository,
+            IConcertRepository concertRepository,
+            ILogger<TrackService> logger)
         {
-            _trackrepository = trackrepository;
-            _albumService = albumService;
+            _trackRepository = trackRepository;
+            _albumRepository = albumRepository;
+            _concertRepository = concertRepository;
             _logger = logger;
-            _storageProvider = storageProvider;
         }
 
         #region 同步方法
         public void CreateTrack(CreateTrackDto model)
         {
-            if (model == null)
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
+            // 检查同名单曲是否已存在
+            var exists = _trackRepository.TrackExists(model.Title);
+            if (exists) throw new InvalidOperationException($"单曲 '{model.Title}' 已存在");
+
+            // 验证关联专辑是否存在
+            if (model.AlbumId.HasValue)
             {
-                _logger.LogWarning("尝试添加单曲时，模型为null");
-                throw new ArgumentNullException(nameof(model));
+                bool albumExists = _albumRepository.Exists(model.AlbumId.Value);
+                if (!albumExists) throw new EntityNotFoundException("专辑", model.AlbumId.Value);
             }
 
-            string coverImageUrl = string.Empty;
-            try
+            // 验证关联演唱会是否存在
+            if (model.ConcertId.HasValue)
             {
-                _logger.LogInformation("开始添加单曲: {Title}, 艺术家: {Artist}", model.Title, model.Artist);
-
-                // 处理封面图片上传
-                //if (model.CoverImage != null && model.CoverImage.Length > 0)
-                //{
-                //    _logger.LogInformation("开始上传单曲封面图片: FileName={FileName}, Size={Size} bytes",
-                //        model.CoverImage, model.CoverImage.Length);
-
-                //    //coverImageUrl = _storageProvider.SaveFile(model.CoverImage);
-
-                //    _logger.LogInformation("封面图片上传成功: Path={CoverImageUrl}", coverImageUrl);
-                //}
-                //else
-                //{
-                //    _logger.LogWarning("添加单曲时未提供封面图片");
-                //}
-
-                // 检查是否需要自动创建专辑
-                //if (!model.AlbumId.HasValue)
-                //{
-                //    _logger.LogInformation("未指定专辑ID，准备自动创建专辑");
-
-                //    // 创建与单曲同名的专辑
-                //    var creatAlbum = new CreateAlbumRequest
-                //    {
-                //        Title = $"{model.Title}-(Single)",
-                //        Description = null,
-                //        Artist = model.Artist,
-                //        ReleaseDate = model.ReleaseDate
-                //    };
-
-                //    _albumService.CreateAlbum(creatAlbum);
-
-                //    _logger.LogInformation($"自动创建专辑成功:Title={creatAlbum.Title}");
-
-                //}
-
-                if (_trackrepository.TrackExists(model.Title))
-                {
-                    _logger.LogWarning("尝试添加已存在的单曲: Title={Title}", model.Title);
-                    throw new ArgumentException("单曲已存在", nameof(model.Title));
-                }
-
-                // 创建单曲实体并保存
-                Track track = model.ToEntity(coverImageUrl);
-                _trackrepository.Add(track);
-                _trackrepository.SaveChange();
-                _logger.LogInformation("成功添加单曲: ID={TrackId}, Title={Title}, AlbumId={AlbumId}", track.Id, track.Title, track.AlbumId);
+                bool concertExists = _concertRepository.Exists(model.ConcertId.Value);
+                if (!concertExists) throw new EntityNotFoundException("演唱会", model.ConcertId.Value);
             }
-            catch (Exception ex)
-            {
-                // 如果保存数据库失败，尝试删除已上传的图片
-                if (!string.IsNullOrEmpty(coverImageUrl))
-                {
-                    try
-                    {
-                        _logger.LogWarning("专辑保存失败，尝试删除已上传的图片: {CoverImageUrl}", coverImageUrl);
-                        _storageProvider.DeleteFile(coverImageUrl);
-                    }
-                    catch (Exception deleteEx)
-                    {
-                        _logger.LogError(deleteEx, "删除已上传的图片失败: {CoverImageUrl}", coverImageUrl);
-                    }
-                }
-                _logger.LogError(ex, "添加单曲失败: Title={Title}, Artist={Artist}", model.Title, model.Artist);
-                throw;
-            }
+
+            Track track = model.ToEntity();
+            _trackRepository.Add(track);
+            _trackRepository.SaveChange();
+
+            _logger.LogInformation("成功添加单曲: ID={TrackId}, Title={Title}", track.Id, track.Title);
         }
+
+
         public void DeleteTrack(int id)
         {
             if (id <= 0)
@@ -120,14 +69,14 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogInformation("开始删除单曲: ID={TrackId}", id);
-                bool trackExists = _trackrepository.Exists(id);
+                bool trackExists = _trackRepository.Exists(id);
                 if (!trackExists)
                 {
                     _logger.LogWarning("尝试删除不存在的单曲: ID={TrackId}", id);
                     throw new ArgumentException("单曲不存在", nameof(id));
                 }
-                _trackrepository.Delete(id);
-                _trackrepository.SaveChange();
+                _trackRepository.Delete(id);
+                _trackRepository.SaveChange();
                 _logger.LogInformation("成功删除单曲: ID={TrackId}", id);
             }
             catch (Exception ex)
@@ -147,7 +96,7 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogInformation("开始更新单曲: ID={TrackId}", id);
-                var track = _trackrepository.GetById(id);
+                var track = _trackRepository.GetById(id);
                 if (track == null)
                 {
                     _logger.LogWarning("尝试更新不存在的单曲: ID={TrackId}", id);
@@ -164,8 +113,8 @@ namespace CloudApp.Application
                 track.Lyricist = model.Lyricist;
                 track.UpdatedAt = DateTime.UtcNow;
 
-                _trackrepository.Update(track);
-                _trackrepository.SaveChange();
+                _trackRepository.Update(track);
+                _trackRepository.SaveChange();
                 _logger.LogInformation("成功更新单曲: ID={TrackId}, Title={Title}", track.Id, track.Title);
             }
             catch (Exception ex)
@@ -179,7 +128,7 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogDebug("开始获取所有单曲列表");
-                var tracks = _trackrepository.GetAll();
+                var tracks = _trackRepository.GetAll();
                 var result = tracks.Select(t => t.ToInfoDto()).ToList();
                 _logger.LogInformation("成功获取单曲列表，共 {Count} 条记录", result.Count);
                 return result;
@@ -195,7 +144,7 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogDebug("开始获取单曲详情: ID={TrackId}", id);
-                var track = _trackrepository.GetById(id);
+                var track = _trackRepository.GetById(id);
                 if (track == null)
                 {
                     _logger.LogWarning("未找到单曲: ID={TrackId}", id);

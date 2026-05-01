@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddTrack([FromForm] CreateTrackDto model)
+        public ActionResult CreateTrack([FromForm] CreateTrackDto model)
         {
             _logger.LogInformation("收到添加单曲请求: Title={Title}, Artist={Artist}", model?.Title, model?.Artist);
 
