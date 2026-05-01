@@ -20,7 +20,9 @@ namespace CloudApp.WebApi.Controllers
         [HttpPost]
         public ActionResult CreateTrack([FromForm] CreateTrackDto model)
         {
-            _logger.LogInformation("收到添加单曲请求: Title={Title}, Artist={Artist}", model?.Title, model?.Artist);
+            _logger.LogInformation($"收到添加单曲请求: Title={model?.Title}, Artist={model?.Artist}");
+
+            if (model == null) return BadRequest("请求数据不能为空");
 
             if (!ModelState.IsValid)
             {
@@ -29,7 +31,7 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，添加失败");
             }
 
-            if (model != null) _trackService.CreateTrack(model);
+            _trackService.CreateTrack(model);
             return Ok("成功新增单曲");
         }
 

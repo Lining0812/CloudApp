@@ -31,11 +31,14 @@ namespace CloudApp.Infrastructure.Configs
             // 地点配置
             builder.Property(c => c.Address).IsRequired().HasMaxLength(300);
 
+            // 专辑关系配置
+            builder.HasOne(c => c.Album).WithOne().HasForeignKey<Concert>(c => c.AlbumId).OnDelete(DeleteBehavior.SetNull);
+
             // 资源关系配置
-            builder.HasMany(c => c.MediaRelations)
-                .WithOne()
-                .HasPrincipalKey(c => c.Id)
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasMany(c => c.MediaRelations)
+            //    .WithOne()
+            //    .HasPrincipalKey(c => c.Id)
+            //    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

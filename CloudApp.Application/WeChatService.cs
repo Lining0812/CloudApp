@@ -51,5 +51,21 @@ namespace CloudApp.Application
 
             return await _httpClient.GetFromJsonAsync<WeChatUserInfoResponse>(url);
         }
+
+        /// <summary>
+        /// 小程序登录 - 通过 jscode 换取 session_key 和 openid
+        /// </summary>
+        public async Task<WeChatCode2SessionResponse?> Code2SessionAsync(string code)
+        {
+            var appId = _configuration["WeChat:AppId"];
+            var secret = _configuration["WeChat:AppSecret"];
+            var url = $"https://api.weixin.qq.com/sns/jscode2session"
+                + $"?appid={appId}"
+                + $"&secret={secret}"
+                + $"&js_code={code}"
+                + $"&grant_type=authorization_code";
+
+            return await _httpClient.GetFromJsonAsync<WeChatCode2SessionResponse>(url);
+        }
     }
 }

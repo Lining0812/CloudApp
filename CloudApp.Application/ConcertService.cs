@@ -31,8 +31,7 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogInformation("开始添加演唱会: {Title}, 地址: {Address}", model.Title, model.Address);
-                string url = "";
-                Concert concert = model.ToEntity(url);
+                Concert concert = model.ToEntity();
                 _concertRepository.Add(concert);
                 _concertRepository.SaveChange();
                 _logger.LogInformation("成功添加演唱会: ID={ConcertId}, Title={Title}", concert.Id, concert.Title);

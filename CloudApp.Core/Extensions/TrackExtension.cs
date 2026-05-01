@@ -22,9 +22,9 @@ namespace CloudApp.Core.Extensions
                 Artist = dto.Artist,
                 Composer = dto.Composer,
                 Lyricist = dto.Lyricist,
-                CoverImageUrl = dto.CoverImage,
+                CoverUrl = dto.CoverUrl,
+                Type = dto.Type,
                 AlbumId = dto.AlbumId,
-                ConcertId = dto.ConcertId,
             };
         }
 
@@ -39,7 +39,7 @@ namespace CloudApp.Core.Extensions
                 Composer = track.Composer,
                 Lyricist = track.Lyricist,
                 AlbumTitle = track.Album?.Title,
-                ConcertTitle = track.Concert?.Title,
+                //ConcertTitle = track.Concert?.Title,
             };
         }
 

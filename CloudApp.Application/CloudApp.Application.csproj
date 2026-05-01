@@ -14,11 +14,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CloudApp.Core\CloudApp.Core.csproj" />
+    <ProjectReference Include="..\CloudApp.Infrastructure\CloudApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

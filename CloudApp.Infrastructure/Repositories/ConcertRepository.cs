@@ -16,13 +16,13 @@ namespace CloudApp.Infrastructure.Repositories
         public override IEnumerable<Concert> GetAll()
         {
             // 全局查询过滤器已经自动过滤IsDeleted
-            return _dbSet.Include(a => a.Tracks).ToList();
+            return _dbSet.Include(c => c.Album!.Tracks).ToList();
         }
 
         public override Concert? GetById(int id)
         {
             // 全局查询过滤器已经自动过滤IsDeleted
-            return _dbSet.Include(c => c.Tracks)
+            return _dbSet.Include(c => c.Album!.Tracks)
                          .FirstOrDefault(c => c.Id == id);
         }
         #endregion

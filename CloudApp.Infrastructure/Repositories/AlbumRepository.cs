@@ -1,4 +1,6 @@
+using CloudApp.Core.Dtos.Album;
 using CloudApp.Core.Entities;
+using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,6 +18,22 @@ namespace CloudApp.Infrastructure.Repositories
         public override IEnumerable<Album> GetAll()
         {
             return _dbSet.Include(a => a.Tracks).ToList();
+        }
+
+        public IEnumerable<AlbumInfoDto> GetAllAsDto()
+        {
+            // 查询没能获取关联的单曲
+            //return _dbSet.Select(a => a.ToInfoDto()).ToList();
+
+            return _dbSet.Select(a => new AlbumInfoDto
+            {
+                Id = a.Id,
+                Title = a.Title,
+                Description = a.Description,
+                Artist = a.Artist,
+                ReleaseDate = a.ReleaseDate,
+                Tracks = a.Tracks.Select(t => t.Title).ToList(),
+            }).ToList();
         }
 
         public override Album? GetById(int id)
@@ -37,6 +55,7 @@ namespace CloudApp.Infrastructure.Repositories
             if (string.IsNullOrEmpty(title)) return false;
             return _dbSet.Any(a => a.Title == title);
         }
+
         #endregion
 
         #region 异步方法

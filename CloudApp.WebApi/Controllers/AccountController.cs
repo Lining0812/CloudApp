@@ -1,14 +1,8 @@
-﻿using CloudApp.Core.Confige;
-using CloudApp.Core.Enums;
-using CloudApp.Infrastructure.Extensions;
-using CloudApp.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
+using CloudApp.Core.Dtos.Account;
+using CloudApp.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace CloudApp.WebApi.Controllers
 {
@@ -16,165 +10,71 @@ namespace CloudApp.WebApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<AppRole> _roleManager;
-        private readonly IOptionsSnapshot<JwtSetting> _jwtSetting;
+        private readonly IAccountService _accountService;
 
-        public AccountController(
-            UserManager<AppUser> userManager,
-            RoleManager<AppRole> roleManager,
-            IOptionsSnapshot<JwtSetting> jwtSetting
-            )
+        public AccountController(IAccountService accountService)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _jwtSetting = jwtSetting;
+            _accountService = accountService;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> CreateAdminUser()
         {
-            if (!await _roleManager.RoleExistsAsync(RoleType.Admin.ToString()))
-            {
-                AppRole role = new AppRole { Name = RoleType.Admin.ToString() };
-                var result = await _roleManager.CreateAsync(role);
-                if (!result.Succeeded) return BadRequest("角色创建失败");
-            }
-
-            var user = await _userManager.FindByNameAsync("yzk");
-
-            if (user == null)
-            {
-                user = new AppUser { UserName = "yzk" };
-                var result = await _userManager.CreateAsync(user);
-                if (!result.Succeeded) return BadRequest("用户创建失败");
-            }
-
-            if (!await _userManager.IsInRoleAsync(user, RoleType.Admin.ToString()))
-            {
-                var result = await _userManager.AddToRoleAsync(user, RoleType.Admin.ToString());
-                if (!result.Succeeded) return BadRequest("用户添加角色失败");
-            }
-
-            return Ok("用户创建成功,并添加至角色中");
+            var result = await _accountService.CreateAdminUserAsync();
+            return Ok(result);
         }
 
         [HttpPost("{phoneNumber}/{email}")]
-        public async Task<ActionResult> Register(string phoneNumber, string email)
+        public async Task<ActionResult> Register(string phoneNumber, string email, string password)
         {
-            if (await _userManager.IsPhoneNumberRegisteredAsync(phoneNumber)) return BadRequest("用户已存在");
-            if (await _userManager.FindByEmailAsync(email) != null) return BadRequest("用户已存在");
+            var request = new RegisterRequest { UserName = phoneNumber, PhoneNumber = phoneNumber, Email = email, Password = password };
+            var result = await _accountService.RegisterAsync(request);
+            return Ok(result);
+        }
 
-            var user = new AppUser
-            {
-                UserName = phoneNumber,
-                PhoneNumber = phoneNumber,
-                Email = email
-            };
-
-            var result = await _userManager.CreateAsync(user);
-            if (!result.Succeeded) return BadRequest("用户注册失败");
-
-            if (!await _roleManager.RoleExistsAsync(RoleType.User.ToString()))
-            {
-                var role = new AppRole { Name = RoleType.User.ToString() };
-                var roleResult = await _roleManager.CreateAsync(role);
-                if (!roleResult.Succeeded) return BadRequest("角色创建失败");
-            }
-
-            await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
-
-            return Ok("用户注册成功");
+        [HttpPost("{phoneNumber}")]
+        public async Task<ActionResult> RegisterByPhone(string phoneNumber, string password)
+        {
+            var result = await _accountService.RegisterByPhoneAsync(phoneNumber, password);
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult> SendResetPasswordToken(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null) return BadRequest();
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            Console.WriteLine($"你的验证码是：{token}");
-            return Ok();
+            var token = await _accountService.GeneratePasswordResetTokenAsync(userName);
+            return Ok(token);
         }
 
         [HttpPut]
         public async Task<ActionResult> ResetPassword(string userName, string token, string newPassword)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null) return BadRequest();
-            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
-            if (result.Succeeded)
-            {
-                await _userManager.ResetAccessFailedCountAsync(user);
-                return Ok("密码重置成功");
-            }
-            await _userManager.AccessFailedAsync(user);
-            var count = await _userManager.GetAccessFailedCountAsync(user);
-            Console.WriteLine($"失败次数{count}");
-            return BadRequest();
-        }
-
-        [HttpPost]
-        public ActionResult<string> LoginTest(string userName, string password)
-        {
-            if (userName == "lyn" && password == "123456")
-            {
-                List<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, "1"));
-                claims.Add(new Claim(ClaimTypes.Name, userName));
-
-                string key = _jwtSetting.Value.SecKey;
-                DateTime expire = DateTime.UtcNow.AddSeconds(_jwtSetting.Value.ExpireSeconds);
-
-                byte[] secBytes = Encoding.UTF8.GetBytes(key);
-                var secKey = new SymmetricSecurityKey(secBytes);
-                var credentials = new SigningCredentials(secKey, SecurityAlgorithms.HmacSha256Signature);
-                var token = new JwtSecurityToken(
-                    claims: claims,
-                    expires: expire,
-                    signingCredentials: credentials
-                );
-                string jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-                return jwt;
-            }
-            else
-            {
-                return BadRequest("登录失败");
-            }
+            var result = await _accountService.ResetPasswordAsync(userName, token, newPassword);
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult<string>> Login(string userName, string password)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            if (user == null) return BadRequest("用户不存在");
-
-            var success = await _userManager.CheckPasswordAsync(user, password);
-            if (!success) return BadRequest("用户登录失败");
-
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-            var roles = await _userManager.GetRolesAsync(user);
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-            var token = JwtTokenBuilder.BuildToken(claims, _jwtSetting.Value);
-
-            //Response.Cookies.Append("token", token, new CookieOptions
-            //{
-            //    HttpOnly = true,
-            //    Secure = true,
-            //    SameSite = SameSiteMode.Strict,
-            //    Expires = DateTimeOffset.UtcNow.AddSeconds(_jwtSetting.Value.ExpireSeconds)
-            //});
-
+            var token = await _accountService.LoginAsync(userName, password);
             return Ok(token);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<string>> WeChatLogin(string code)
+        {
+            var token = await _accountService.WeChatLoginAsync(code);
+            return Ok(token);
+        }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult<string> GetUserInfo()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var user = _accountService.FindByIdAsync(userId);
+            //if (user == null) return NotFound();
+            return Ok(userId);
+        }
     }
 }

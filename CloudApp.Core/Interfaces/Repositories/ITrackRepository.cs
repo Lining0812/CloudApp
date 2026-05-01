@@ -7,7 +7,7 @@ namespace CloudApp.Core.Interfaces.Repositories
 
         Track? FindByTitle(string trackTitle);
 
-        bool TrackExists(string trackTitle);
+        bool TrackExists(string trackTitle, int? albumId = null);
 
         /// <summary>
         /// 根据标题查询曲目

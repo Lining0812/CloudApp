@@ -20,9 +20,11 @@ namespace CloudApp.Core.Interfaces
         /// <summary>
         /// 获取用户信息
         /// </summary>
-        /// <param name="accessToken"></param>
-        /// <param name="openid"></param>
-        /// <returns></returns>
         Task<WeChatUserInfoResponse?> GetUserInfoAsync(string accessToken, string openid);
+
+        /// <summary>
+        /// 小程序登录 - 通过 code 换取 session
+        /// </summary>
+        Task<WeChatCode2SessionResponse?> Code2SessionAsync(string code);
     }
 }

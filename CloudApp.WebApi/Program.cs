@@ -1,5 +1,7 @@
+using CloudApp.Application;
 using CloudApp.Application.Extensions;
 using CloudApp.Core.Confige;
+using CloudApp.Core.Interfaces;
 using CloudApp.Infrastructure.Extensions;
 using CloudApp.WebApi.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -57,8 +59,7 @@ namespace CloudApp.WebApi
                 });
 
             // 注入HttpClient和微信服务
-            //builder.Services.AddHttpClient();
-            //builder.Services.AddScoped<IWeChatService, WeChatService>();
+            builder.Services.AddHttpClient<IWeChatService, WeChatService>();
 
             var app = builder.Build();
 

@@ -1,3 +1,4 @@
+using CloudApp.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos.Track
@@ -6,7 +7,7 @@ namespace CloudApp.Core.Dtos.Track
     {
         [Required(ErrorMessage = "单曲名称不能为空")]
         [MaxLength(200, ErrorMessage = "单曲名称不能超过200个字符")]
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         [MaxLength(200, ErrorMessage = "副标题不能超过200个字符")]
         public string? Subtitle { get; set; } = string.Empty;
@@ -22,19 +23,20 @@ namespace CloudApp.Core.Dtos.Track
 
         [Required(ErrorMessage = "原唱不能为空")]
         [MaxLength(100, ErrorMessage = "原唱不能超过100个字符")]
-        public string Artist { get; set; }
+        public required string Artist { get; set; }
 
         [Required(ErrorMessage = "作曲不能为空")]
         [MaxLength(100, ErrorMessage = "作曲不能超过100个字符")]
-        public string Composer { get; set; }
+        public required string Composer { get; set; }
 
         [Required(ErrorMessage = "作词不能为空")]
         [MaxLength(100, ErrorMessage = "作词不能超过100个字符")]
-        public string Lyricist { get; set; }
+        public required string Lyricist { get; set; }
 
-        public string CoverImage { get; set; }
+        public string? CoverUrl { get; set; }
+
+        public TrackType Type { get; set; } = TrackType.Studio;
 
         public int? AlbumId { get; set; }
-        public int? ConcertId { get; set; }
     }
 }

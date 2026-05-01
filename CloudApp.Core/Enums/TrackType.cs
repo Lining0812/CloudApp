@@ -2,7 +2,7 @@
 {
     public enum TrackType
     {
-        Single,
+        Studio,
         Live,
         Demo,
         Remix,

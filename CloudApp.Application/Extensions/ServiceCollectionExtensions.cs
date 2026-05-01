@@ -16,6 +16,7 @@ namespace CloudApp.Application.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             // 添加业务服务
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<ITrackService, TrackService>();
             services.AddScoped<IConcertService, ConcertService>();

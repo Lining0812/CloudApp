@@ -32,23 +32,16 @@ namespace CloudApp.Application
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            // 检查同名单曲是否已存在
-            var exists = _trackRepository.TrackExists(model.Title);
-            if (exists) throw new InvalidOperationException($"单曲 '{model.Title}' 已存在");
-
-            // 验证关联专辑是否存在
+            // 验证Album是否存在
             if (model.AlbumId.HasValue)
             {
                 bool albumExists = _albumRepository.Exists(model.AlbumId.Value);
                 if (!albumExists) throw new EntityNotFoundException("专辑", model.AlbumId.Value);
             }
 
-            // 验证关联演唱会是否存在
-            if (model.ConcertId.HasValue)
-            {
-                bool concertExists = _concertRepository.Exists(model.ConcertId.Value);
-                if (!concertExists) throw new EntityNotFoundException("演唱会", model.ConcertId.Value);
-            }
+            // 检查同名单曲是否已存在
+            var exists = _trackRepository.TrackExists(model.Title);
+            if (exists) throw new InvalidOperationException($"单曲 '{model.Title}' 已存在");
 
             Track track = model.ToEntity();
             _trackRepository.Add(track);

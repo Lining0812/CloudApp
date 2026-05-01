@@ -43,14 +43,6 @@ namespace CloudApp.Infrastructure.Configs
 
             // Track与Album的一对多关系配置
             builder.HasOne(t => t.Album).WithMany(a => a.Tracks).HasForeignKey(t => t.AlbumId).OnDelete(DeleteBehavior.SetNull);
-            // Track与Concert的一对多关系配置
-            builder.HasOne(t => t.Concert).WithMany(c => c.Tracks).HasForeignKey(t => t.ConcertId).OnDelete(DeleteBehavior.SetNull);
-
-            // 资源关系配置
-            builder.HasMany(t => t.MediaRelations)
-                   .WithOne()
-                   .HasPrincipalKey(t => t.Id)
-                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

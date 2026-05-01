@@ -8,7 +8,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 演唱会标题
         /// </summary>
-        public string Title { get; set; }
+        public required string Title { get; set; }
         /// <summary>
         /// 演出介绍
         /// </summary>
@@ -31,12 +31,13 @@ namespace CloudApp.Core.Entities
         public string CoverImageUrl { get; set; }
 
         /// <summary>
-        /// 导航属性 - 演唱会中的单曲
+        /// 导航属性 - 演唱会歌单
         /// </summary>
-        public ICollection<Track> Tracks { get; set; } = new List<Track>();
+        public Album? Album { get; set; }
+        public int? AlbumId { get; set; }
         /// <summary>
         /// 导航属性 - 资源
         /// </summary>
-        public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
+        //public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
     }
 }

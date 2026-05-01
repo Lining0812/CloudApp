@@ -20,8 +20,6 @@ namespace CloudApp.WebApi.Controllers
         [HttpPost]
         public ActionResult CreateAlbum([FromForm] CreateAlbumRequest model)
         {
-            _logger.LogInformation("收到添加专辑请求: Title={Title}", model?.Title);
-
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("添加专辑请求验证失败: {Errors}",
@@ -35,7 +33,6 @@ namespace CloudApp.WebApi.Controllers
         [HttpDelete("{albumId}")]
         public ActionResult DeleteAlbum(int albumId)
         {
-            _logger.LogInformation("收到删除专辑请求: ID={AlbumId}", albumId);
             _albumService.DeleteAlbum(albumId);
             return Ok("成功删除专辑");
         }
@@ -43,8 +40,6 @@ namespace CloudApp.WebApi.Controllers
         [HttpPatch("{albumId}")]
         public ActionResult UpdateAlbum(int albumId, [FromForm] CreateAlbumRequest model)
         {
-            _logger.LogInformation("收到更新专辑请求: ID={AlbumId}, Title={Title}", albumId, model?.Title);
-
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("更新专辑请求验证失败: ID={AlbumId}, {Errors}", albumId,
@@ -57,20 +52,10 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ICollection<AlbumInfoDto>> GetAll()
+        public ActionResult<ICollection<AlbumInfoDto>> GetAllAlbums()
         {
-            _logger.LogInformation("收到获取所有专辑请求");
             var albums = _albumService.GetAllAlbums();
             return Ok(albums);
-        }
-
-        [HttpGet("{albumId}")]
-        public ActionResult<AlbumInfoDto> GetById(int albumId)
-        {
-            _logger.LogDebug("收到获取专辑详情请求: ID={AlbumId}", albumId);
-
-            var album = _albumService.GetAlbumById(albumId);
-            return Ok(album);
         }
     }
 }

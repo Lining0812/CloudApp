@@ -18,13 +18,6 @@ namespace CloudApp.Core.Interfaces.Services
         ICollection<AlbumInfoDto> GetAllAlbums();
 
         /// <summary>
-        /// 根据Id获取专辑信息
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        AlbumInfoDto? GetAlbumById(int id);
-
-        /// <summary>
         /// 根据Id更新专辑信息
         /// </summary>
         /// <param name="id"></param>

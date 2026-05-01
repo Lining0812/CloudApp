@@ -6,12 +6,12 @@ namespace CloudApp.Core.Extensions
     public static class ConcertExtension
     {
         /// <summary>
-        /// Dto转换为实体类
+        /// Dto绫诲瀷杞崲涓哄疄浣撶被
         /// </summary>
         /// <param name="dto"></param>
         /// <param name="imageurl"></param>
         /// <returns></returns>
-        public static Concert ToEntity(this CreateConcertRequest dto, string imageurl)
+        public static Concert ToEntity(this CreateConcertRequest dto)
         {
             var now = DateTime.Now;
             return new Concert
@@ -20,7 +20,6 @@ namespace CloudApp.Core.Extensions
                 Description = dto.Description,
                 StartAt = dto.StartAt,
                 EndAt = dto.EndAt,
-                CoverImageUrl = imageurl,
                 Address = dto.Address,
 
                 UpdatedAt = now,
@@ -28,7 +27,7 @@ namespace CloudApp.Core.Extensions
         }
 
         /// <summary>
-        /// Dto转换为实体类
+        /// 瀹炰綋绫昏浆鎹负Dto绫诲瀷
         /// </summary>
         /// <param name="concert"></param>
         /// <returns></returns>
@@ -45,18 +44,9 @@ namespace CloudApp.Core.Extensions
                 Description = concert.Description,
                 CoverImageUrl = concert.CoverImageUrl,
 
-                Tracks = concert.Tracks.Select(t => t.Title).ToArray(),
+                Tracks = concert.Album?.Tracks.Select(t => t.Title).ToArray() ?? Array.Empty<string>(),
             };
         }
 
-        /// <summary>
-        /// 实体类更新
-        /// </summary>
-        /// <param name="concert"></param>
-        /// <param name="newconcert"></param>
-        /// <returns></returns>
-        //public static Concert Update(this Concert concert, Concert newconcert)
-        //{
-        //}
     }
 }

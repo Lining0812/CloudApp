@@ -10,7 +10,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 单曲标题
         /// </summary>
-        public string Title { get; set; }
+        public required string Title { get; set; }
         /// <summary>
         /// 副标题
         /// </summary>
@@ -30,37 +30,28 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 原唱
         /// </summary>
-        public string Artist { get; set; }
+        public required string Artist { get; set; }
         /// <summary>
         /// 作曲者
         /// </summary>
-        public string Composer { get; set; }
+        public required string Composer { get; set; }
         /// <summary>
         /// 作词者
         /// </summary>
-        public string Lyricist { get; set; }
+        public required string Lyricist { get; set; }
         /// <summary>
         /// 封面图片
         /// </summary>
-        public string CoverImageUrl { get; set; }
+        public string? CoverUrl { get; set; }
         /// <summary>
         /// 单曲类型
         /// </summary>
-        public TrackType Type { get; set; } = TrackType.Single;
+        public TrackType Type { get; set; }
 
         /// <summary>
         /// 导航属性 - 专辑
         /// </summary>
         public Album? Album { get; set; }
         public int? AlbumId { get; set; }
-        /// <summary>
-        /// 导航属性 - 演唱会
-        /// </summary>
-        public Concert? Concert { get; set; }
-        public int? ConcertId { get; set; }
-        /// <summary>
-        /// 导航属性 - 资源
-        /// </summary>
-        public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
     }
 }

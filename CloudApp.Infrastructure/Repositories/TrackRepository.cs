@@ -45,8 +45,15 @@ namespace CloudApp.Infrastructure.Repositories
             return _dbSet.Include(t => t.Album).FirstOrDefault(a => a.Title == trackTitle);
         }
 
-        public bool TrackExists(string trackTitle)
+        public bool TrackExists(string trackTitle, int? albumId = null)
         {
+            if (string.IsNullOrEmpty(trackTitle)) return false;
+
+            if (albumId.HasValue)
+            {
+                return _dbSet.Any(t => t.Title == trackTitle && t.AlbumId == albumId.Value);
+            }
+
             return _dbSet.Any(t => t.Title == trackTitle);
         }
         #endregion

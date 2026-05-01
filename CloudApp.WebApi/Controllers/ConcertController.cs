@@ -29,7 +29,7 @@ namespace CloudApp.WebApi.Controllers
                 return BadRequest("存在非法数据，添加失败");
             }
 
-            _concertService.AddConcert(model);
+            _concertService.CreateConcert(model);
             return Ok("成功新增演唱会");
         }
 
