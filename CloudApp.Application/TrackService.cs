@@ -4,6 +4,7 @@ using CloudApp.Core.Exceptions;
 using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Core.Interfaces.Services;
+using CloudApp.Core.Dtos.Track;
 using Microsoft.Extensions.Logging;
 
 namespace CloudApp.Application
