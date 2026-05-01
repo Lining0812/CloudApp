@@ -5,14 +5,14 @@ namespace CloudApp.Core.Extensions
 {
     public static class TrackExtension
     {
-        public static Track ToEntity(this CreateTrackDto dto, string imageurl)
+        public static Track ToEntity(this CreateTrackDto dto)
         {
             if (dto == null)
             {
                 throw new ArgumentNullException(nameof(dto));
             }
-            var now = DateTime.UtcNow;
-            return new Track()
+
+            return new Track
             {
                 Title = dto.Title,
                 Subtitle = dto.Subtitle,
@@ -22,10 +22,9 @@ namespace CloudApp.Core.Extensions
                 Artist = dto.Artist,
                 Composer = dto.Composer,
                 Lyricist = dto.Lyricist,
+                CoverImageUrl = dto.CoverImage,
                 AlbumId = dto.AlbumId,
                 ConcertId = dto.ConcertId,
-
-                UpdatedAt = now,
             };
         }
 
