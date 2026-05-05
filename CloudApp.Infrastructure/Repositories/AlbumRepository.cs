@@ -1,6 +1,5 @@
 using CloudApp.Core.Dtos.Album;
 using CloudApp.Core.Entities;
-using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

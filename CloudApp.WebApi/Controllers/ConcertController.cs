@@ -20,16 +20,9 @@ namespace CloudApp.WebApi.Controllers
         [HttpPost]
         public ActionResult AddConcert([FromForm] CreateConcertRequest model)
         {
-            _logger.LogInformation("收到添加演唱会请求: Title={Title}, Address={Address}", model?.Title, model?.Address);
+            if (model != null)
+                _concertService.CreateConcert(model);
 
-            if (!ModelState.IsValid)
-            {
-                _logger.LogWarning("添加演唱会请求验证失败: {Errors}",
-                    string.Join(", ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
-                return BadRequest("存在非法数据，添加失败");
-            }
-
-            _concertService.CreateConcert(model);
             return Ok("成功新增演唱会");
         }
 

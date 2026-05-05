@@ -24,20 +24,17 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 演出地址
         /// </summary>
-        public string Address { get; set; }
+        public required string Address { get; set; }
         /// <summary>
         /// 封面图片
         /// </summary>
-        public string CoverImageUrl { get; set; }
+        public string? CoverUrl { get; set; }
 
+        /// <summary>
         /// <summary>
         /// 导航属性 - 演唱会歌单
         /// </summary>
         public Album? Album { get; set; }
         public int? AlbumId { get; set; }
-        /// <summary>
-        /// 导航属性 - 资源
-        /// </summary>
-        //public ICollection<MediaRelation> MediaRelations { get; set; } = new List<MediaRelation>();
     }
 }

@@ -6,7 +6,7 @@ namespace CloudApp.Core.Dtos.Concert
     {
         [Required(ErrorMessage = "演唱会名不能为空")]
         [MaxLength(50, ErrorMessage = "演唱会名不能超过50个字符")]
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         [MaxLength(500, ErrorMessage = "描述不能超过500个字符")]
         public string? Description { get; set; }
@@ -18,8 +18,6 @@ namespace CloudApp.Core.Dtos.Concert
         public DateTime EndAt { get; set; }
 
         [Required(ErrorMessage = "地址不能为空")]
-        public string Address { get; set; }
-
-        //public IFileContent? CoverImage { get; set; }
+        public required string Address { get; set; }
     }
 }

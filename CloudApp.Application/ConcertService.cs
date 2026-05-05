@@ -20,88 +20,64 @@ namespace CloudApp.Application
         }
 
         #region 同步方法
-        public void CreateConcert(CreateConcertRequest model)
+        public void CreateConcert(CreateConcertRequest request)
         {
-            if (model == null)
-            {
-                _logger.LogWarning("尝试创建演唱会时，模型为null");
-                throw new ArgumentNullException(nameof(model));
-            }
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
 
-            try
-            {
-                _logger.LogInformation("开始添加演唱会: {Title}, 地址: {Address}", model.Title, model.Address);
-                Concert concert = model.ToEntity();
-                _concertRepository.Add(concert);
-                _concertRepository.SaveChange();
-                _logger.LogInformation("成功添加演唱会: ID={ConcertId}, Title={Title}", concert.Id, concert.Title);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "添加演唱会失败: Title={Title}, Address={Address}", model.Title, model.Address);
-                throw;
-            }
+            _logger.LogInformation("开始添加演唱会: {Title}, 地址: {Address}", request.Title, request.Address);
+
+            if (_concertRepository.ConcertExists(request.Title))
+                throw new BusinessException($"演唱会《{request.Title}》已存在");
+
+            Concert concert = request.ToEntity();
+            _concertRepository.Add(concert);
+            _concertRepository.SaveChange();
+
+            _logger.LogInformation("成功添加演唱会: ID={ConcertId}, Title={Title}", concert.Id, concert.Title);
         }
 
         public void DeleteConcert(int id)
         {
             if (id <= 0)
-            {
-                _logger.LogWarning("尝试删除演唱会时，ID无效: {ConcertId}", id);
                 throw new ArgumentException("演唱会ID无效", nameof(id));
-            }
 
-            try
-            {
-                _logger.LogInformation("开始删除演唱会: ID={ConcertId}", id);
-                bool concertExists = _concertRepository.Exists(id);
-                if (!concertExists)
-                {
-                    _logger.LogWarning("尝试删除不存在的演唱会: ID={ConcertId}", id);
-                    throw new EntityNotFoundException("演唱会", id);
-                }
-                _concertRepository.Delete(id);
-                _concertRepository.SaveChange();
-                _logger.LogInformation("成功删除演唱会: ID={ConcertId}", id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "删除演唱会失败: ID={ConcertId}", id);
-                throw;
-            }
+            _logger.LogInformation("开始删除演唱会: ID={ConcertId}", id);
+
+            var concert = _concertRepository.GetById(id);
+            if (concert == null)
+                throw new EntityNotFoundException("演唱会", id);
+
+            concert.Delete();
+            _concertRepository.SaveChange();
+
+            _logger.LogInformation("成功删除演唱会: ID={ConcertId}", id);
         }
 
-        public void UpdateConcert(int id, CreateConcertRequest model)
+        public void UpdateConcert(int id, CreateConcertRequest request)
         {
-            if (model == null)
-            {
-                _logger.LogWarning("尝试更新演唱会时，模型为null: ID={ConcertId}", id);
-                throw new ArgumentNullException(nameof(model));
-            }
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+            if (id <= 0)
+                throw new BusinessException("演唱会ID无效");
 
-            try
-            {
-                _logger.LogInformation("开始更新演唱会: ID={ConcertId}", id);
-                Concert? concert = _concertRepository.GetById(id);
-                if (concert == null)
-                {
-                    _logger.LogWarning("尝试更新不存在的演唱会: ID={ConcertId}", id);
-                    throw new EntityNotFoundException("演唱会", id);
-                }
+            _logger.LogInformation("开始更新演唱会: ID={ConcertId}", id);
+            var concert = _concertRepository.GetById(id);
+            if (concert == null)
+                throw new EntityNotFoundException("演唱会", id);
 
-                concert.Title = model.Title;
-                concert.Description = model.Description;
-                concert.UpdatedAt = DateTime.UtcNow;
+            var existing = _concertRepository.FindByTitle(request.Title);
+            if (existing != null && existing.Id != id)
+                throw new BusinessException($"演唱会 '{request.Title}' 已存在");
 
-                _concertRepository.Update(concert);
-                _concertRepository.SaveChange();
-                _logger.LogInformation("成功更新演唱会: ID={ConcertId}, Title={Title}", concert.Id, concert.Title);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "更新演唱会失败: ID={ConcertId}", id);
-                throw;
-            }
+            concert.Title = request.Title;
+            concert.Description = request.Description;
+            concert.UpdatedAt = DateTime.UtcNow;
+
+            _concertRepository.Update(concert);
+            _concertRepository.SaveChange();
+
+            _logger.LogInformation("成功更新演唱会: ID={ConcertId}, Title={Title}", concert.Id, concert.Title);
         }
 
         public ConcertInfoDto? GetById(int id)

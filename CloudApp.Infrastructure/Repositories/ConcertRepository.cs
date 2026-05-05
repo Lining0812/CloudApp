@@ -25,6 +25,17 @@ namespace CloudApp.Infrastructure.Repositories
             return _dbSet.Include(c => c.Album!.Tracks)
                          .FirstOrDefault(c => c.Id == id);
         }
+
+        public Concert? FindByTitle(string title)
+        {
+            if (string.IsNullOrEmpty(title)) return null;
+            return _dbSet.FirstOrDefault(c => c.Title == title);
+        }
+
+        public bool ConcertExists(string title)
+        {
+            return _dbSet.Any(c => c.Title == title);
+        }
         #endregion
     }
 }

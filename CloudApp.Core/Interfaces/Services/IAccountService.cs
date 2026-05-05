@@ -31,7 +31,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// <param name="newPassword"></param>
         /// <returns></returns>
         Task<string> ResetPasswordAsync(string userName, string token, string newPassword);
-        
+
         Task<string> LoginAsync(string userName, string password);
 
         string FindByIdAsync(string id);

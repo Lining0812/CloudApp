@@ -3,12 +3,11 @@
     /// <summary>
     /// 行程（待完善）
     /// </summary>
-    public class Itinerary : BaseEntity
+    public class Schedule : BaseEntity
     {
-        public string Title { get; set; }
+        public required string Title { get; set; }
         public string? Description { get; set; }
-
-        public string EventType { get; set; }
+        public string? Location { get; set; }
         public DateTime StartTime { get; set; }
     }
 }

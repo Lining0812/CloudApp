@@ -76,5 +76,13 @@ namespace CloudApp.WebApi.Controllers
             //if (user == null) return NotFound();
             return Ok(userId);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult<string> TestAuthorize()
+        {
+            return Ok("您已获得授权");
+        }
+
     }
 }

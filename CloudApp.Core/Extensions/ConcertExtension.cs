@@ -42,7 +42,7 @@ namespace CloudApp.Core.Extensions
             {
                 Title = concert.Title,
                 Description = concert.Description,
-                CoverImageUrl = concert.CoverImageUrl,
+                CoverImageUrl = concert.CoverUrl,
 
                 Tracks = concert.Album?.Tracks.Select(t => t.Title).ToArray() ?? Array.Empty<string>(),
             };
