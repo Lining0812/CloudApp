@@ -83,6 +83,5 @@ namespace CloudApp.WebApi.Controllers
         {
             return Ok("您已获得授权");
         }
-
     }
 }

@@ -49,7 +49,6 @@ namespace CloudApp.Infrastructure.Repositories
 
         public virtual bool Exists(int id)
         {
-            // 全局查询过滤器已经自动过滤IsDeleted
             return _dbSet.Any(e => e.Id == id);
         }
 
@@ -77,7 +76,6 @@ namespace CloudApp.Infrastructure.Repositories
 
         public virtual void Delete(int id)
         {
-            // 全局查询过滤器已经自动过滤IsDeleted
             var entity = _dbSet.FirstOrDefault(e => e.Id == id);
             if (entity != null)
             {
@@ -92,7 +90,6 @@ namespace CloudApp.Infrastructure.Repositories
 
         public virtual int Count()
         {
-            // 全局查询过滤器已经自动过滤IsDeleted
             return _dbSet.Count();
         }
 
@@ -105,7 +102,6 @@ namespace CloudApp.Infrastructure.Repositories
         {
             return _context.Database.BeginTransaction();
         }
-
         #endregion
 
         #region 异步方法
