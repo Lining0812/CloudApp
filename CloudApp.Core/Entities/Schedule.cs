@@ -3,7 +3,7 @@
 namespace CloudApp.Core.Entities
 {
     /// <summary>
-    /// 行程（待完善）
+    /// 行程
     /// </summary>
     public class Schedule : BaseEntity
     {
@@ -12,6 +12,8 @@ namespace CloudApp.Core.Entities
         public required string Artist { get; set; }
         public string? Location { get; set; }
         public DateTime StartTime { get; set; }
+        public ScheduleType Type { get; set; }
         public ScheduleStatus Status { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

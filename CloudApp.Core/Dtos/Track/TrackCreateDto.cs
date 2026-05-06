@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CloudApp.Core.Dtos.Track
 {
-    public class CreateTrackDto
+    public class TrackCreateDto
     {
         [Required(ErrorMessage = "单曲名称不能为空")]
         [MaxLength(200, ErrorMessage = "单曲名称不能超过200个字符")]

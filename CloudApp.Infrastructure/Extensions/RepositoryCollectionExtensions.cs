@@ -32,6 +32,7 @@ namespace CloudApp.Infrastructure.Extensions
             services.AddScoped<IConcertRepository, ConcertRepository>();
             services.AddScoped<ITrackRepository, TrackRepository>();
             services.AddScoped<IFileRepository, FileRepository>();
+            services.AddScoped<IScheduleRepository, ScheduleRepository>();
 
             // 添加存储配置
             services.Configure<StorageOptions>(configuration.GetSection("Storage"));

@@ -8,8 +8,8 @@ namespace CloudApp.Infrastructure.Repositories
 {
     public class AlbumRepository : BaseRepository<Album>, IAlbumRepository
     {
-        public AlbumRepository(MyDBContext dbContext, ILogger<AlbumRepository> logger)
-            : base(dbContext, logger)
+        public AlbumRepository(MyDBContext context, ILogger<AlbumRepository> logger)
+            : base(context, logger)
         {
         }
 

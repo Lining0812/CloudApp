@@ -25,7 +25,7 @@ namespace CloudApp.Application
         }
 
         #region 同步方法
-        public void CreateTrack(CreateTrackDto model)
+        public void CreateTrack(TrackCreateDto model)
         {
             if (model == null) throw new BusinessException(nameof(model));
 
@@ -64,7 +64,7 @@ namespace CloudApp.Application
             _logger.LogInformation("成功删除单曲: ID={Id}", id);
         }
 
-        public void UpdateTrack(int id, CreateTrackDto model)
+        public void UpdateTrack(int id, TrackCreateDto model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));

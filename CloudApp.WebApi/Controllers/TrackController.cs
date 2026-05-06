@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTrack([FromForm] CreateTrackDto model)
+        public ActionResult CreateTrack([FromForm] TrackCreateDto model)
         {
             _logger.LogInformation($"收到添加单曲请求: Title={model?.Title}, Artist={model?.Artist}");
             if (model == null) return BadRequest("请求数据不能为空");
@@ -35,7 +35,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPatch("{trackId}")]
-        public ActionResult UpdateTrack(int trackId, [FromForm] CreateTrackDto model)
+        public ActionResult UpdateTrack(int trackId, [FromForm] TrackCreateDto model)
         {
             _logger.LogInformation("收到更新单曲请求: ID={TrackId}, Title={Title}", trackId, model?.Title);
             if (model != null) _trackService.UpdateTrack(trackId, model);
@@ -54,23 +54,11 @@ namespace CloudApp.WebApi.Controllers
         public ActionResult<TrackInfoDto> GetById(int id)
         {
             _logger.LogDebug("收到获取单曲详情请求: ID={TrackId}", id);
-
-            try
-            {
-                var infoDto = _trackService.GetById(id);
-                if (infoDto == null)
-                {
-                    _logger.LogWarning("未找到单曲: ID={TrackId}", id);
-                    return BadRequest("未找到对应单曲");
-                }
-                _logger.LogInformation("成功处理获取单曲详情请求: ID={TrackId}", id);
-                return Ok(infoDto);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "处理获取单曲详情请求时发生错误: ID={TrackId}", id);
-                throw;
-            }
+            var infoDto = _trackService.GetById(id);
+            if (infoDto == null)
+                return BadRequest("未找到对应单曲");
+            _logger.LogInformation("成功处理获取单曲详情请求: ID={TrackId}", id);
+            return Ok(infoDto);
         }
     }
 }
