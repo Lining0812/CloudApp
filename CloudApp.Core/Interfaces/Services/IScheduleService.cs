@@ -7,5 +7,7 @@ namespace CloudApp.Core.Interfaces.Services
     public interface IScheduleService
     {
         void CreateSchedule();
+
+        List<string> GetSchedules();
     }
 }

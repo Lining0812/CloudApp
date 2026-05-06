@@ -20,5 +20,12 @@ namespace CloudApp.WebApi.Controllers
             _scheduleService.CreateSchedule();
             return Ok("创建行程成功");
         }
+
+        [HttpGet]
+        public ActionResult<List<string>> GetSchedules()
+        {
+            var schedules = _scheduleService.GetSchedules();
+            return Ok(schedules);
+        }
     }
 }

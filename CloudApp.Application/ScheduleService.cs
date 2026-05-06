@@ -2,11 +2,7 @@
 using CloudApp.Core.Enums;
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Core.Interfaces.Services;
-using CloudApp.Infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CloudApp.Application
 {
@@ -23,16 +19,23 @@ namespace CloudApp.Application
 
         public void CreateSchedule()
         {
-            var schedule = new Schedule() { 
+            var schedule = new Schedule() {
                 Title = "New Schedule",
                 Artist = "Artist Name",
-                StartTime = DateTime.Now,
+                StartTime = new DateOnly(2026, 5, 5),
+                EndTime = new DateOnly(2026, 5, 5),
                 Type = ScheduleType.Concert,
                 Status = ScheduleStatus.Scheduled,
                 IsPublic = true
             };
             _repository.Add(schedule);
             _repository.SaveChange();
+        }
+
+        public List<string> GetSchedules()
+        {
+            var schedules = _repository.GetAll();
+            return schedules.Select(s => s.Title).ToList();
         }
     }
 }

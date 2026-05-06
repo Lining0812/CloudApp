@@ -4,6 +4,10 @@ namespace CloudApp.Core.Interfaces.Services
 {
     public interface IAccountService
     {
+        /// <summary>
+        /// 创建管理员
+        /// </summary>
+        /// <returns></returns>
         Task<string> CreateAdminUserAsync();
 
         /// <summary>
@@ -12,9 +16,9 @@ namespace CloudApp.Core.Interfaces.Services
         Task<string> RegisterAsync(RegisterRequest request);
 
         /// <summary>
-        /// 仅使用手机号注册
+        /// 手机号注册
         /// </summary>
-        Task<string> RegisterByPhoneAsync(string phoneNumber, string password);
+        Task<string> RegisterByPhoneAsync(string phoneNumber);
 
         /// <summary>
         /// 生成密码重置令牌

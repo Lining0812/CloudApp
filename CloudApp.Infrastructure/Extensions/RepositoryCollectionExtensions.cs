@@ -57,6 +57,8 @@ namespace CloudApp.Infrastructure.Extensions
 
             services.AddIdentityCore<AppUser>(opt =>
             {
+                // 配置用户名可以有中文字符
+                //opt.User.AllowedUserNameCharacters = null;
                 // 密码配置
                 opt.Password.RequireDigit = false;
                 opt.Password.RequireLowercase = false;

@@ -16,6 +16,7 @@ namespace CloudApp.Infrastructure.Configs
             builder.Property(s => s.Artist).IsRequired().HasMaxLength(100);
             builder.Property(s => s.Location).HasMaxLength(200);
             builder.Property(s => s.StartTime).IsRequired();
+            builder.Property(s => s.EndTime).IsRequired();
             builder.Property(s => s.Type).IsRequired();
             builder.Property(s => s.Status).IsRequired();
             builder.Property(s => s.IsPublic).IsRequired();

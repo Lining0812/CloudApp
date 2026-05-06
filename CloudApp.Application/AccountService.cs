@@ -72,18 +72,32 @@ namespace CloudApp.Application
                 Email = request.Email,
             };
 
-            var result = await _userManager.CreateAsync(user, request.Password);
-            if (!result.Succeeded) throw new BusinessException("用户注册失败");
+            if(request.Password != null)
+            {
+                var result = await _userManager.CreateAsync(user, request.Password);
+                if (!result.Succeeded) throw new BusinessException("用户注册失败");
+            }
+            else
+            {
+                var result = await _userManager.CreateAsync(user);
+                if (!result.Succeeded) throw new BusinessException("用户注册失败");
+            }
 
             await EnsureRoleExistsAsync(RoleType.User);
-
             var addResult = await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
             if (!addResult.Succeeded) throw new BusinessException("用户添加角色失败");
 
             return "用户注册成功";
         }
 
-        public async Task<string> RegisterByPhoneAsync(string phoneNumber, string password)
+        /// <summary>
+        /// 需完善向用户发送验证码，通过验证后注册成功
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="BusinessException"></exception>
+        public async Task<string> RegisterByPhoneAsync(string phoneNumber)
         {
             if (string.IsNullOrWhiteSpace(phoneNumber))
                 throw new ArgumentException("手机号不能为空");
@@ -96,11 +110,11 @@ namespace CloudApp.Application
 
             var user = new AppUser
             {
-                UserName = phoneNumber,
+                UserName = "user_" + phoneNumber,
                 PhoneNumber = phoneNumber,
             };
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user);
             if (!result.Succeeded) throw new BusinessException("注册失败");
 
             await EnsureRoleExistsAsync(RoleType.User);
@@ -112,7 +126,7 @@ namespace CloudApp.Application
                 throw new BusinessException("注册失败");
             }
 
-            return "注册成功";
+            return user.UserName + "注册成功";
         }
 
         public async Task<string> GeneratePasswordResetTokenAsync(string userName)

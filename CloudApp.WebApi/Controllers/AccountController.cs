@@ -24,18 +24,17 @@ namespace CloudApp.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{phoneNumber}/{email}")]
-        public async Task<ActionResult> Register(string phoneNumber, string email, string password)
+        [HttpPost]
+        public async Task<ActionResult> Register([FromForm]RegisterRequest request)
         {
-            var request = new RegisterRequest { UserName = phoneNumber, PhoneNumber = phoneNumber, Email = email, Password = password };
             var result = await _accountService.RegisterAsync(request);
             return Ok(result);
         }
 
         [HttpPost("{phoneNumber}")]
-        public async Task<ActionResult> RegisterByPhone(string phoneNumber, string password)
+        public async Task<ActionResult<string>> RegisterByPhone(string phoneNumber)
         {
-            var result = await _accountService.RegisterByPhoneAsync(phoneNumber, password);
+            var result = await _accountService.RegisterByPhoneAsync(phoneNumber);
             return Ok(result);
         }
 
