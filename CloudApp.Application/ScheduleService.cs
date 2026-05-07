@@ -1,5 +1,7 @@
-﻿using CloudApp.Core.Entities;
+﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
+using CloudApp.Core.Extensions;
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.Extensions.Logging;
@@ -30,6 +32,14 @@ namespace CloudApp.Application
             };
             _repository.Add(schedule);
             _repository.SaveChange();
+        }
+
+        public string CreateSchedule(ScheduleCreateRequest request)
+        {
+            var schedule = request.ToEntity();
+            _repository.Add(schedule);
+            _repository.SaveChange();
+            return schedule.Title;
         }
 
         public List<string> GetSchedules()

@@ -1,4 +1,5 @@
-﻿using CloudApp.Core.Interfaces.Services;
+﻿using CloudApp.Core.Dtos;
+using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApp.WebApi.Controllers
@@ -19,6 +20,13 @@ namespace CloudApp.WebApi.Controllers
         {
             _scheduleService.CreateSchedule();
             return Ok("创建行程成功");
+        }
+
+        [HttpPost]
+        public ActionResult<string> CreateScheduleV2([FromForm] ScheduleCreateRequest request)
+        {
+            var res = _scheduleService.CreateSchedule(request);
+            return Ok(res + "创建行程成功");
         }
 
         [HttpGet]
