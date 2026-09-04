@@ -12,10 +12,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["CloudApp.WebApi/CloudApp.WebApi.csproj", "CloudApp.WebApi/"]
-COPY ["CloudApp.Application/CloudApp.Application.csproj", "CloudApp.Application/"]
-COPY ["CloudApp.Core/CloudApp.Core.csproj", "CloudApp.Core/"]
-COPY ["CloudApp.Infrastructure/CloudApp.Infrastructure.csproj", "CloudApp.Infrastructure/"]
+COPY ["CloudApp/CloudApp.WebApi/CloudApp.WebApi.csproj", "CloudApp.WebApi/"]
+COPY ["CloudApp/CloudApp.Application/CloudApp.Application.csproj", "CloudApp.Application/"]
+COPY ["CloudApp/CloudApp.Core/CloudApp.Core.csproj", "CloudApp.Core/"]
+COPY ["CloudApp/CloudApp.Infrastructure/CloudApp.Infrastructure.csproj", "CloudApp.Infrastructure/"]
 RUN dotnet restore "./CloudApp.WebApi/CloudApp.WebApi.csproj"
 COPY . .
 WORKDIR "/src/CloudApp.WebApi"
