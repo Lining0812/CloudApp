@@ -18,7 +18,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateAlbum([FromForm] CreateAlbumRequest model)
+        public ActionResult CreateAlbum([FromBody] CreateAlbumRequest model)
         {
             if (!ModelState.IsValid)
             {
