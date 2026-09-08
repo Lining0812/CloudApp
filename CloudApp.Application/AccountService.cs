@@ -1,5 +1,6 @@
 using CloudApp.Core.Confige;
 using CloudApp.Core.Dtos.Account;
+using CloudApp.Core.Dtos.WeChat;
 using CloudApp.Core.Enums;
 using CloudApp.Core.Exceptions;
 using CloudApp.Core.Interfaces;
@@ -180,7 +181,7 @@ namespace CloudApp.Application
             return res?.UserName ?? "用户不存在";
         }
 
-        public async Task<string> WeChatLoginAsync(string code)
+        public async Task<WeChatLoginResponse> WeChatLoginAsync(string code)
         {
             var session = await _weChatService.Code2SessionAsync(code);
             if (session == null || session.errcode != 0)
@@ -195,7 +196,18 @@ namespace CloudApp.Application
                     WeChatOpenId = session.openid,
                     WeChatUnionId = session.unionid,
                 };
-                await _userManager.CreateAsync(user);
+                var createResult = await _userManager.CreateAsync(user);
+                if (!createResult.Succeeded)
+                    throw new BusinessException("微信用户创建失败");
+
+                var addLoginResult = await _userManager.AddLoginAsync(user, new UserLoginInfo("WeChat", session.openid, "WeChat"));
+                
+                if (!addLoginResult.Succeeded)
+                {
+                    await _userManager.DeleteAsync(user);
+                    throw new BusinessException("微信账号绑定失败");
+                }
+
                 await EnsureRoleExistsAsync(RoleType.User);
                 await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
             }
@@ -209,7 +221,19 @@ namespace CloudApp.Application
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            return JwtTokenBuilder.BuildToken(claims, _jwtSetting.Value);
+            var token = JwtTokenBuilder.BuildToken(claims, _jwtSetting.Value);
+            return new WeChatLoginResponse
+            {
+                Token = token,
+                UserInfo = new UserInfoDto
+                {
+                    Id = user.Id.ToString(),
+                    UserName = user.UserName,
+                    PhoneNumber = user.PhoneNumber,
+                    //AvatarUrl = user.AvatarUrl,
+                    Roles = roles.ToList()
+                }
+            };
         }
 
         private async Task EnsureRoleExistsAsync(RoleType roleType)

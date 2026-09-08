@@ -65,6 +65,7 @@ namespace CloudApp.WebApi
 
             var app = builder.Build();
 
+            // 自动迁移数据库
             using (var scope = app.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<MyDBContext>();

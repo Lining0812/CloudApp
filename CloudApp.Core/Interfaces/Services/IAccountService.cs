@@ -1,4 +1,5 @@
 using CloudApp.Core.Dtos.Account;
+using CloudApp.Core.Dtos.WeChat;
 
 namespace CloudApp.Core.Interfaces.Services
 {
@@ -43,6 +44,6 @@ namespace CloudApp.Core.Interfaces.Services
         /// <summary>
         /// 微信小程序登录
         /// </summary>
-        Task<string> WeChatLoginAsync(string code);
+        Task<WeChatLoginResponse> WeChatLoginAsync(string code);
     }
 }

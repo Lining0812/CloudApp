@@ -1,4 +1,5 @@
 using CloudApp.Core.Dtos.Account;
+using CloudApp.Core.Dtos.WeChat;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,10 +61,10 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> WeChatLogin(string code)
+        public async Task<ActionResult<WeChatLoginResponse>> WeChatLogin([FromBody] WeChatLoginRequest request)
         {
-            var token = await _accountService.WeChatLoginAsync(code);
-            return Ok(token);
+            var result = await _accountService.WeChatLoginAsync(request.Code);
+            return Ok(result);
         }
 
         [HttpPost]
