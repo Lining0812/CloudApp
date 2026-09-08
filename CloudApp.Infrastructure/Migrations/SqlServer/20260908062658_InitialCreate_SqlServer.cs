@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CloudApp.Infrastructure.Migrations
+namespace CloudApp.Infrastructure.Migrations.SqlServer
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class InitialCreate_SqlServer : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
