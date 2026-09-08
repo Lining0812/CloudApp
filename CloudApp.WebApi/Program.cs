@@ -65,11 +65,11 @@ namespace CloudApp.WebApi
 
             var app = builder.Build();
 
-            //using(var scope = app.Services.CreateScope())
-            //{
-            //    var dbContext = scope.ServiceProvider.GetRequiredService<MyDBContext>();
-            //    await dbContext.Database.MigrateAsync();
-            //}
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<MyDBContext>();
+                await dbContext.Database.MigrateAsync();
+            }
 
             // 初始化角色
             await app.Services.InitializerRoleAsync();
