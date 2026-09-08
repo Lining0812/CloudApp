@@ -2,9 +2,11 @@ using CloudApp.Application;
 using CloudApp.Application.Extensions;
 using CloudApp.Core.Confige;
 using CloudApp.Core.Interfaces;
+using CloudApp.Infrastructure;
 using CloudApp.Infrastructure.Extensions;
 using CloudApp.WebApi.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -63,6 +65,11 @@ namespace CloudApp.WebApi
 
             var app = builder.Build();
 
+            using(var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<MyDBContext>();
+                await dbContext.Database.MigrateAsync();
+            }
             // 初始化角色
             await app.Services.InitializerRoleAsync();
 
