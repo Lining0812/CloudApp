@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CloudApp.Infrastructure.Migrations.MySql
+namespace CloudApp.Infrastructure.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20260908062746_InitialCreate_MySql")]
-    partial class InitialCreate_MySql
+    [Migration("20260908065721_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
