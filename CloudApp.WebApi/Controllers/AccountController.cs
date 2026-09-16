@@ -1,7 +1,10 @@
 using CloudApp.Core.Dtos.Account;
 using CloudApp.Core.Dtos.WeChat;
+using CloudApp.Core.Exceptions;
 using CloudApp.Core.Interfaces.Services;
+using CloudApp.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -11,11 +14,13 @@ namespace CloudApp.WebApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly UserManager<AppUser> _userManager;
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, UserManager<AppUser> userManager)
         {
             _accountService = accountService;
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -63,7 +68,7 @@ namespace CloudApp.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<WeChatLoginResponse>> WeChatLogin([FromBody] WeChatLoginRequest request)
         {
-            var result = await _accountService.WeChatLoginAsync(request.Code);
+            var result = await _accountService.WeChatLoginAsync(request);
             return Ok(result);
         }
 
@@ -83,5 +88,22 @@ namespace CloudApp.WebApi.Controllers
         {
             return Ok("您已获得授权");
         }
+
+
+        //public async Task<ActionResult> UpdateProfile(UpdateUserProfileDto dto)
+        //{
+        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var user = await _userManager.FindByIdAsync(userId);
+
+        //    if (user == null) return Unauthorized();
+
+        //    user.NickName = dto.NickName ?? user.NickName;
+        //    user.AvatarUrl = dto.AvatarUrl ?? user.AvatarUrl;
+
+        //    var result = await _userManager.UpdateAsync(user);
+        //    if (!result.Succeeded) throw new BusinessException("更新用户资料失败");
+
+        //    return Ok(new { message = "用户资料更新成功" });
+        //}
     }
 }

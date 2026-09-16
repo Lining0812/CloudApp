@@ -39,11 +39,9 @@ namespace CloudApp.Core.Interfaces.Services
 
         Task<string> LoginAsync(string userName, string password);
 
-        string FindByIdAsync(string id);
-
         /// <summary>
         /// 微信小程序登录
         /// </summary>
-        Task<WeChatLoginResponse> WeChatLoginAsync(string code);
+        Task<WeChatLoginResponse> WeChatLoginAsync(WeChatLoginRequest request);
     }
 }

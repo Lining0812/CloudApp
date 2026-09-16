@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CloudApp.Core.Dtos.WeChat
+﻿namespace CloudApp.Core.Dtos.WeChat
 {
     public class WeChatLoginResponse
     {
@@ -13,9 +9,9 @@ namespace CloudApp.Core.Dtos.WeChat
     public class UserInfoDto
     {
         public string Id { get; set; } = string.Empty;
-        public string UserName { get; set; } = string.Empty;
-        public string? PhoneNumber { get; set; }
+        public string? NickName { get; set; }
         public string? AvatarUrl { get; set; }
+        public string? PhoneNumber { get; set; }
         public List<string> Roles { get; set; } = new();
 
     }

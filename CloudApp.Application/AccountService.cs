@@ -175,15 +175,9 @@ namespace CloudApp.Application
             return JwtTokenBuilder.BuildToken(claims, _jwtSetting.Value);
         }
 
-        public string FindByIdAsync(string id)
+        public async Task<WeChatLoginResponse> WeChatLoginAsync(WeChatLoginRequest request)
         {
-            var res = _userManager.FindByIdAsync(id).Result;
-            return res?.UserName ?? "用户不存在";
-        }
-
-        public async Task<WeChatLoginResponse> WeChatLoginAsync(string code)
-        {
-            var session = await _weChatService.Code2SessionAsync(code);
+            var session = await _weChatService.Code2SessionAsync(request.Code);
             if (session == null || session.errcode != 0)
                 throw new BusinessException("微信登录失败：" + (session?.errmsg ?? "未知错误"));
 
@@ -195,6 +189,8 @@ namespace CloudApp.Application
                     UserName = "wx_" + session.openid[..12],
                     WeChatOpenId = session.openid,
                     WeChatUnionId = session.unionid,
+                    NickName = request.NickName ?? "微信用户",
+                    AvatarUrl = request.AvatarUrl
                 };
                 var createResult = await _userManager.CreateAsync(user);
                 if (!createResult.Succeeded)
@@ -228,9 +224,9 @@ namespace CloudApp.Application
                 UserInfo = new UserInfoDto
                 {
                     Id = user.Id.ToString(),
-                    UserName = user.UserName,
+                    NickName = user.NickName,
+                    AvatarUrl = user.AvatarUrl,
                     PhoneNumber = user.PhoneNumber,
-                    //AvatarUrl = user.AvatarUrl,
                     Roles = roles.ToList()
                 }
             };

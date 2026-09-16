@@ -6,5 +6,7 @@ namespace CloudApp.Infrastructure.Identity
     {
         public string? WeChatOpenId { get; set; }
         public string? WeChatUnionId { get; set; }
+        public string? NickName { get; set; }
+        public string? AvatarUrl { get; set; }
     }
 }

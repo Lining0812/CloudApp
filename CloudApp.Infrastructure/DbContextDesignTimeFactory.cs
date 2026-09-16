@@ -13,6 +13,7 @@ namespace CloudApp.Infrastructure
 
             // 从环境变量或命令行参数获取数据库类型
             var dbType = Environment.GetEnvironmentVariable("DB_TYPE") ?? "SqlServer";
+            Console.WriteLine($"===== DesignTime DB_TYPE: {dbType} =====");
 
             if (dbType.Equals("mysql", StringComparison.OrdinalIgnoreCase))
             {

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CloudApp.Core.Dtos.WeChat
+namespace CloudApp.Core.Dtos.Account
 {
-    public class WeChatLoginRequest
+    public class UpdateUserProfileDto
     {
-        public string Code { get; set; } = "";
         public string? NickName { get; set; }
         public string? AvatarUrl { get; set; }
     }
