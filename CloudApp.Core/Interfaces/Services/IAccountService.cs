@@ -43,5 +43,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// 微信小程序登录
         /// </summary>
         Task<WeChatLoginResponse> WeChatLoginAsync(WeChatLoginRequest request);
+
+        Task<WeChatLoginResponse> UpdateProfileAsync(string userId, UpdateUserProfileDto dto);
     }
 }

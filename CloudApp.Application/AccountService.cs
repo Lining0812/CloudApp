@@ -182,15 +182,17 @@ namespace CloudApp.Application
                 throw new BusinessException("微信登录失败：" + (session?.errmsg ?? "未知错误"));
 
             var user = await _userManager.FindByLoginAsync("WeChat", session.openid);
+            bool isNewUser = false;
             if (user == null)
             {
+                isNewUser = true;
                 user = new AppUser
                 {
                     UserName = "wx_" + session.openid[..12],
                     WeChatOpenId = session.openid,
                     WeChatUnionId = session.unionid,
-                    NickName = request.NickName ?? "微信用户",
-                    AvatarUrl = request.AvatarUrl
+                    NickName = "微信用户" + session.openid[..5],
+                    AvatarUrl = null
                 };
                 var createResult = await _userManager.CreateAsync(user);
                 if (!createResult.Succeeded)
@@ -221,6 +223,7 @@ namespace CloudApp.Application
             return new WeChatLoginResponse
             {
                 Token = token,
+                IsNewUser = isNewUser,
                 UserInfo = new UserInfoDto
                 {
                     Id = user.Id.ToString(),
@@ -240,6 +243,46 @@ namespace CloudApp.Application
                 var result = await _roleManager.CreateAsync(role);
                 if (!result.Succeeded) throw new BusinessException("角色创建失败");
             }
+        }
+
+        public async Task<WeChatLoginResponse> UpdateProfileAsync(string userId, UpdateUserProfileDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new BusinessException("用户未登录");
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) throw new BusinessException("用户不存在");
+
+            // 只在传了值时才更新，避免前端不传就清空
+            if (!string.IsNullOrWhiteSpace(dto.NickName))
+                user.NickName = dto.NickName.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.AvatarUrl))
+                user.AvatarUrl = dto.AvatarUrl;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                var errors = string.Join("；", result.Errors.Select(e => e.Description));
+                throw new BusinessException("更新用户资料失败：" + errors);
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return new WeChatLoginResponse
+            {
+                // 这里不需要重新签发 token，返回空或复用旧 token 由前端决定
+                Token = string.Empty,
+                IsNewUser = false,
+                UserInfo = new UserInfoDto
+                {
+                    Id = user.Id.ToString(),
+                    NickName = user.NickName,
+                    AvatarUrl = user.AvatarUrl,
+                    PhoneNumber = user.PhoneNumber,
+                    Roles = roles.ToList()
+                }
+            };
         }
     }
 }

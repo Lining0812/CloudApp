@@ -90,20 +90,15 @@ namespace CloudApp.WebApi.Controllers
         }
 
 
-        //public async Task<ActionResult> UpdateProfile(UpdateUserProfileDto dto)
-        //{
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var user = await _userManager.FindByIdAsync(userId);
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> UpdateProfile([FromBody] UpdateUserProfileDto dto)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
 
-        //    if (user == null) return Unauthorized();
-
-        //    user.NickName = dto.NickName ?? user.NickName;
-        //    user.AvatarUrl = dto.AvatarUrl ?? user.AvatarUrl;
-
-        //    var result = await _userManager.UpdateAsync(user);
-        //    if (!result.Succeeded) throw new BusinessException("更新用户资料失败");
-
-        //    return Ok(new { message = "用户资料更新成功" });
-        //}
+            var result = await _accountService.UpdateProfileAsync(userId, dto);
+            return Ok(result);
+        }
     }
 }
