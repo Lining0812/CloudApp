@@ -192,7 +192,8 @@ namespace CloudApp.Application
                     WeChatOpenId = session.openid,
                     WeChatUnionId = session.unionid,
                     NickName = "微信用户" + session.openid[..5],
-                    AvatarUrl = null
+                    // 默认头像，后续可通过 UpdateProfile 接口更新
+                    AvatarUrl = "cloud://prod-d7g5duij96ebc4e4a.7072-prod-d7g5duij96ebc4e4a-1479031101/test2.jpg"
                 };
                 var createResult = await _userManager.CreateAsync(user);
                 if (!createResult.Succeeded)
