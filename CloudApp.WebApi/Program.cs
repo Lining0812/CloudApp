@@ -58,6 +58,20 @@ namespace CloudApp.WebApi
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = secKey
                     };
+                    // 注册票据只能用来完成注册，绝不能当登录态访问业务接口
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnTokenValidated = ctx =>
+                        {
+                            if (ctx.Principal?.HasClaim(
+                                RegisterTicketBuilder.TypeClaim,
+                                RegisterTicketBuilder.TypeValue) == true)
+                            {
+                                ctx.Fail("注册票据不能用于业务接口");
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             // 注入HttpClient和微信服务

@@ -37,6 +37,14 @@ namespace CloudApp.WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult<WeChatLoginResponse>> RegisterWeChatUser([FromBody] WeChatRegisterRequest request)
+        {
+            var result = await _accountService.RegisterWeChatUserAsync(request);
+            return Ok(result);
+        }
+
         [HttpPost("{phoneNumber}")]
         public async Task<ActionResult<string>> RegisterByPhone(string phoneNumber)
         {

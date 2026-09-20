@@ -44,6 +44,13 @@ namespace CloudApp.Core.Interfaces.Services
         /// </summary>
         Task<WeChatLoginResponse> WeChatLoginAsync(WeChatLoginRequest request);
 
+        /// <summary>
+        /// 微信小程序注册
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<WeChatLoginResponse> RegisterWeChatUserAsync(WeChatRegisterRequest request);
+
         Task<WeChatLoginResponse> UpdateProfileAsync(string userId, UpdateUserProfileDto dto);
     }
 }

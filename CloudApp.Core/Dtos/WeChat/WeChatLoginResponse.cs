@@ -5,6 +5,7 @@
         public string Token { get; set; } = string.Empty;
         public UserInfoDto UserInfo { get; set; } = new ();
         public bool IsNewUser { get; set; }
+        public string? RegisterTicket { get; set; }
     }
 
     public class UserInfoDto

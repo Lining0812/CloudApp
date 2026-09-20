@@ -182,49 +182,92 @@ namespace CloudApp.Application
                 throw new BusinessException("微信登录失败：" + (session?.errmsg ?? "未知错误"));
 
             var user = await _userManager.FindByLoginAsync("WeChat", session.openid);
-            bool isNewUser = false;
+
             if (user == null)
             {
-                isNewUser = true;
-                user = new AppUser
+                return new WeChatLoginResponse
                 {
-                    UserName = "wx_" + session.openid[..12],
-                    WeChatOpenId = session.openid,
-                    WeChatUnionId = session.unionid,
-                    NickName = "微信用户" + session.openid[..5],
-                    // 默认头像，后续可通过 UpdateProfile 接口更新
-                    AvatarUrl = "cloud://prod-d7g5duij96ebc4e4a.7072-prod-d7g5duij96ebc4e4a-1479031101/test2.jpg"
+                    Token = string.Empty,
+                    IsNewUser = true,
+                    RegisterTicket = RegisterTicketBuilder.Create(session.openid, session.unionid, _jwtSetting.Value),
+                    UserInfo = new UserInfoDto
+                    {
+                        NickName = request.NickName,
+                        AvatarUrl = request.AvatarUrl
+                    }
                 };
-                var createResult = await _userManager.CreateAsync(user);
-                if (!createResult.Succeeded)
-                    throw new BusinessException("微信用户创建失败");
-
-                var addLoginResult = await _userManager.AddLoginAsync(user, new UserLoginInfo("WeChat", session.openid, "WeChat"));
-                
-                if (!addLoginResult.Succeeded)
-                {
-                    await _userManager.DeleteAsync(user);
-                    throw new BusinessException("微信账号绑定失败");
-                }
-
-                await EnsureRoleExistsAsync(RoleType.User);
-                await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
             }
 
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-            var roles = await _userManager.GetRolesAsync(user);
-            foreach (var role in roles)
+            return await BuildLoginResponseAsync(user);
+        }
+
+        public async Task<WeChatLoginResponse> RegisterWeChatUserAsync(WeChatRegisterRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.RegisterTicket))
+                throw new BusinessException("注册票据缺失");
+
+            var payload = RegisterTicketBuilder.TryParse(request.RegisterTicket, _jwtSetting.Value);
+            if (payload == null)
+                throw new BusinessException("注册票据无效或已过期，请重新登录");
+
+            // 双保险：票据有效期内可能在别处已注册成功
+            var exist = await _userManager.FindByLoginAsync("WeChat", payload.OpenId);
+            if (exist != null) return await BuildLoginResponseAsync(exist);
+
+            if (string.IsNullOrWhiteSpace(request.NickName))
+                throw new BusinessException("昵称不能为空");
+
+            var user = new AppUser
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                UserName = "wx_" + payload.OpenId[..12],
+                WeChatOpenId = payload.OpenId,
+                WeChatUnionId = payload.UnionId,
+                NickName = request.NickName.Trim(),
+                AvatarUrl = string.IsNullOrWhiteSpace(request.AvatarUrl) ? null : request.AvatarUrl
+            };
+
+            var createResult = await _userManager.CreateAsync(user);
+            if (!createResult.Succeeded)
+            {
+                var errors = string.Join("；", createResult.Errors.Select(e => e.Description));
+                throw new BusinessException("微信用户创建失败：" + errors);
             }
 
-            var token = JwtTokenBuilder.BuildToken(claims, _jwtSetting.Value);
+            var addLoginResult = await _userManager.AddLoginAsync(user,
+                new UserLoginInfo("WeChat", payload.OpenId, "WeChat"));
+            if (!addLoginResult.Succeeded)
+            {
+                await _userManager.DeleteAsync(user);
+                throw new BusinessException("微信账号绑定失败");
+            }
+
+            await EnsureRoleExistsAsync(RoleType.User);
+            var roleResult = await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
+            if (!roleResult.Succeeded)
+            {
+                await _userManager.DeleteAsync(user);
+                throw new BusinessException("用户添加角色失败");
+            }
+
+            return await BuildLoginResponseAsync(user);
+        }
+
+        private async Task<WeChatLoginResponse> BuildLoginResponseAsync(AppUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName ?? string.Empty)
+            };
+            foreach (var role in roles)
+                claims.Add(new Claim(ClaimTypes.Role, role));
+
             return new WeChatLoginResponse
             {
-                Token = token,
-                IsNewUser = isNewUser,
+                Token = JwtTokenBuilder.BuildToken(claims, _jwtSetting.Value),
+                IsNewUser = false,
+                RegisterTicket = null,
                 UserInfo = new UserInfoDto
                 {
                     Id = user.Id.ToString(),
@@ -235,6 +278,7 @@ namespace CloudApp.Application
                 }
             };
         }
+
 
         private async Task EnsureRoleExistsAsync(RoleType roleType)
         {
