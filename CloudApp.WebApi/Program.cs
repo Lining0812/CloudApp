@@ -32,6 +32,9 @@ namespace CloudApp.WebApi
             // 添加业务逻辑服务
             builder.Services.AddServices();
 
+            // 时间源：CheckInService 依赖（测试可替换为 FakeTimeProvider）
+            builder.Services.AddSingleton(TimeProvider.System);
+
             builder.Services.AddCors(opt =>
             {
                 opt.AddDefaultPolicy(policy =>

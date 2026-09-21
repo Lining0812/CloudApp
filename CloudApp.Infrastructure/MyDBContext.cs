@@ -17,6 +17,7 @@ namespace CloudApp.Infrastructure
         public DbSet<Concert> Concerts { get; set; }
         public DbSet<UploadedFile> UploadedFiles { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<CheckInRecord> CheckInRecords { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

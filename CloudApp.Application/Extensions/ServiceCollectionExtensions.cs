@@ -22,6 +22,7 @@ namespace CloudApp.Application.Extensions
             services.AddScoped<IConcertService, ConcertService>();
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<ICheckInService, CheckInService>();
 
             return services;
         }

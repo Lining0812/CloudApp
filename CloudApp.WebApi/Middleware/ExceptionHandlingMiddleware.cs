@@ -28,7 +28,9 @@ namespace CloudApp.WebApi.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "发生未处理的异常: {Message}", ex.Message);
+                // 带上请求方法/路径，便于在云托管日志里定位是哪次调用炸的
+                _logger.LogError(ex, "发生未处理的异常 {Method} {Path}: {Message}",
+                    context.Request.Method, context.Request.Path, ex.Message);
                 await HandleExceptionAsync(context, ex);
             }
         }

@@ -14,8 +14,8 @@ namespace CloudApp.WebApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly IAccountService _accountService;
+        private readonly UserManager<AppUser> _userManager;
 
         public AccountController(IAccountService accountService, UserManager<AppUser> userManager)
         {
@@ -23,6 +23,10 @@ namespace CloudApp.WebApi.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// 创建管理员用户（仅用于初始化，生产环境请删除或禁用此接口）。
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> CreateAdminUser()
         {
