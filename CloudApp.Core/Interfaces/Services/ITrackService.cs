@@ -1,48 +1,53 @@
 using CloudApp.Core.Dtos.Track;
-using CloudApp.Core.Entities;
 
 namespace CloudApp.Core.Interfaces.Services
 {
+    /// <summary>
+    /// 单曲服务
+    /// </summary>
     public interface ITrackService
     {
-        #region ͬ同步方法
-        /// <summary>
-        /// 添加单曲
-        /// </summary>
-        /// <param name="model"></param>
-        void CreateTrack(TrackCreateDto model);
+        #region 写入
 
         /// <summary>
-        /// 根据Id更新专辑信息
+        /// 添加单曲，返回创建后的完整信息（含自增 Id）
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="model"></param>
-        void UpdateTrack(int id, TrackCreateDto model);
+        Task<TrackInfoDto> CreateTrackAsync(TrackCreateDto model, CancellationToken ct = default);
 
         /// <summary>
-        /// 根据Id删除单曲
+        /// 根据Id更新单曲（局部更新：DTO 中为 null 的字段不修改）
         /// </summary>
-        /// <param name="id"></param>
-        void DeleteTrack(int id);
+        Task<TrackInfoDto> UpdateTrackAsync(int id, TrackUpdateDto model, CancellationToken ct = default);
+
+        /// <summary>
+        /// 根据Id软删除单曲
+        /// </summary>
+        Task DeleteTrackAsync(int id, CancellationToken ct = default);
+
+        #endregion
+
+        #region 查询
 
         /// <summary>
         /// 获取所有单曲
         /// </summary>
-        /// <returns></returns>
-        ICollection<TrackInfoDto> GetAllTracks();
+        Task<ICollection<TrackInfoDto>> GetAllTracksAsync(CancellationToken ct = default);
 
         /// <summary>
-        /// 根据Id获取专辑信息
+        /// 根据Id获取单曲详情，不存在时抛 EntityNotFoundException
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        TrackInfoDto GetById(int id);
+        Task<TrackInfoDto> GetByIdAsync(int id, CancellationToken ct = default);
 
         /// <summary>
-        /// 根据AlbumId获取所属专辑
+        /// 根据专辑Id获取曲目，专辑不存在时抛 EntityNotFoundException
         /// </summary>
-        /// <returns></returns>
-        ICollection<Track> GetByAlbumdID();
+        Task<ICollection<TrackInfoDto>> GetTracksByAlbumIdAsync(int albumId, CancellationToken ct = default);
+
+        /// <summary>
+        /// 按标题模糊搜索单曲
+        /// </summary>
+        Task<ICollection<TrackInfoDto>> SearchTracksAsync(string keyword, CancellationToken ct = default);
+
         #endregion
     }
 }

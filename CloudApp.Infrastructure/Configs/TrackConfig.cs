@@ -21,6 +21,10 @@ namespace CloudApp.Infrastructure.Configs
             builder.Property(t => t.Subtitle).IsRequired(false).HasMaxLength(200);
             // 描述配置
             builder.Property(t => t.Description).IsRequired(false).HasMaxLength(1000);
+            // 封面图片配置（不限制长度，前端可能直接存 fileID/临时链接）
+            builder.Property(t => t.CoverUrl).IsRequired(false);
+            // 跳转链接配置
+            builder.Property(t => t.LinkUrl).IsRequired(false).HasMaxLength(500);
             // 时长配置
             builder.Property(t => t.Duration).IsRequired().HasConversion(
                 v => (int)v.TotalSeconds,

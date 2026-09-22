@@ -10,7 +10,7 @@ namespace CloudApp.Core.Entities
         /// <summary>
         /// 单曲标题
         /// </summary>
-        public required string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         /// <summary>
         /// 副标题
         /// </summary>
@@ -43,6 +43,10 @@ namespace CloudApp.Core.Entities
         /// 封面图片
         /// </summary>
         public string? CoverUrl { get; set; }
+        /// <summary>
+        /// 跳转链接
+        /// </summary>
+        public string? LinkUrl { get; set; }
         /// <summary>
         /// 单曲类型
         /// </summary>

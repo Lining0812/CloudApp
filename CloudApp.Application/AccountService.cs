@@ -279,7 +279,6 @@ namespace CloudApp.Application
             };
         }
 
-
         private async Task EnsureRoleExistsAsync(RoleType roleType)
         {
             if (!await _roleManager.RoleExistsAsync(roleType.ToString()))

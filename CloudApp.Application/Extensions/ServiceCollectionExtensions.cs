@@ -15,6 +15,8 @@ namespace CloudApp.Application.Extensions
         /// <returns></returns>
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            // 添加时间提供器
+            services.AddSingleton(TimeProvider.System);
             // 添加业务服务
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAlbumService, AlbumService>();
@@ -23,6 +25,8 @@ namespace CloudApp.Application.Extensions
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ICheckInService, CheckInService>();
+            services.AddScoped<ISubscriptionService, SubscriptionService>();
+            services.AddScoped<ITargetValidator, TargetValidator>();
 
             return services;
         }

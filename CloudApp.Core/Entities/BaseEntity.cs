@@ -33,5 +33,14 @@ namespace CloudApp.Core.Entities
             IsDeleted = true;
             DeletedAt = DateTime.UtcNow;
         }
+
+        /// <summary>
+        /// 恢复实体（软删除恢复），并清除删除时间
+        /// </summary>
+        public void Restore()
+        {
+            IsDeleted = false;
+            DeletedAt = null;
+        }
     }
 }

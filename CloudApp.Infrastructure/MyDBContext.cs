@@ -18,6 +18,7 @@ namespace CloudApp.Infrastructure
         public DbSet<UploadedFile> UploadedFiles { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<CheckInRecord> CheckInRecords { get; set; }
+        public DbSet<UserSubscription> UserSubscriptions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -3,16 +3,19 @@ using System;
 using CloudApp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CloudApp.Infrastructure.Migrations
+namespace CloudApp.Infrastructure.Migrations.mysql
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260923084331_addtracklinkurl")]
+    partial class addtracklinkurl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -317,41 +320,6 @@ namespace CloudApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UploadedFiles");
-                });
-
-            modelBuilder.Entity("CloudApp.Core.Entities.UserSubscription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("TargetId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TargetType")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId", "TargetId", "TargetType")
-                        .IsUnique();
-
-                    b.ToTable("T_UserSubscriptions", (string)null);
                 });
 
             modelBuilder.Entity("CloudApp.Infrastructure.Identity.AppRole", b =>

@@ -46,6 +46,7 @@ namespace CloudApp.Infrastructure.Extensions
             services.AddScoped<IFileRepository, FileRepository>();
             services.AddScoped<IScheduleRepository, ScheduleRepository>();
             services.AddScoped<ICheckInRepository, CheckInRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 
             // 添加存储配置
             services.Configure<StorageOptions>(configuration.GetSection("Storage"));
