@@ -12,12 +12,14 @@ namespace CloudApp.Core.Dtos.Concert
         public string? Description { get; set; }
 
         [Required(ErrorMessage = "开始时间不能为空")]
-        public DateTime StartAt { get; set; }
+        public DateTime StartTime { get; set; }
 
         [Required(ErrorMessage = "结束时间不能为空")]
-        public DateTime EndAt { get; set; }
+        public DateTime EndTime { get; set; }
 
-        [Required(ErrorMessage = "地址不能为空")]
-        public required string Address { get; set; }
+        [Required(ErrorMessage = "演唱会地址不能为空")]
+        public required string Location { get; set; }
+
+        public string? CoverUrl { get; set; }
     }
 }

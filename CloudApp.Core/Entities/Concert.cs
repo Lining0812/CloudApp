@@ -3,34 +3,16 @@ namespace CloudApp.Core.Entities
     /// <summary>
     /// 演出实体类
     /// </summary>
-    public class Concert : BaseEntity
+    public class Concert : Activity
     {
         /// <summary>
-        /// 演唱会标题
+        /// 演唱会地址
         /// </summary>
-        public required string Title { get; set; }
-        /// <summary>
-        /// 演出介绍
-        /// </summary>
-        public string? Description { get; set; }
-        /// <summary>
-        /// 开始时间
-        /// </summary>
-        public DateTime StartAt { get; set; }
-        /// <summary>
-        /// 结束时间
-        /// </summary>
-        public DateTime EndAt { get; set; }
-        /// <summary>
-        /// 演出地址
-        /// </summary>
-        public required string Address { get; set; }
+        public required string Location { get; set; }
         /// <summary>
         /// 封面图片
         /// </summary>
         public string? CoverUrl { get; set; }
-
-        /// <summary>
         /// <summary>
         /// 导航属性 - 演唱会歌单
         /// </summary>

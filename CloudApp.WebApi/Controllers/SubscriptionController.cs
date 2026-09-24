@@ -3,8 +3,8 @@ using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CloudApp.WebApi.Controllers
 {
@@ -53,19 +53,14 @@ namespace CloudApp.WebApi.Controllers
         }
 
         /// <summary>
-        /// 从Claims中获取用户ID
+        /// 获取UserId
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         private int GetUserId()
         {
-            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "userId");
-            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
-            {
-                throw new Exception("User ID claim is missing or invalid.");
-            }
-            return userId;
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int.TryParse(userId,out int res);
+            return res;
         }
     }
 }

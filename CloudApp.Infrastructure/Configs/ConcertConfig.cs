@@ -19,17 +19,17 @@ namespace CloudApp.Infrastructure.Configs
             // 描述配置
             builder.Property(c => c.Description).IsRequired(false).HasMaxLength(1000);
             // 开始时间配置
-            builder.Property(c => c.StartAt).IsRequired().HasConversion(
+            builder.Property(c => c.StartTime).IsRequired().HasConversion(
                 v => v,
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
             // 结束时间配置
-            builder.Property(c => c.EndAt).IsRequired().HasConversion(
+            builder.Property(c => c.EndTime).IsRequired().HasConversion(
                 v => v,
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
             );
             // 地点配置
-            builder.Property(c => c.Address).IsRequired().HasMaxLength(300);
+            builder.Property(c => c.Location).IsRequired().HasMaxLength(300);
 
             // 专辑关系配置
             builder.HasOne(c => c.Album).WithOne().HasForeignKey<Concert>(c => c.AlbumId).OnDelete(DeleteBehavior.SetNull);

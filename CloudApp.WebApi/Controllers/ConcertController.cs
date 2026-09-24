@@ -1,5 +1,6 @@
 using CloudApp.Core.Dtos.Concert;
 using CloudApp.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CloudApp.WebApi.Controllers
@@ -18,15 +19,17 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddConcert([FromForm] CreateConcertRequest model)
+        [Authorize(Roles = "Admin")]
+        public ActionResult CreateConcert([FromBody] CreateConcertRequest model)
         {
             if (model != null)
                 _concertService.CreateConcert(model);
 
-            return Ok("成功新增演唱会");
+            return Ok($"成功新增演唱会,{model.Title}");
         }
 
         [HttpDelete("{concertId}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DelectConcert(int concertId)
         {
             _logger.LogInformation("收到删除演唱会请求: ID={ConcertId}", concertId);
@@ -36,10 +39,9 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPatch]
-        public ActionResult UpdateConcert(int concertId, [FromForm] CreateConcertRequest model)
+        [Authorize(Roles = "Admin")]
+        public ActionResult UpdateConcert(int concertId, [FromBody] CreateConcertRequest model)
         {
-            _logger.LogInformation("收到更新演唱会请求: ID={ConcertId}, Title={Title}", concertId, model?.Title);
-
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("更新演唱会请求验证失败: ID={ConcertId}, {Errors}", concertId,

@@ -1,5 +1,6 @@
 using CloudApp.Core.Dtos.Concert;
 using CloudApp.Core.Entities;
+using System.Xml;
 
 namespace CloudApp.Core.Extensions
 {
@@ -18,11 +19,10 @@ namespace CloudApp.Core.Extensions
             {
                 Title = dto.Title,
                 Description = dto.Description,
-                StartAt = dto.StartAt,
-                EndAt = dto.EndAt,
-                Address = dto.Address,
-
-                UpdatedAt = now,
+                StartTime = dto.StartTime,
+                EndTime = dto.EndTime,
+                Location = dto.Location,
+                CoverUrl = dto.CoverUrl,
             };
         }
 
@@ -40,9 +40,13 @@ namespace CloudApp.Core.Extensions
             }
             return new ConcertInfoDto()
             {
+                Id = concert.Id,
                 Title = concert.Title,
                 Description = concert.Description,
-                CoverImageUrl = concert.CoverUrl,
+                StartTime = concert.StartTime,
+                EndTime = concert.EndTime,
+                Location = concert.Location,
+                CoverUrl = concert.CoverUrl,
 
                 Tracks = concert.Album?.Tracks.Select(t => t.Title).ToArray() ?? Array.Empty<string>(),
             };

@@ -25,7 +25,7 @@ namespace CloudApp.Application
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            _logger.LogInformation("开始添加演唱会: {Title}, 地址: {Address}", request.Title, request.Address);
+            _logger.LogInformation("开始添加演唱会: {Title}, 地址: {Address}", request.Title, request.Location);
 
             if (_concertRepository.ConcertExists(request.Title))
                 throw new BusinessException($"演唱会《{request.Title}》已存在");
