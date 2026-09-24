@@ -20,7 +20,7 @@ namespace CloudApp.Infrastructure
                 // MySQL 配置
                 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
                     ?? "Server=localhost;Database=neverland;User=root;Password=123456;";
-                builder.UseMySQL(connectionString);
+                builder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 33)));
             }
             else
             {
