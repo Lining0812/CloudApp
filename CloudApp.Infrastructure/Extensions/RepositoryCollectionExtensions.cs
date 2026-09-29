@@ -28,7 +28,7 @@ namespace CloudApp.Infrastructure.Extensions
             {
                 if (dbType == "mysql")
                 {
-                    opt.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 33)));
+                    opt.UseMySql(connectionString, new MySqlServerVersion(new Version(5, 7, 44)));
                 }
                 else
                 {
@@ -73,7 +73,7 @@ namespace CloudApp.Infrastructure.Extensions
             {
                 if (dbType == "mysql")
                 {
-                    opt.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 33)));
+                    opt.UseMySql(connectionString, new MySqlServerVersion(new Version(5, 7, 44)));
                 }
                 else
                 {

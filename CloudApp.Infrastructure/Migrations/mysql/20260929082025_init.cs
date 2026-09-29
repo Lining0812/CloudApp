@@ -324,13 +324,7 @@ namespace CloudApp.Infrastructure.Migrations.mysql
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    StartAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    EndAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Address = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                    Location = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CoverUrl = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -338,7 +332,15 @@ namespace CloudApp.Infrastructure.Migrations.mysql
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    DeletedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Title = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsPublic = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

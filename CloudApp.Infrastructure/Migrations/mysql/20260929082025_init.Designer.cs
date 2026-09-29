@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CloudApp.Infrastructure.Migrations.mysql
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20260924090324_init")]
+    [Migration("20260929082025_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -113,11 +113,6 @@ namespace CloudApp.Infrastructure.Migrations.mysql
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("varchar(300)");
-
                     b.Property<int?>("AlbumId")
                         .HasColumnType("int");
 
@@ -134,14 +129,25 @@ namespace CloudApp.Infrastructure.Migrations.mysql
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)");
 
-                    b.Property<DateTime>("EndAt")
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("StartAt")
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

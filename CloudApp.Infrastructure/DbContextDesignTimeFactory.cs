@@ -8,8 +8,6 @@ namespace CloudApp.Infrastructure
         public MyDBContext CreateDbContext(string[] args)
         {
             DbContextOptionsBuilder<MyDBContext> builder = new DbContextOptionsBuilder<MyDBContext>();
-            //builder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MyDatabase;Trusted_Connection=True;MultipleActiveResultSets=true");
-            //return new MyDBContext(builder.Options);
 
             // 从环境变量或命令行参数获取数据库类型
             var dbType = Environment.GetEnvironmentVariable("DB_TYPE") ?? "SqlServer";
@@ -20,7 +18,7 @@ namespace CloudApp.Infrastructure
                 // MySQL 配置
                 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
                     ?? "Server=localhost;Database=neverland;User=root;Password=123456;";
-                builder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 33)));
+                builder.UseMySql(connectionString, new MySqlServerVersion(new Version(5, 7, 44)));
             }
             else
             {
