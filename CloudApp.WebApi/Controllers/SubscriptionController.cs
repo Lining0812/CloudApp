@@ -11,7 +11,7 @@ namespace CloudApp.WebApi.Controllers
     /// <summary>
     /// 订阅接口
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
     public class SubscriptionController : ControllerBase
