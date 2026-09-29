@@ -30,6 +30,28 @@ namespace CloudApp.Infrastructure.Repositories
         public Task<bool> IsSubscribedAsync(int userId, int targetId, SubscriptionTargetType targetType, CancellationToken ct = default) 
             =>_dbSet.AsNoTracking()
                    .AnyAsync(s => s.UserId == userId && s.TargetId == targetId && s.TargetType == targetType, ct);
+
+        public override void Delete(UserSubscription entity)
+        {
+            _dbSet.Remove(entity);
+        }
+
+        public override Task DeleteAsync(UserSubscription entity)
+        {
+            _dbSet.Remove(entity);
+            return Task.CompletedTask;
+        }
+
+        public override void DeleteRange(IEnumerable<UserSubscription> entities)
+        {
+            _dbSet.RemoveRange(entities);
+        }
+
+        public override Task DeleteRangeAsync(IEnumerable<UserSubscription> entities)
+        {
+            _dbSet.RemoveRange(entities);
+            return Task.CompletedTask;
+        }
     }
 }
     

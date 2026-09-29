@@ -27,7 +27,7 @@ namespace CloudApp.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UserSubscription>>> GetMySubscriptionsAsync(CancellationToken ct)
         {
-            var userId = GetUserId();
+            if (!TryGetUserId(out var userId)) return Unauthorized();
             var result = await _service.GetSubscriptionsByUserAsync(userId, ct);
             return Ok(result);
         }
@@ -35,7 +35,7 @@ namespace CloudApp.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<SubscriptionResult>> SubscribeAsync([FromBody]SubscribeRequest request, CancellationToken ct)
         {
-            var userId = GetUserId();
+            if (!TryGetUserId(out var userId)) return Unauthorized();
             var result = await _service.SubscribeAsync(userId, request.TargetId, request.TargetType, ct);
 
             if(!result.Success) return BadRequest(result);
@@ -46,21 +46,20 @@ namespace CloudApp.WebApi.Controllers
         [HttpDelete]
         public async Task<ActionResult<UnsubscriptionResult>> UnsubscribeAsync(int targetId, SubscriptionTargetType targetType, CancellationToken ct)
         {
-            var userId = GetUserId();
+            if (!TryGetUserId(out var userId)) return Unauthorized();
             var result = await _service.UnsubscribeAsync(userId, targetId, targetType, ct);
             if (!result.Success) return BadRequest(result);
             return result.WasSubscribed ? Ok(result) : StatusCode(StatusCodes.Status204NoContent);
         }
 
         /// <summary>
-        /// 获取UserId
+        /// 从认证信息中解析 UserId
         /// </summary>
         /// <returns></returns>
-        private int GetUserId()
+        private bool TryGetUserId(out int userId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int.TryParse(userId,out int res);
-            return res;
+            var claim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.TryParse(claim, out userId);
         }
     }
 }

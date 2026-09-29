@@ -72,6 +72,7 @@ namespace CloudApp.Infrastructure.Repositories
         {
             entity.Delete();
             entity.UpdatedAt = DateTime.UtcNow;
+            _dbSet.Update(entity);
         }
 
         public virtual void Delete(int id)
@@ -85,6 +86,12 @@ namespace CloudApp.Infrastructure.Repositories
 
         public virtual void DeleteRange(IEnumerable<T> entities)
         {
+            var now = DateTime.UtcNow;
+            foreach (var entity in entities)
+            {
+                entity.Delete();
+                entity.UpdatedAt = now;
+            }
             _dbSet.UpdateRange(entities);
         }
 
@@ -107,13 +114,11 @@ namespace CloudApp.Infrastructure.Repositories
         #region 异步方法
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            // 全局查询过滤器已经自动过滤IsDeleted
             return await _dbSet.ToListAsync();
         }
 
         public virtual async Task<T?> GetByIdAsync(int id)
         {
-            // 全局查询过滤器已经自动过滤IsDeleted
             return await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
         }
 
@@ -129,7 +134,6 @@ namespace CloudApp.Infrastructure.Repositories
 
         public virtual async Task<bool> ExistsAsync(int id)
         {
-            // 全局查询过滤器已经自动过滤IsDeleted
             return await _dbSet.AnyAsync(e => e.Id == id);
         }
 
@@ -151,7 +155,6 @@ namespace CloudApp.Infrastructure.Repositories
 
         public virtual async Task DeleteAsync(int id)
         {
-            // 全局查询过滤器已经自动过滤IsDeleted
             var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
             if (entity != null)
             {
@@ -161,7 +164,6 @@ namespace CloudApp.Infrastructure.Repositories
 
         public virtual async Task DeleteAsync(T entity)
         {
-            // 统一使用软删除
             entity.Delete();
             entity.UpdatedAt = DateTime.UtcNow;
             _dbSet.Update(entity);
