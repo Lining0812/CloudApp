@@ -1,9 +1,6 @@
 ﻿using CloudApp.Core.Enums;
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Core.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CloudApp.Application
 {
