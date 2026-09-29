@@ -33,7 +33,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<SubscriptionResult>> SubscribeAsync(int targetId, SubscriptionTargetType targetType, CancellationToken ct)
+        public async Task<ActionResult<SubscriptionResult>> SubscribeAsync([FromBody]int targetId, SubscriptionTargetType targetType, CancellationToken ct)
         {
             var userId = GetUserId();
             var result = await _service.SubscribeAsync(userId, targetId, targetType, ct);
