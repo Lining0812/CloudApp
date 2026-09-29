@@ -10,12 +10,12 @@ namespace CloudApp.Application
 {
     public class ConcertService : IConcertService
     {
-        private readonly IConcertRepository _concertRepository;
+        private readonly IConcertRepository _concertRepo;
         private readonly ILogger<ConcertService> _logger;
 
         public ConcertService(IConcertRepository repository, ILogger<ConcertService> logger)
         {
-            _concertRepository = repository;
+            _concertRepo = repository;
             _logger = logger;
         }
 
@@ -27,12 +27,12 @@ namespace CloudApp.Application
 
             _logger.LogInformation("开始添加演唱会: {Title}, 地址: {Address}", request.Title, request.Location);
 
-            if (_concertRepository.ConcertExists(request.Title))
+            if (_concertRepo.ConcertExists(request.Title))
                 throw new BusinessException($"演唱会《{request.Title}》已存在");
 
             Concert concert = request.ToEntity();
-            _concertRepository.Add(concert);
-            _concertRepository.SaveChange();
+            _concertRepo.Add(concert);
+            _concertRepo.SaveChange();
 
             _logger.LogInformation("成功添加演唱会: ID={ConcertId}, Title={Title}", concert.Id, concert.Title);
         }
@@ -44,12 +44,12 @@ namespace CloudApp.Application
 
             _logger.LogInformation("开始删除演唱会: ID={ConcertId}", id);
 
-            var concert = _concertRepository.GetById(id);
+            var concert = _concertRepo.GetById(id);
             if (concert == null)
                 throw new EntityNotFoundException("演唱会", id);
 
             concert.Delete();
-            _concertRepository.SaveChange();
+            _concertRepo.SaveChange();
 
             _logger.LogInformation("成功删除演唱会: ID={ConcertId}", id);
         }
@@ -62,11 +62,11 @@ namespace CloudApp.Application
                 throw new BusinessException("演唱会ID无效");
 
             _logger.LogInformation("开始更新演唱会: ID={ConcertId}", id);
-            var concert = _concertRepository.GetById(id);
+            var concert = _concertRepo.GetById(id);
             if (concert == null)
                 throw new EntityNotFoundException("演唱会", id);
 
-            var existing = _concertRepository.FindByTitle(request.Title);
+            var existing = _concertRepo.FindByTitle(request.Title);
             if (existing != null && existing.Id != id)
                 throw new BusinessException($"演唱会 '{request.Title}' 已存在");
 
@@ -74,8 +74,8 @@ namespace CloudApp.Application
             concert.Description = request.Description;
             concert.UpdatedAt = DateTime.UtcNow;
 
-            _concertRepository.Update(concert);
-            _concertRepository.SaveChange();
+            _concertRepo.Update(concert);
+            _concertRepo.SaveChange();
 
             _logger.LogInformation("成功更新演唱会: ID={ConcertId}, Title={Title}", concert.Id, concert.Title);
         }
@@ -85,7 +85,7 @@ namespace CloudApp.Application
             try
             {
                 _logger.LogDebug("开始获取演唱会详情: ID={ConcertId}", id);
-                Concert? concert = _concertRepository.GetById(id);
+                Concert? concert = _concertRepo.GetById(id);
                 if (concert == null)
                 {
                     _logger.LogWarning("未找到演唱会: ID={ConcertId}", id);
@@ -101,6 +101,8 @@ namespace CloudApp.Application
                 throw;
             }
         }
+
+        public List<ConcertInfoDto> GetAllConcerts() => _concertRepo.GetAll().Select(c => c.ToInfoDto()).ToList();
         #endregion
     }
 }

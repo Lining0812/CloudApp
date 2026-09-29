@@ -54,10 +54,10 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ICollection<ConcertInfoDto>> GetAll()
+        public ActionResult<List<ConcertInfoDto>> GetAll()
         {
-            _logger.LogWarning("GetAll方法尚未实现，返回测试消息");
-            return Ok("成功获取演唱会，仅定义测试");
+            var res = _concertService.GetAllConcerts();
+            return Ok(res);
         }
 
         [HttpGet]

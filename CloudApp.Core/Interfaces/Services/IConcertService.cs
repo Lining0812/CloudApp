@@ -27,7 +27,9 @@ namespace CloudApp.Core.Interfaces.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns>演唱会信息Dto</returns>
-        public ConcertInfoDto? GetById(int id);
+        ConcertInfoDto? GetById(int id);
+
+        List<ConcertInfoDto> GetAllConcerts();
 
     }
 }
