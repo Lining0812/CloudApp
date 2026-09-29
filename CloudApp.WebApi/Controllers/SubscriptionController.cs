@@ -33,10 +33,10 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<SubscriptionResult>> SubscribeAsync([FromBody]int targetId, SubscriptionTargetType targetType, CancellationToken ct)
+        public async Task<ActionResult<SubscriptionResult>> SubscribeAsync([FromBody]SubscribeRequest request, CancellationToken ct)
         {
             var userId = GetUserId();
-            var result = await _service.SubscribeAsync(userId, targetId, targetType, ct);
+            var result = await _service.SubscribeAsync(userId, request.TargetId, request.TargetType, ct);
 
             if(!result.Success) return BadRequest(result);
 
