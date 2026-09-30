@@ -44,10 +44,10 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<UnsubscriptionResult>> UnsubscribeAsync(int targetId, SubscriptionTargetType targetType, CancellationToken ct)
+        public async Task<ActionResult<UnsubscriptionResult>> UnsubscribeAsync([FromBody]UnsubscribeRequest request, CancellationToken ct)
         {
             if (!TryGetUserId(out var userId)) return Unauthorized();
-            var result = await _service.UnsubscribeAsync(userId, targetId, targetType, ct);
+            var result = await _service.UnsubscribeAsync(userId, request.TargetId, request.TargetType, ct);
             if (!result.Success) return BadRequest(result);
             return result.WasSubscribed ? Ok(result) : StatusCode(StatusCodes.Status204NoContent);
         }

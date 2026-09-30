@@ -1,6 +1,5 @@
 using CloudApp.Core.Dtos.Account;
 using CloudApp.Core.Dtos.WeChat;
-using CloudApp.Core.Exceptions;
 using CloudApp.Core.Interfaces.Services;
 using CloudApp.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
