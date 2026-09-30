@@ -23,12 +23,10 @@ namespace CloudApp.WebApi.Controllers
         /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<TrackInfoDto>> CreateTrack([FromBody] TrackCreateDto model, CancellationToken ct = default)
+        public async Task<ActionResult<TrackInfoDto>> CreateTrackAsync([FromBody] CreateTrackRequest request, CancellationToken ct = default)
         {
-            _logger.LogInformation("收到添加单曲请求: Title={Title}, Artist={Artist}", model?.Title, model?.Artist);
-            if (model == null) return BadRequest("单曲数据不能为空");
-
-            var dto = await _trackService.CreateTrackAsync(model, ct);
+            if (request == null) return BadRequest("单曲数据不能为空");
+            var dto = await _trackService.CreateTrackAsync(request, ct);
             return Ok(dto);
         }
 
@@ -64,18 +62,16 @@ namespace CloudApp.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<ICollection<TrackInfoDto>>> GetAll(CancellationToken ct = default)
         {
-            _logger.LogDebug("收到获取所有单曲请求");
             var tracks = await _trackService.GetAllTracksAsync(ct);
             return Ok(tracks);
         }
 
         /// <summary>
-        /// 根据Id获取单曲详情（不存在返回 404）
+        /// 根据Id获取单曲详情
         /// </summary>
         [HttpGet]
         public async Task<ActionResult<TrackInfoDto>> GetById(int id, CancellationToken ct = default)
         {
-            _logger.LogDebug("收到获取单曲详情请求: ID={TrackId}", id);
             var infoDto = await _trackService.GetByIdAsync(id, ct);
             return Ok(infoDto);
         }

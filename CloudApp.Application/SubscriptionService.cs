@@ -1,12 +1,9 @@
-﻿using CloudApp.Core.Dtos.Subscription;
+using CloudApp.Core.Dtos.Subscription;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
 using CloudApp.Core.Interfaces.Repositories;
 using CloudApp.Core.Interfaces.Services;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CloudApp.Application
 {
@@ -14,15 +11,51 @@ namespace CloudApp.Application
     {
         private readonly ISubscriptionRepository _repo;
         private readonly ITargetValidator _targetValidator;
+        private readonly IConcertRepository _concertRepo;
         private readonly ILogger<SubscriptionService> _logger;
-        public SubscriptionService(ISubscriptionRepository repo, ITargetValidator targetValidator, ILogger<SubscriptionService> logger)
+        public SubscriptionService(ISubscriptionRepository repo, ITargetValidator targetValidator, IConcertRepository concertRepo, ILogger<SubscriptionService> logger)
         {
             _repo = repo;
             _targetValidator = targetValidator;
+            _concertRepo = concertRepo;
             _logger = logger;
         }
-        public async Task<List<UserSubscription>> GetSubscriptionsByUserAsync(int userId, CancellationToken ct = default)
-            => await _repo.GetAllByUserAsync(userId, ct);
+        public async Task<List<UserSubscriptionDto>> GetSubscriptionsByUserAsync(int userId, CancellationToken ct = default)
+        {
+            var subscriptions = await _repo.GetAllByUserAsync(userId, ct);
+
+            var result = new List<UserSubscriptionDto>(subscriptions.Count);
+            foreach (var subscription in subscriptions)
+            {
+                var dto = new UserSubscriptionDto
+                {
+                    Id = subscription.Id,
+                    TargetId = subscription.TargetId,
+                    TargetType = subscription.TargetType,
+                };
+
+                switch (subscription.TargetType)
+                {
+                    case SubscriptionTargetType.Concert:
+                        var concert = await _concertRepo.GetByIdAsync(subscription.TargetId);
+                        if (concert != null)
+                        {
+                            dto.Title = concert.Title;
+                            dto.Description = concert.Description;
+                            dto.StartTime = concert.StartTime;
+                            dto.EndTime = concert.EndTime;
+                            dto.Location = concert.Location;
+                            dto.CoverUrl = concert.CoverUrl;
+                        }
+                        break;
+                    // 其他目标类型（ArtistActivity / FanClubActivity）按需在此扩展
+                }
+
+                result.Add(dto);
+            }
+
+            return result;
+        }
 
         public async Task<bool> IsSubscribedAsync(int userId, int targetId, SubscriptionTargetType targetType, CancellationToken ct = default)
             =>await _repo.IsSubscribedAsync(userId, targetId, targetType, ct);

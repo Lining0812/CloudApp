@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Dtos.Subscription;
+using CloudApp.Core.Dtos.Subscription;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
 using System;
@@ -33,7 +33,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// <param name="userId"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        Task<List<UserSubscription>> GetSubscriptionsByUserAsync(int userId, CancellationToken ct = default);
+        Task<List<UserSubscriptionDto>> GetSubscriptionsByUserAsync(int userId, CancellationToken ct = default);
 
         /// <summary>
         /// 是否已订阅目标

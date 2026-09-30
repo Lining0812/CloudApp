@@ -24,13 +24,11 @@ namespace CloudApp.Application
         }
 
         #region 写入
-
-        public async Task<TrackInfoDto> CreateTrackAsync(TrackCreateDto dto, CancellationToken ct = default)
+        public async Task<TrackInfoDto> CreateTrackAsync(CreateTrackRequest dto, CancellationToken ct = default)
         {
             if (dto == null) throw new ArgumentNullException(nameof(dto));
             ValidateCreate(dto);
 
-            // 专辑存在性校验（AlbumId 为空表示暂不归属专辑）
             await EnsureAlbumExistsAsync(dto.AlbumId, ct);
 
             var title = dto.Title.Trim();
@@ -169,7 +167,7 @@ namespace CloudApp.Application
 
         #region 私有方法
 
-        private static void ValidateCreate(TrackCreateDto model)
+        private static void ValidateCreate(CreateTrackRequest model)
         {
             // required 关键字只能挡住“字段缺失”，空字符串/零值需要在这里兜住
             if (string.IsNullOrWhiteSpace(model.Title))
@@ -193,7 +191,6 @@ namespace CloudApp.Application
             if (!await _albumRepository.ExistsAsync(albumId.Value))
                 throw new EntityNotFoundException("专辑", albumId.Value);
         }
-
         #endregion
     }
 }

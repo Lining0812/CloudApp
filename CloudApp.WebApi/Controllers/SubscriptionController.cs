@@ -1,4 +1,4 @@
-﻿using CloudApp.Core.Dtos.Subscription;
+using CloudApp.Core.Dtos.Subscription;
 using CloudApp.Core.Entities;
 using CloudApp.Core.Enums;
 using CloudApp.Core.Interfaces.Services;
@@ -25,7 +25,7 @@ namespace CloudApp.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserSubscription>>> GetMySubscriptionsAsync(CancellationToken ct)
+        public async Task<ActionResult<List<UserSubscriptionDto>>> GetMySubscriptionsAsync(CancellationToken ct)
         {
             if (!TryGetUserId(out var userId)) return Unauthorized();
             var result = await _service.GetSubscriptionsByUserAsync(userId, ct);

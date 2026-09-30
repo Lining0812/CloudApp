@@ -5,7 +5,7 @@ namespace CloudApp.Core.Extensions
 {
     public static class TrackExtension
     {
-        public static Track ToEntity(this TrackCreateDto dto)
+        public static Track ToEntity(this CreateTrackRequest dto)
         {
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto));

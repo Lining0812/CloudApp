@@ -12,7 +12,7 @@ namespace CloudApp.Core.Interfaces.Services
         /// <summary>
         /// 添加单曲，返回创建后的完整信息（含自增 Id）
         /// </summary>
-        Task<TrackInfoDto> CreateTrackAsync(TrackCreateDto model, CancellationToken ct = default);
+        Task<TrackInfoDto> CreateTrackAsync(CreateTrackRequest model, CancellationToken ct = default);
 
         /// <summary>
         /// 根据Id更新单曲（局部更新：DTO 中为 null 的字段不修改）

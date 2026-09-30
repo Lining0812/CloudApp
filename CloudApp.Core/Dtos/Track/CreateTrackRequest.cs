@@ -6,7 +6,7 @@ namespace CloudApp.Core.Dtos.Track
     /// <summary>
     /// 新增单曲请求
     /// </summary>
-    public class TrackCreateDto
+    public class CreateTrackRequest
     {
         [Required(ErrorMessage = "单曲名称不能为空")]
         [MaxLength(200, ErrorMessage = "单曲名称不能超过200个字符")]
@@ -18,9 +18,6 @@ namespace CloudApp.Core.Dtos.Track
         [MaxLength(1000, ErrorMessage = "描述不能超过1000个字符")]
         public string? Description { get; set; }
 
-        /// <summary>
-        /// 时长（秒），0 表示未填，由服务层校验
-        /// </summary>
         public TimeSpan Duration { get; set; }
 
         public DateTime ReleaseDate { get; set; }
@@ -40,9 +37,6 @@ namespace CloudApp.Core.Dtos.Track
         [MaxLength(500, ErrorMessage = "封面地址不能超过500个字符")]
         public string? CoverUrl { get; set; }
 
-        /// <summary>
-        /// 跳转链接；允许 http/https 外链或小程序内部路径（如 /pages/song/song?id=1），为空表示不可跳转
-        /// </summary>
         [MaxLength(500, ErrorMessage = "跳转链接不能超过500个字符")]
         public string? LinkUrl { get; set; }
 

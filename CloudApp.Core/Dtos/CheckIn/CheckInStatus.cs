@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CloudApp.Core.Dtos.CheckIn
+﻿namespace CloudApp.Core.Dtos.CheckIn
 {
     public class CheckInStatus
     {
